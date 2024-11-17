@@ -54,15 +54,27 @@ class Scene(pg.surface.Surface, metaclass=SceneController):
             SceneController.is_running = False
 
     def close(self):
+        """
+        Calls when scene will be closed
+        """
         pass
 
     def draw_background(self):
+        """
+        Draws background
+        """
         pass
 
     def draw(self):
+        """
+        Draws sprites from draw group
+        """
         self.draw_background()
         self._draw_group.draw(self)
 
     def update(self):
+        """
+        Updates scene
+        """
         pass
 

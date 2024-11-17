@@ -1,6 +1,5 @@
 import pygame as pg
 
-from app.main_scene import MainScene
 from app.scene import SceneController
 
 def main():
