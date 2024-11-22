@@ -1,3 +1,4 @@
 /.idea
 /game/.idea
 /game/app/__pycache__
+/game/app/base/__pycache__
