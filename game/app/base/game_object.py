@@ -2,7 +2,7 @@ import pygame as pg
 
 class GameObject(pg.sprite.Sprite):
     def __init__(self, name: str, pos: tuple[int, int], size:tuple[int, int],
-                 *groups:list[pg.sprite.Group]):
+                 *groups:pg.sprite.Group):
         super().__init__(*groups)
         self.name = name
 

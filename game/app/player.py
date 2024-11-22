@@ -1,11 +1,11 @@
 import pygame as pg
 
 from app.base.game_object import GameObject
-from app.player_animator import AnimationMapBuilder
+from app.player_animator import AnimationMapBuilder, AnimatorController
 
 
 class Player(GameObject):
-    def __init__(self, pos, size, group, speed, anim_controller):
+    def __init__(self, pos: tuple[int, int], size:tuple[int, int], group:pg.sprite.Group, speed:int, anim_controller: AnimatorController):
         super().__init__("Player", pos, size, group)
 
         self.__speed = speed
