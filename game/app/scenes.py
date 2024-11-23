@@ -4,7 +4,8 @@ from app.base.animator import Animation
 from app.player_animator import get_player_animator, get_animator_controller
 from app.base.scene import Scene, SceneController
 from app.base.ui import Button
-from app.player import Player
+from app.player import Player, KeyboardPlayer
+
 
 class MainScene(Scene):
     __title__ = "MainScene"
@@ -45,7 +46,7 @@ class Level2(Scene):
 
         self.player_group = pg.sprite.Group()
         animator_controller = get_animator_controller((48, 48), "Assets/Images/Characters/Necromancer")
-        self.player = Player((w // 2, h // 2), (100, 100), self.player_group, 2, animator_controller)
+        self.player = KeyboardPlayer((w // 2, h // 2), (100, 100), self.player_group, 2, animator_controller)
 
     def draw(self):
         super().draw()

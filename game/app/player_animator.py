@@ -24,12 +24,12 @@ class AnimationMapBuilder:
     def __init__(self):
         self.__animation_map = {}
 
-    def build_from_files(self, folder):
+    def build_from_files(self, folder, not_looped=()):
         files = os.listdir(folder)
         for anim in self.ALL:
             for file in files:
                 if anim in file.lower():
-                    self.__animation_map[anim] = file
+                    self.__animation_map[anim] = (file, anim not in not_looped)
                     files.remove(file)
                     break
 
@@ -42,50 +42,49 @@ class AnimationMapBuilder:
         self.__animation_map = {}
         return self
 
-    def __set_animation(self, key, path):
-        self.__animation_map[key] = path
+    def __set_animation(self, key, path, loop):
+        self.__animation_map[key] = (path, loop)
         return self
 
-    def attack1(self, path):
-        return self.__set_animation(self.ATTACK1, path)
+    def attack1(self, path, loop=True):
+        return self.__set_animation(self.ATTACK1, path, loop)
 
-    def attack2(self, path):
-        return self.__set_animation(self.ATTACK2, path)
+    def attack2(self, path, loop=True):
+        return self.__set_animation(self.ATTACK2, path, loop)
 
-    def attack3(self, path):
-        return self.__set_animation(self.ATTACK3, path)
+    def attack3(self, path, loop=True):
+        return self.__set_animation(self.ATTACK3, path, loop)
 
-    def climb(self, path):
-        return self.__set_animation(self.CLIMB, path)
+    def climb(self, path, loop=True):
+        return self.__set_animation(self.CLIMB, path, loop)
 
-    def death(self, path):
-        return self.__set_animation(self.DEATH, path)
+    def death(self, path, loop=True):
+        return self.__set_animation(self.DEATH, path, loop)
 
-    def hurt(self, path):
-        return self.__set_animation(self.HURT, path)
+    def hurt(self, path, loop=True):
+        return self.__set_animation(self.HURT, path, loop)
 
-    def idle(self, path):
-        return self.__set_animation(self.IDLE, path)
+    def idle(self, path, loop=True):
+        return self.__set_animation(self.IDLE, path, loop)
 
-    def jump(self, path):
-        return self.__set_animation(self.JUMP, path)
+    def jump(self, path, loop=True):
+        return self.__set_animation(self.JUMP, path, loop)
 
-    def land(self, path):
-        return self.__set_animation(self.LAND, path)
+    def land(self, path, loop=True):
+        return self.__set_animation(self.LAND, path, loop)
 
-    def run(self, path):
-        return self.__set_animation(self.RUN, path)
+    def run(self, path, loop=True):
+        return self.__set_animation(self.RUN, path, loop)
 
-    def walk(self, path):
-        return self.__set_animation(self.WALK, path)
+    def walk(self, path, loop=True):
+        return self.__set_animation(self.WALK, path, loop)
 
 class AnimatorController:
-    def __init__(self, animator, side_mapper:dict[int, int]):
-        self.__anim_name = AnimationMapBuilder.IDLE
+    def __init__(self, animator:Animator, side_mapper:dict[int, int]):
         self.__side = pg.K_a
 
         self.__animator = animator
-        self.__animator.replace_animation(self.__anim_name)
+        self.__animator.replace_animation(AnimationMapBuilder.IDLE)
 
         self.__side_mapper = side_mapper
 
@@ -103,28 +102,33 @@ class AnimatorController:
         return self.__animator.get_image(row=self.__side_mapper[self.__side])
 
     @property
+    def animation_name(self):
+        return self.__animator.animation_name
+
+    @property
     def side(self):
         return self.__side
 
-def get_player_animator(size, delay, textures_folder:str, animation_map:dict[Any, str]):
+def get_player_animator(size, delay, textures_folder:str, animation_map:dict[Any, tuple[str, bool]]):
     animations = {}
 
     for name in AnimationMapBuilder.ALL:
         if name not in animation_map:
             continue
 
-        filename = os.path.join(textures_folder, animation_map[name])
+        anim_name, loop = animation_map[name]
+        filename = os.path.join(textures_folder, anim_name)
         image = pg.image.load(filename)
-        animation = Animation(image, (0, 0), size, delay=delay)
+        animation = Animation(image, (0, 0), size, delay=delay, loop=loop)
 
         animations[name] = animation
 
-    return Animator(animations)
+    return Animator(animations, AnimationMapBuilder.IDLE)
 
 
 def get_animator_controller(size, folder, delay=7):
     builder = AnimationMapBuilder()
-    anim_map = builder.build_from_files(folder)
+    anim_map = builder.build_from_files(folder, not_looped=(AnimationMapBuilder.ATTACK1, AnimationMapBuilder.ATTACK2, AnimationMapBuilder.ATTACK3))
 
     animator = get_player_animator(size, delay, folder, anim_map)
 

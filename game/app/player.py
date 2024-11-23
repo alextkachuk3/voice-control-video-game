@@ -8,17 +8,36 @@ class Player(GameObject):
     def __init__(self, pos: tuple[int, int], size:tuple[int, int], group:pg.sprite.Group, speed:int, anim_controller: AnimatorController):
         super().__init__("Player", pos, size, group)
 
-        self.__speed = speed
-        self.__anim_controller = anim_controller
-        self.__size = size
+        self._speed = speed
+        self._anim_controller = anim_controller
+        self._size = size
 
     @property
     def image(self):
-        return pg.transform.scale(self.__anim_controller.image, self.__size)
+        return pg.transform.scale(self._anim_controller.image, self._size)
 
     def _move(self):
+        pass
+
+    def _attack(self):
+        pass
+
+    def update(self):
+        self._anim_controller.tick()
+        self._move()
+        self._attack()
+
+class KeyboardPlayer(Player):
+    def __init__(self, pos: tuple[int, int], size: tuple[int, int], group: pg.sprite.Group, speed: int,
+                 anim_controller: AnimatorController):
+        super().__init__(pos, size, group, speed, anim_controller)
+
+    def _move(self):
+        if self._anim_controller.animation_name not in [AnimationMapBuilder.IDLE, AnimationMapBuilder.RUN]:
+            return
+
         pressed = pg.key.get_pressed()
-        side = self.__anim_controller.side
+        side = self._anim_controller.side
         direction = pg.math.Vector2(0, 0)
         anim = AnimationMapBuilder.IDLE
 
@@ -40,10 +59,19 @@ class Player(GameObject):
             direction += pg.math.Vector2(0, 1)
             anim = AnimationMapBuilder.RUN
 
-        self.__anim_controller.move(side)
-        self.__anim_controller.replace_animation(anim)
-        self.rect.center += direction * self.__speed
+        self._anim_controller.move(side)
+        self._anim_controller.replace_animation(anim)
+        self.rect.center += direction * self._speed
 
-    def update(self):
-        self.__anim_controller.tick()
-        self._move()
+    def _attack(self):
+        pressed = pg.key.get_pressed()
+        anim = self._anim_controller.animation_name
+
+        if pressed[pg.K_1]:
+            anim = AnimationMapBuilder.ATTACK1
+        elif pressed[pg.K_2]:
+            anim = AnimationMapBuilder.ATTACK2
+        elif pressed[pg.K_3]:
+            anim = AnimationMapBuilder.ATTACK3
+
+        self._anim_controller.replace_animation(anim)
