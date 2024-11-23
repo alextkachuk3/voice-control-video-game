@@ -6,7 +6,7 @@ from app.base.scene import SceneController
 def main():
     pg.init()
 
-    size = (600, 600)
+    size = (1000, 700)
     window = pg.display.set_mode(size)
     pg.display.set_caption("Voice Control Video Game")
 
