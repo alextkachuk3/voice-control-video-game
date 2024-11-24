@@ -12,7 +12,7 @@ from app.base.animator import Animation
 def get_player_animations(size, delay, textures_folder:str, animation_map:dict[Any, tuple[str, bool]]):
     animations = {}
 
-    for name in env.ALL:
+    for name in consts.ALL:
         if name not in animation_map:
             continue
 
@@ -28,7 +28,7 @@ def get_player_animations(size, delay, textures_folder:str, animation_map:dict[A
 
 def get_animator_controller(size, folder, delay=12):
     builder = AnimationMapBuilder()
-    anim_map = builder.build_from_files(folder, not_looped=(env.ATTACK1, env.ATTACK2, env.ATTACK3))
+    anim_map = builder.build_from_files(folder, not_looped=(consts.ATTACK1, consts.ATTACK2, consts.ATTACK3))
 
     animators = get_player_animations(size, delay, folder, anim_map)
 
@@ -37,6 +37,6 @@ def get_animator_controller(size, folder, delay=12):
         pg.K_a: 1,
         pg.K_d: 2,
         pg.K_w: 3,
-    }, animators, default=env.IDLE)
+    }, animators, default=consts.IDLE)
 
     return anim_controller

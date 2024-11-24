@@ -11,7 +11,7 @@ from app.spell import MoveSpellSpawner, MoveSpell
 class FireboltSpellSpawner(MoveSpellSpawner):
     def __init__(self, scale, *groups):
         self.__w, self.__h = 48, 48
-        super().__init__(env.ATTACK, (self.__w*scale, self.__h*scale), *groups, speed=3)
+        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups, speed=3)
 
         self.__image = pg.image.load("Assets/Images/Spells/Firebolt.png")
 
@@ -20,9 +20,9 @@ class FireboltSpellSpawner(MoveSpellSpawner):
         animation_attack = Animation(self.__image , (self.__w * 5, 0), (self.__w, self.__h), delay=5, loop=False)
 
         animator = Animator({
-            env.IDLE: animation_idle,
+            consts.IDLE: animation_idle,
             self._attack_type: animation_attack
-        }, default=env.IDLE)
+        }, default=consts.IDLE)
 
         return animator
 

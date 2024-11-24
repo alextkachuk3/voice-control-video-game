@@ -98,7 +98,7 @@ class TargetSpell(Spell):
 
     def update(self, collide_group):
         self._animator.tick()
-        if not self._animator.active(env.IDLE):
+        if not self._animator.active(consts.IDLE):
             return
 
         for obj in collide_group:

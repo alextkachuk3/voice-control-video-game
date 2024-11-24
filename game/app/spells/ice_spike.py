@@ -8,7 +8,7 @@ from app.spell import MoveSpellSpawner
 class IceSpikeSpellSpawner(MoveSpellSpawner):
     def __init__(self, scale, *groups):
         self.__w, self.__h = 48, 32
-        super().__init__(env.ATTACK, (self.__w*scale, self.__h*scale),  *groups, speed=5)
+        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale),  *groups, speed=5)
 
         self.__image = pg.image.load("Assets/Images/Spells/IceSpike.png")
 
@@ -18,11 +18,11 @@ class IceSpikeSpellSpawner(MoveSpellSpawner):
         animation_attack = Animation(self.__image , (0, 2*self.__h), (self.__w, self.__h), max_frames=7, delay=5, loop=False)
 
         animator = Animator({
-            env.SPAWN:animation_spawn,
-            env.IDLE: animation_idle,
+            consts.SPAWN:animation_spawn,
+            consts.IDLE: animation_idle,
             self._attack_type: animation_attack
-        }, default=env.IDLE)
+        }, default=consts.IDLE)
 
-        animator.replace_animation(env.SPAWN)
+        animator.replace_animation(consts.SPAWN)
 
         return animator

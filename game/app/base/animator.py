@@ -75,8 +75,11 @@ class Animation:
         if self.__auto_row:
             row = self.__row
 
-        return self.__full_image.subsurface((self.__x + self.__index*self.__w,
+        image = self.__full_image.subsurface((self.__x + self.__index*self.__w,
                                              self.__y + row*self.__h, self.__w, self.__h))
+        image.set_colorkey(self.__transparent_color)
+
+        return image
 
 
 class Animator:
@@ -140,8 +143,8 @@ class Animator:
 
 class AnimatedObject(GameObject):
     def __init__(self, name: str, pos: tuple[int, int], size: tuple[int, int],
-                 *groups: pg.sprite.Group, animator=None):
-        super().__init__(name, pos, size, *groups)
+                 *groups: pg.sprite.Group, animator=None, transparent_color="black"):
+        super().__init__(name, pos, size, *groups, transparent_color=transparent_color)
 
         self._animator = animator
 

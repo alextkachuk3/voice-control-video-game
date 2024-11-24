@@ -9,7 +9,7 @@ from app.spell import TargetSpellSpawner
 class WaterBlastSpellSpawner(TargetSpellSpawner):
     def __init__(self, scale, *groups):
         self.__w, self.__h = 128, 128
-        super().__init__(env.ATTACK, (self.__w*scale, self.__h*scale), *groups, radius=150)
+        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups, radius=150)
 
         self.__image = pg.image.load("Assets/Images/Spells/WaterBlast.png")
         self.__image_attack = pg.image.load("Assets/Images/Spells/WaterBlastAttack.png")
@@ -20,11 +20,11 @@ class WaterBlastSpellSpawner(TargetSpellSpawner):
         animation_attack = Animation(self.__image_attack , (0, 0), (self.__w, self.__h), delay=5, loop=False, auto_row=True)
 
         animator = Animator({
-            env.SPAWN:animation_spawn,
-            env.IDLE: animation_idle,
+            consts.SPAWN:animation_spawn,
+            consts.IDLE: animation_idle,
             self._attack_type: animation_attack
-        }, default=env.IDLE)
+        }, default=consts.IDLE)
 
-        animator.replace_animation(env.SPAWN)
+        animator.replace_animation(consts.SPAWN)
 
         return animator
