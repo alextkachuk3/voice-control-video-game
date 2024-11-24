@@ -2,3 +2,4 @@
 /game/.idea
 /game/app/__pycache__
 /game/app/base/__pycache__
+game/.env
