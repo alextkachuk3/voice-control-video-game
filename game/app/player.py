@@ -1,6 +1,6 @@
 import pygame as pg
 
-from app import env
+from app import consts
 from app.base.animator import AnimatedObject
 from app.spell import MoveSpellSpawner, TargetSpellSpawner
 

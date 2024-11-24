@@ -4,7 +4,7 @@ from typing import Any
 
 import pygame as pg
 
-from app import env
+from app import consts
 from app.animator_controller import AnimationMapBuilder, AnimatorController
 from app.base.animator import Animation
 

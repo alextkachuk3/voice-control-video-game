@@ -1,6 +1,6 @@
 from os.path import split
 
-from app import env
+from app import consts
 from app.base.animator import Animation, Animator
 
 import pygame as pg

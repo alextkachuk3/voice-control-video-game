@@ -1,7 +1,7 @@
 import pygame as pg
 
 from app.base.scene import SceneController
-from app.env import WIDTH, HEIGHT
+from app.consts import WIDTH, HEIGHT
 
 
 def main():

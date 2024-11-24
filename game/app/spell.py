@@ -3,10 +3,10 @@ from abc import abstractmethod
 
 import pygame as pg
 
-from app import env
+from app import consts
 from app.base.animator import Animator, AnimatedObject
 from app.base.game_object import GameObject
-from app.env import WIDTH, HEIGHT
+from app.consts import WIDTH, HEIGHT
 from app.utility import limit_coordinates
 
 

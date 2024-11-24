@@ -1,6 +1,6 @@
 import pygame as pg
 
-from app import env
+from app import consts
 from app.background import get_random_background
 from app.base.scene import Scene
 from app.player import KeyboardPlayer
