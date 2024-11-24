@@ -10,7 +10,7 @@ class MainScene(Scene):
         super().__init__(*args, **kwargs)
 
         w, h = self.get_size()
-        self.bg = get_random_background("Assets/Images/TailMaps/Dungeon_Tileset.png", (w, h),
+        self.bg = get_random_background("Assets/Images/TailMaps/DungeonTileset.png", (w, h),
                                         (16, 16))
 
         self.start_btn = Button((100, 40), (w // 2, h // 2), self._draw_group,

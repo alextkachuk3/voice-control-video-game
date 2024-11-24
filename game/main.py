@@ -1,12 +1,13 @@
 import pygame as pg
 
 from app.base.scene import SceneController
+from app.env import WIDTH, HEIGHT
 
 
 def main():
     pg.init()
 
-    size = (1000, 700)
+    size = (WIDTH, HEIGHT)
     window = pg.display.set_mode(size)
     pg.display.set_caption("Voice Control Video Game")
 

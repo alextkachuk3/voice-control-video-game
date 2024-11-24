@@ -15,7 +15,6 @@ class TailMapBuilder:
 
         self.__image = image
         self.__tail_rows, self.__tail_cols = grid_count(self.__image.get_size(), tail_size)
-        print(self.__image.get_size())
         self.__x, self.__y = (0, 0)
         self.__surface_size = surface_size
         self.__tail_size = tail_size
@@ -60,7 +59,6 @@ class TailMapBuilder:
 
         w, h = self.__tail_size
         tail_row, tail_col = tail_place
-        print((tail_col*w, tail_row*h, w, h))
         tail = self.__image.subsurface((tail_col*w, tail_row*h, w, h))
 
         for i in range(self.__rows):

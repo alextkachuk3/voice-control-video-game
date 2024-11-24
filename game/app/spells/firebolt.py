@@ -1,0 +1,33 @@
+from os.path import split
+
+from app import env
+from app.base.animator import Animation, Animator
+
+import pygame as pg
+
+from app.spell import MoveSpellSpawner, MoveSpell
+
+
+class FireboltSpellSpawner(MoveSpellSpawner):
+    def __init__(self, scale, *groups, speed=0):
+        self.__w, self.__h = 48, 48
+        super().__init__(env.ATTACK, (self.__w*scale, self.__h*scale), *groups, speed=speed)
+
+        self.__image = pg.image.load("Assets/Images/Spells/Firebolt.png")
+
+    def _get_animator(self):
+        animation_idle = Animation(self.__image , (0, 0), (self.__w,self.__h), max_frames=4, delay=5)
+        animation_attack = Animation(self.__image , (self.__w * 5, 0), (self.__w, self.__h), delay=5, loop=False)
+
+        animator = Animator({
+            env.IDLE: animation_idle,
+            self._attack_type: animation_attack
+        }, default=env.IDLE)
+
+        return animator
+
+    def spawn(self, owner, pos, direction, speed=None):
+        spell = super().spawn(owner, pos, direction, speed)
+        spell.set_bounding_size((self.__w-10, self.__h//3))
+
+        return spell
