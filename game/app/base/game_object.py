@@ -4,11 +4,14 @@ import pygame as pg
 
 class GameObject(pg.sprite.Sprite):
     def __init__(self, name: str, pos: tuple[int, int], size:tuple[int, int],
-                 *groups:pg.sprite.Group):
+                 *groups:pg.sprite.Group, background=(1, 0, 0), transparent=(0, 0, 0)):
         super().__init__(*groups)
         self.name = name
 
         self.__image = pg.surface.Surface(size)
+        self.__image.set_colorkey(transparent)
+        self.__image.fill(background)
+
         self.__rect = self.__image.get_rect(center=pos)
         self.__bounding_size = None
 

@@ -26,7 +26,7 @@ def get_player_animations(size, delay, textures_folder:str, animation_map:dict[A
     return animations
 
 
-def get_animator_controller(size, folder, delay=7):
+def get_animator_controller(size, folder, delay=12):
     builder = AnimationMapBuilder()
     anim_map = builder.build_from_files(folder, not_looped=(env.ATTACK1, env.ATTACK2, env.ATTACK3))
 

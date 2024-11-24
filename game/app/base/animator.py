@@ -148,6 +148,10 @@ class AnimatedObject(GameObject):
     def set_animator(self, animator):
         self._animator = animator
 
+    def update(self, *args, **kwargs):
+        if self._animator:
+            self._animator.tick()
+
     @property
     def image(self):
         return super().image if self._animator is None else self._animator.image

@@ -1,15 +1,14 @@
 import pygame as pg
 
 from app import env
-from app.animator_controller import AnimatorController
 from app.base.animator import AnimatedObject
 from app.spell import MoveSpellSpawner, TargetSpellSpawner
 
 
 class Player(AnimatedObject):
-    def __init__(self, pos: tuple[int, int], size:tuple[int, int], group:pg.sprite.Group, speed:int,
-                 anim_controller: AnimatorController):
-        super().__init__("Player", pos, size, group, animator=anim_controller)
+    def __init__(self, pos: tuple[int, int], size:tuple[int, int], *groups,
+                 anim_controller, speed=0):
+        super().__init__("Player", pos, size, *groups, animator=anim_controller)
 
         self._speed = speed
 
@@ -24,6 +23,7 @@ class Player(AnimatedObject):
         pass
 
     def update(self):
+        super().update()
         self._animator.tick()
         self._move()
         self._attack()
@@ -36,9 +36,9 @@ SIDE_DIRECTION = {
 }
 
 class KeyboardPlayer(Player):
-    def __init__(self, pos: tuple[int, int], size: tuple[int, int], group: pg.sprite.Group, speed: int,
-                 anim_controller: AnimatorController):
-        super().__init__(pos, size, group, speed, anim_controller)
+    def __init__(self, pos: tuple[int, int], size: tuple[int, int], *groups,
+                 anim_controller, speed=0):
+        super().__init__(pos, size, *groups, anim_controller=anim_controller, speed=speed)
         self.__spells = {}
 
     def add_spell(self, key, spell_spawner):

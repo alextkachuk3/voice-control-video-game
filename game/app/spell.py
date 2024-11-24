@@ -7,10 +7,11 @@ from app import env
 from app.base.animator import Animator, AnimatedObject
 from app.base.game_object import GameObject
 from app.env import WIDTH, HEIGHT
+from app.utility import limit_coordinates
 
 
 class Spell(AnimatedObject):
-    def __init__(self, attack_type, pos, size, owner: GameObject, animator: Animator, *groups):
+    def __init__(self, attack_type, pos, size, *groups, animator: Animator, owner: GameObject=None):
         super().__init__("Spell", pos, size, *groups, animator=animator)
 
         self._animator = animator
@@ -18,7 +19,7 @@ class Spell(AnimatedObject):
         self._attack_type = attack_type
 
     def update(self, player_group):
-        self._animator.tick()
+        super().update()
 
         for player in player_group:
             if player == self._owner:
@@ -38,8 +39,9 @@ class Spell(AnimatedObject):
 
 
 class MoveSpell(Spell):
-    def __init__(self, attack_type, pos, size, owner: GameObject, animator: Animator, direction: pg.math.Vector2, speed: int, *groups):
-        super().__init__(attack_type, pos, size, owner, animator, *groups)
+    def __init__(self, attack_type, pos, size, *groups, animator: Animator, direction: pg.math.Vector2,
+                 speed: int = 0, owner: GameObject = None):
+        super().__init__(attack_type, pos, size,  *groups, animator=animator, owner=owner)
 
         self._direction = direction
         self._speed = speed
@@ -85,13 +87,14 @@ class MoveSpellSpawner(SpellSpawner):
         if speed is None:
             speed = self._speed
 
-        return MoveSpell(self._attack_type, pos, self._size, owner, self._get_animator(), direction, speed, *self._groups)
+        return MoveSpell(self._attack_type, pos, self._size,  *self._groups,
+                         animator= self._get_animator(), direction=direction, speed=speed, owner=owner)
 
 
 
 class TargetSpell(Spell):
-    def __init__(self, attack_type, pos, size, owner: GameObject, animator: Animator, *groups):
-        super().__init__(attack_type, pos, size, None, animator, *groups)
+    def __init__(self, attack_type, pos, size, *groups, animator: Animator, owner: GameObject = None):
+        super().__init__(attack_type, pos, size,  *groups, animator=animator)
 
     def update(self, collide_group):
         self._animator.tick()
@@ -107,14 +110,18 @@ class TargetSpell(Spell):
 
 
 class TargetSpellSpawner(SpellSpawner):
-    def __init__(self, attack_type, size, *groups, radius=None):
+    def __init__(self, attack_type, size, *groups, radius=None, timeout=0):
         super().__init__(attack_type, size, *groups)
         self._radius = radius
+        self._timeout = timeout
 
     @abstractmethod
     def _get_animator(self):
         pass
 
     def spawn(self, owner, pos):
+        if self._radius is not None:
+            pos = limit_coordinates(owner.rect.center, pos, self._radius)
 
-        return TargetSpell(self._attack_type, pos, self._size,  owner, self._get_animator(), *self._groups)
+        return TargetSpell(self._attack_type, pos, self._size,   *self._groups,
+                           animator=self._get_animator(), owner=owner)
