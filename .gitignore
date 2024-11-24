@@ -6,3 +6,5 @@ game/.env
 /game/app/network/__pycache__
 /game/app/spells/__pycache__
 /game/app/spells/__pycache__
+/game/app/spells/__pycache__
+game/app/spells/__pycache__/water_blast.cpython-312.pyc

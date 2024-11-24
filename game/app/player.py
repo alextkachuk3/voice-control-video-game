@@ -114,7 +114,7 @@ class KeyboardPlayer(Player):
                 delta = delta.normalize()
             side = get_nearest_side(delta)
             self._animator.move(side)
-            
+
             spell_spawner.spawn(self, self.rect.center, delta)
         elif isinstance(spell_spawner, TargetSpellSpawner):
             spell_spawner.spawn(self, pg.mouse.get_pos())
