@@ -1,6 +1,8 @@
 WIDTH = 1000
 HEIGHT = 700
 
+CAST_RADIUS = 150
+
 ATTACK = "attack"
 SPAWN = "spawn"
 ATTACK1 = "attack01"

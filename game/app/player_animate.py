@@ -1,12 +1,11 @@
 import os
-from email.policy import default
 from typing import Any
 
 import pygame as pg
 
 from app import consts
-from app.animator_controller import AnimationMapBuilder, AnimatorController
-from app.base.animator import Animation
+from app.base.animator import Animation, AnimationMapBuilder
+from app.controllers.animate import AnimateController
 
 
 def get_player_animations(size, delay, textures_folder:str, animation_map:dict[Any, tuple[str, bool]]):
@@ -26,13 +25,13 @@ def get_player_animations(size, delay, textures_folder:str, animation_map:dict[A
     return animations
 
 
-def get_animator_controller(size, folder, delay=12):
-    builder = AnimationMapBuilder()
+def get_animate_controller(size, folder, delay=8):
+    builder = AnimationMapBuilder(animation_names=consts.ALL)
     anim_map = builder.build_from_files(folder, not_looped=(consts.ATTACK1, consts.ATTACK2, consts.ATTACK3))
 
     animators = get_player_animations(size, delay, folder, anim_map)
 
-    anim_controller = AnimatorController({
+    anim_controller = AnimateController({
         pg.K_s: 0,
         pg.K_a: 1,
         pg.K_d: 2,

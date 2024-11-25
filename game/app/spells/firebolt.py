@@ -1,15 +1,13 @@
-from os.path import split
-
 from app import consts
 from app.base.animator import Animation, Animator
 
 import pygame as pg
 
-from app.spell import MoveSpellSpawner, MoveSpell
+from app.spells.spell import MoveSpellSpawner
 
 
 class FireboltSpellSpawner(MoveSpellSpawner):
-    def __init__(self, scale, *groups):
+    def __init__(self, *groups, scale=1):
         self.__w, self.__h = 48, 48
         super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups, speed=3)
 

@@ -4,7 +4,7 @@ from app.base.ui import Button
 
 
 class MainScene(Scene):
-    __title__ = "MainScene"
+    __title__ = "Main"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -29,6 +29,6 @@ class MainScene(Scene):
 
     def update(self):
         if self.start_btn.is_clicked():
-            SceneController.open_scene("GameScene", False, self.get_size())
+            SceneController.open_scene("Game", False, self.get_size())
         if self.quit_btn.is_clicked():
             SceneController.is_running = False

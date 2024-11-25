@@ -1,3 +1,4 @@
+import os
 from typing import Any
 
 import pygame as pg
@@ -140,6 +141,34 @@ class Animator:
 
     def active(self, animation_name):
         return self.__current_anim == animation_name
+
+class AnimationMapBuilder:
+    def __init__(self, animation_names:list[str]):
+        self.__animation_map = {}
+        self.__animation_names = animation_names
+
+    def build_from_files(self, folder, not_looped=()):
+        files = os.listdir(folder)
+        for anim in self.__animation_names:
+            for file in files:
+                if anim in file.lower():
+                    self.__animation_map[anim] = (file, anim not in not_looped)
+                    files.remove(file)
+                    break
+
+        return self.__animation_map
+
+    def animation_map(self):
+        return self.__animation_map
+
+    def clear(self):
+        self.__animation_map = {}
+        return self
+
+    def add_animation(self, key, path, loop):
+        self.__animation_map[key] = (path, loop)
+        return self
+
 
 class AnimatedObject(GameObject):
     def __init__(self, name: str, pos: tuple[int, int], size: tuple[int, int],

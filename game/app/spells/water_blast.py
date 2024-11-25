@@ -3,13 +3,14 @@ from app.base.animator import Animation, Animator
 
 import pygame as pg
 
-from app.spell import TargetSpellSpawner
+from app.consts import CAST_RADIUS
+from app.spells.spell import TargetSpellSpawner
 
 
 class WaterBlastSpellSpawner(TargetSpellSpawner):
-    def __init__(self, scale, *groups):
+    def __init__(self, *groups, scale=1):
         self.__w, self.__h = 128, 128
-        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups, radius=150)
+        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups, radius=CAST_RADIUS)
 
         self.__image = pg.image.load("Assets/Images/Spells/WaterBlast.png")
         self.__image_attack = pg.image.load("Assets/Images/Spells/WaterBlastAttack.png")

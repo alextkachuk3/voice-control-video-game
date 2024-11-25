@@ -3,10 +3,10 @@ from app.base.animator import Animation, Animator
 
 import pygame as pg
 
-from app.spell import MoveSpellSpawner
+from app.spells.spell import MoveSpellSpawner
 
 class IceSpikeSpellSpawner(MoveSpellSpawner):
-    def __init__(self, scale, *groups):
+    def __init__(self, *groups, scale=1):
         self.__w, self.__h = 48, 32
         super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale),  *groups, speed=5)
 

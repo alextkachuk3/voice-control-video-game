@@ -11,7 +11,7 @@ def main():
     window = pg.display.set_mode(size)
     pg.display.set_caption("Voice Control Video Game")
 
-    SceneController.open_scene("MainScene", True, size)
+    SceneController.open_scene("Main", True, size)
 
     while SceneController.is_running:
         events = pg.event.get()

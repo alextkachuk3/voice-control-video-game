@@ -1,14 +1,18 @@
 import pygame as pg
 
+from app import consts
 from app.background import get_random_background
 from app.base.game_object import GameObject
 from app.base.scene import Scene
-from app.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
-from app.players.necromancer import Necromancer
+from app.player import KeyboardPlayer
+from app.player_animate import get_animate_controller
+from app.spells.firebolt import FireboltSpellSpawner
+from app.spells.ice_spike import IceSpikeSpellSpawner
+from app.spells.water_blast import WaterBlastSpellSpawner
 
 
-class GameScene(Scene):
-    __title__ = "Game"
+class TrainingScene(Scene):
+    __title__ = "Training"
     DEBUG=False
 
     def __init__(self, *args, **kwargs):
@@ -22,11 +26,15 @@ class GameScene(Scene):
         self.cursor = GameObject("cursor", (0, 0), (20, 20), self._draw_group,
                                  image=pg.image.load("Assets/Images/target-mask.png"), background="white")
 
-        self.player = Necromancer((w // 2, h // 2), (100, 100), self.player_group, self._draw_group,
-                                    spell_groups=(self.spell_group, self._draw_group))
+        animator_controller = get_animate_controller((48, 48), "Assets/Images/Characters/Necromancer")
+        self.player = KeyboardPlayer((w // 2, h // 2), (100, 100), self.player_group, self._draw_group,
+                                     speed=2, anim_controller=animator_controller)
 
-        self.player.set_move_controller(KeyboardMoveController(self.player.rect,speed=2))
-        self.player.set_attack_controller(KeyboardMagicController(self.player.rect, owner=self.player))
+        self.player.set_bounding_size((30, 60))
+
+        self.player.add_spell(consts.ATTACK1, FireboltSpellSpawner(1,  self.spell_group, self._draw_group))
+        self.player.add_spell(consts.ATTACK2, IceSpikeSpellSpawner(1,  self.spell_group, self._draw_group))
+        self.player.add_spell(consts.ATTACK3, WaterBlastSpellSpawner(1, self.spell_group, self._draw_group))
 
         self.bg = get_random_background("Assets/Images/TailMaps/GrassTileset.png", (w, h), (32, 32))
 
@@ -38,7 +46,7 @@ class GameScene(Scene):
                 pg.draw.rect(self, "black",obj.bounding_rect, width=1)
             pg.draw.circle(self, "black", self.player.rect.center, radius=150, width=1)
     def draw_background(self):
-       self.blit(self.bg, (0, 0))
+        self.blit(self.bg, (0, 0))
 
     def update(self):
         self.cursor.rect.center = pg.mouse.get_pos()
