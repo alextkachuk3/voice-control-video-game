@@ -32,6 +32,7 @@ class SelectionPanel(pg.sprite.Sprite):
 
             if i == 0:
                 st.is_selected = True
+                Storage.set("player", key)
 
             x += w + 5
 

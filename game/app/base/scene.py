@@ -26,7 +26,7 @@ class SceneController(type):
         if close_prev and SceneController.__current_scene in SceneController.__open_scenes:
             scene = SceneController.__open_scenes[SceneController.__current_scene]
             scene.close()
-            del scene
+            del SceneController.__open_scenes[SceneController.__current_scene]
 
         pg.mouse.set_visible(True)
         pg.display.set_caption(title)

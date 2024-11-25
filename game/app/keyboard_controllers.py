@@ -7,8 +7,6 @@ from app.utility import SIDE_DIRECTION
 
 
 class KeyboardMoveController(MoveController):
-    __title__ = "KeyboardMove"
-
     def __init__(self, rect, default_state=consts.IDLE, default_side=pg.K_a, speed=0):
         super().__init__(rect, default_state, default_side, speed)
 
@@ -38,8 +36,6 @@ class KeyboardMoveController(MoveController):
         self._move_object(direction)
 
 class KeyboardMagicController(MagicController):
-    __title__ = "KeyboardAttack"
-
     def attack(self):
         if self._state not in [consts.IDLE, consts.RUN]:
             return

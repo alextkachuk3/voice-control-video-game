@@ -89,7 +89,7 @@ class WaitRoomScene(BeautyScene):
         self.players = {}
 
         self.connect_stream =database.child("rooms").child(self.code).stream(self._on_connected)
-
+        print(self.code)
 
     def get_free_space(self, x, y, w, h):
         for item in self._ui_group:
@@ -104,7 +104,9 @@ class WaitRoomScene(BeautyScene):
         player = PlayerFactory.spawn(value["character"], (0, 0), (100, 100))
 
         x, y = self.get_free_space(50, 50, 100, 100)
-        self.host_statement = PlayerStatement((x, y), self._ui_group, player, value["nickname"], self.font)
+        statement = PlayerStatement((x, y), self._ui_group, player, value["nickname"], self.font)
+
+        value["statement"] = statement
 
     def _on_connected(self, message):
         print("connected", message)
@@ -112,13 +114,17 @@ class WaitRoomScene(BeautyScene):
         if message["event"] not in ["put", "patch"]:
             return
 
+        players = None
         path = message["path"]
-        players = {}
         if "/" == path:
             players = message["data"]["players"]
-
-        elif "players" in path:
+        elif "/players" == path:
             players = message["data"]
+        elif message["data"] is None:
+            for player in list(self.players.keys()):
+                if player in path:
+                    self.players[player]["statement"].kill()
+                    del self.players[player]
 
         if not isinstance(players, dict):
             return
@@ -126,6 +132,15 @@ class WaitRoomScene(BeautyScene):
         for player, value in players.items():
             if player not in self.players and isinstance(value, dict):
                 self.add_player(player, value)
+
+        if path != "/":
+            return
+
+        for player in list(self.players.keys()):
+            if player not in players:
+                self.players[player]["statement"].kill()
+                del self.players[player]
+
 
     def update(self):
         super().update()
@@ -138,8 +153,11 @@ class WaitRoomScene(BeautyScene):
 
     def close(self):
         super().close()
-        self.connect_stream.close()
-
+        print("close")
+        try:
+            self.connect_stream.close()
+        except:
+            pass
 
 class CodeScene(BeautyScene):
     __title__ = "Code"
