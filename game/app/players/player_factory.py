@@ -14,3 +14,7 @@ class PlayerFactory(type):
         if title in PlayerFactory.__players:
             return PlayerFactory.__players[title](*args, **kwargs)
         raise TypeError("Player '{}' is not registered.".format(title))
+
+    @staticmethod
+    def keys():
+        return list(PlayerFactory.__players.keys())

@@ -1,13 +1,14 @@
 import pygame as pg
 
-from app.background import get_random_background
-from app.base.game_object import GameObject
-from app.base.scene import Scene
+from app.base.scene import SceneController
+from app.base.ui import ImageButton
+from app.scenes.beauty_scene import BeautyScene
+from app.base.storage import Storage
 from app.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
 from app.players.player_factory import PlayerFactory
 
 
-class GameScene(Scene):
+class GameScene(BeautyScene):
     __title__ = "Game"
     DEBUG=True
 
@@ -15,20 +16,24 @@ class GameScene(Scene):
         super().__init__(*args, **kwargs)
         w, h = self.get_size()
 
-        self.player_group = pg.sprite.Group()
-        self.spell_group = pg.sprite.Group()
 
-        pg.mouse.set_visible(False)
-        self.cursor = GameObject("cursor", (0, 0), (20, 20), self._draw_group,
-                                 image=pg.image.load("Assets/Images/target-mask.png"), background="white")
+        self._back_btn = ImageButton((50, 50), (0, 0), self._draw_group,
+                                     image=pg.image.load("Assets/Images/Back.png"))
+        self._back_btn.rect.topleft = 5, 5
+        self._player_group = pg.sprite.Group()
+        self._spell_group = pg.sprite.Group()
 
-        self.player = PlayerFactory.spawn("Cultist", (w // 2, h // 2), (100, 100), self.player_group, self._draw_group,
-                                    spell_groups=(self.spell_group, self._draw_group))
+        player = Storage.get("player")
+        self.DEBUG = Storage.get("debug", True)
 
-        self.player.set_move_controller(KeyboardMoveController(self.player.rect,speed=2))
-        self.player.set_attack_controller(KeyboardMagicController(self.player.rect, owner=self.player))
+        self._player = None
 
-        self.bg = get_random_background("Assets/Images/TailMaps/GrassTileset.png", (w, h), (32, 32))
+        if player:
+            self._player = PlayerFactory.spawn(player, (w // 2, h // 2), (100, 100), self._player_group, self._draw_group,
+                                               spell_groups=(self._spell_group, self._draw_group))
+
+            self._player.set_move_controller(KeyboardMoveController(self._player.rect, speed=2))
+            self._player.set_attack_controller(KeyboardMagicController(self._player.rect, owner=self._player))
 
 
     def draw(self):
@@ -36,14 +41,16 @@ class GameScene(Scene):
         if self.DEBUG:
             for obj in self._draw_group:
                 pg.draw.rect(self, "black",obj.bounding_rect, width=1)
-            pg.draw.circle(self, "black", self.player.rect.center, radius=150, width=1)
-    def draw_background(self):
-       self.blit(self.bg, (0, 0))
+
+            for player in self._player_group:
+                pg.draw.circle(self, "black", player.rect.center, radius=150, width=1)
+
 
     def update(self):
-        self.cursor.rect.center = pg.mouse.get_pos()
+        super().update()
 
-        self.player_group.update()
-        self.spell_group.update(self.player_group)
+        self._player_group.update()
+        self._spell_group.update(self._player_group)
 
-        self._clock.tick(60)
+        if self._back_btn.is_clicked():
+            SceneController.open_scene("Main", close_prev=True)

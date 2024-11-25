@@ -1,11 +1,14 @@
 class Storage:
     __storage = {}
 
-    def set(self, key, value):
-        self.__storage[key] = value
+    @staticmethod
+    def set(key, value):
+        Storage.__storage[key] = value
 
-    def get(self, key, default=None):
-        return self.__storage.get(key, default)
+    @staticmethod
+    def get(key, default=None):
+        return Storage.__storage.get(key, default)
 
-    def contains(self, key):
-        return key in self.__storage
+    @staticmethod
+    def contains(key):
+        return key in Storage.__storage

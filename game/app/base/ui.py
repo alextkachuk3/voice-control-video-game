@@ -23,3 +23,12 @@ class Button(pg.sprite.Sprite):
         pos = pg.mouse.get_pos()
         left, _, _ = pg.mouse.get_pressed()
         return left and self.rect.collidepoint(pos)
+
+class ImageButton(Button):
+    def __init__(self, size:tuple[int, int], pos:tuple[int, int], *groups:list[pg.sprite.Group],
+                 image:pg.surface.Surface = None):
+        super().__init__(size, pos, *groups)
+
+        if image:
+            self.image = pg.transform.scale(image, size)
+            self.image.set_colorkey("white")

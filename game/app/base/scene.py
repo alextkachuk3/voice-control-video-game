@@ -25,6 +25,9 @@ class SceneController(type):
     def open_scene(title, close_prev, *args, **kwargs):
         if close_prev and SceneController.__current_scene in SceneController.__open_scenes:
             del SceneController.__open_scenes[SceneController.__current_scene]
+
+        pg.mouse.set_visible(True)
+        
         if title in SceneController.__open_scenes:
             SceneController.__current_scene = title
             return
@@ -77,4 +80,7 @@ class Scene(pg.surface.Surface, metaclass=SceneController):
         Updates scene
         """
         pass
+
+    def tick(self, framerate):
+        self._clock.tick(framerate)
 

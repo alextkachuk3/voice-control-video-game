@@ -1,5 +1,6 @@
 from app.background import get_random_background
 from app.base.scene import Scene, SceneController
+from app.base.storage import Storage
 from app.base.ui import Button
 
 
@@ -13,13 +14,18 @@ class MainScene(Scene):
         self.bg = get_random_background("Assets/Images/TailMaps/DungeonTileset.png", (w, h),
                                         (16, 16))
 
-        self.start_btn = Button((100, 40), (w // 2, h // 2), self._draw_group,
-                                label="Start", bg_color="green")
+        self.online_btn = Button((100, 40), (w // 2, h // 2), self._draw_group,
+                                label="Online", bg_color="green")
+
+        self.train_btn = Button((100, 40), (w // 2, 0), self._draw_group,
+                                label="Training", bg_color="yellow")
+
+        self.train_btn.rect.top = self.online_btn.rect.bottom + 10
 
         self.quit_btn = Button((100, 40), (w // 2, 0), self._draw_group,
                                label="Quit", bg_color="tomato")
 
-        self.quit_btn.rect.top = self.start_btn.rect.bottom + 10
+        self.quit_btn.rect.top = self.train_btn.rect.bottom + 10
 
 
 
@@ -28,7 +34,13 @@ class MainScene(Scene):
 
 
     def update(self):
-        if self.start_btn.is_clicked():
-            SceneController.open_scene("Game", False, self.get_size())
+        if self.online_btn.is_clicked():
+            Storage.set("nextscene", "Game")
+            SceneController.open_scene("Selection", False, self.get_size())
+
+        if self.train_btn.is_clicked():
+            Storage.set("nextscene", "Training")
+            SceneController.open_scene("Selection", False, self.get_size())
+
         if self.quit_btn.is_clicked():
             SceneController.is_running = False

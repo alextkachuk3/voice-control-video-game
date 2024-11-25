@@ -1,6 +1,7 @@
 import pygame as pg
 
 from app.base.scene import SceneController
+from app.base.storage import Storage
 from app.consts import WIDTH, HEIGHT
 
 def main():
@@ -11,6 +12,7 @@ def main():
     pg.display.set_caption("Voice Control Video Game")
 
     SceneController.open_scene("Main", True, size)
+    Storage.set("debug", False)
 
     while SceneController.is_running:
         events = pg.event.get()
@@ -25,6 +27,7 @@ def main():
             scene.update()
             scene.draw()
             window.blit(scene, (0, 0))
+            scene.tick(60)
 
         pg.display.update()
 
