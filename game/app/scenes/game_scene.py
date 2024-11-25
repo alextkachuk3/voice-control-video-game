@@ -16,10 +16,6 @@ class GameScene(BeautyScene):
         super().__init__(*args, **kwargs)
         w, h = self.get_size()
 
-
-        self._back_btn = ImageButton((50, 50), (0, 0), self._ui_group,
-                                     image=pg.image.load("Assets/Images/Back.png"))
-        self._back_btn.rect.topleft = 5, 5
         self._player_group = pg.sprite.Group()
         self._spell_group = pg.sprite.Group()
 
@@ -52,6 +48,3 @@ class GameScene(BeautyScene):
 
         self._player_group.update()
         self._spell_group.update(self._player_group)
-
-        if self._back_btn.is_clicked():
-            SceneController.open_scene("Main", close_prev=True)

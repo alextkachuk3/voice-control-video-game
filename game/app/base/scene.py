@@ -27,6 +27,7 @@ class SceneController(type):
             del SceneController.__open_scenes[SceneController.__current_scene]
 
         pg.mouse.set_visible(True)
+        pg.display.set_caption(title)
 
         if title in SceneController.__open_scenes:
             SceneController.__current_scene = title

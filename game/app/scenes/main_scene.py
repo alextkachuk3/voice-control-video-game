@@ -36,10 +36,12 @@ class MainScene(Scene):
     def update(self):
         if self.online_btn.is_clicked():
             Storage.set("nextscene", "Game")
-            SceneController.open_scene("Selection", False, self.get_size())
+            Storage.set("prev", "Main")
+            SceneController.open_scene("Lobby", False, self.get_size())
 
         if self.train_btn.is_clicked():
             Storage.set("nextscene", "Training")
+            Storage.set("prev", "Main")
             SceneController.open_scene("Selection", False, self.get_size())
 
         if self.quit_btn.is_clicked():
