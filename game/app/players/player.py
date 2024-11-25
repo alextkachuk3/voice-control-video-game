@@ -1,7 +1,10 @@
 from app.base.animator import AnimatedObject
+from app.players.player_factory import PlayerFactory
 
 
-class Player(AnimatedObject):
+class Player(AnimatedObject, metaclass=PlayerFactory):
+    __abstract__ = True
+
     def __init__(self, pos: tuple[int, int], size:tuple[int, int], *groups):
         super().__init__("Player", pos, size, *groups, transparent_color=(1, 0, 0))
 

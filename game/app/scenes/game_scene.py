@@ -4,12 +4,12 @@ from app.background import get_random_background
 from app.base.game_object import GameObject
 from app.base.scene import Scene
 from app.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
-from app.players.necromancer import Necromancer
+from app.players.player_factory import PlayerFactory
 
 
 class GameScene(Scene):
     __title__ = "Game"
-    DEBUG=False
+    DEBUG=True
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -22,7 +22,7 @@ class GameScene(Scene):
         self.cursor = GameObject("cursor", (0, 0), (20, 20), self._draw_group,
                                  image=pg.image.load("Assets/Images/target-mask.png"), background="white")
 
-        self.player = Necromancer((w // 2, h // 2), (100, 100), self.player_group, self._draw_group,
+        self.player = PlayerFactory.spawn("Cultist", (w // 2, h // 2), (100, 100), self.player_group, self._draw_group,
                                     spell_groups=(self.spell_group, self._draw_group))
 
         self.player.set_move_controller(KeyboardMoveController(self.player.rect,speed=2))

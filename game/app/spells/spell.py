@@ -37,6 +37,10 @@ class Spell(AnimatedObject):
         self._animator.subscribe_to_end(self.__kill, (self._attack_type,))
         self._animator.replace_animation(self._attack_type)
 
+    @property
+    def image(self):
+        return self._prepare_image(super().image)
+
 
 class MoveSpell(Spell):
     def __init__(self, attack_type, pos, size, *groups, animator: Animator, direction: pg.math.Vector2,
@@ -49,10 +53,6 @@ class MoveSpell(Spell):
         angle = -math.degrees(math.atan2(direction.y, direction.x))
 
         self.rotate(angle)
-
-    @property
-    def image(self):
-        return self._prepare_image(super().image)
 
     def _move(self):
         self.rect.center += self._direction * self._speed
@@ -73,6 +73,7 @@ class SpellSpawner:
         self._size = size
         self._groups = groups
         self._attack_type = attack_type
+
 
 class MoveSpellSpawner(SpellSpawner):
     def __init__(self, attack_type, size, *groups, speed=0):

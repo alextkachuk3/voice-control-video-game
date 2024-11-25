@@ -2,7 +2,6 @@ import pygame as pg
 
 from app.base.scene import SceneController
 from app.consts import WIDTH, HEIGHT
-from app.network.db import *
 
 def main():
     pg.init()
