@@ -12,6 +12,7 @@ class Sorceress(Magician):
         folder = "Assets/Images/Characters/Sorceress"
         super().__init__(folder, (48, 48), pos, size, *groups, spell_groups=spell_groups)
 
+        self.set_bounding_size((size[0]/3, size[1]/1.5))
 
     def set_attack_controller(self, controller):
         super().set_attack_controller(controller)

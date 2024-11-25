@@ -8,9 +8,10 @@ from app.spells.spell import TargetSpellSpawner
 
 
 class WaterBlastSpellSpawner(TargetSpellSpawner):
-    def __init__(self, *groups, scale=1):
+    def __init__(self, *groups, scale=1, timeout=200):
         self.__w, self.__h = 128, 128
-        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups, radius=CAST_RADIUS)
+        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups,
+                         radius=CAST_RADIUS, timeout=200)
 
         self._image = pg.image.load("Assets/Images/Spells/WaterBlast.png")
         self._image_attack = pg.image.load("Assets/Images/Spells/WaterBlastAttack.png")

@@ -17,7 +17,7 @@ class GameScene(BeautyScene):
         w, h = self.get_size()
 
 
-        self._back_btn = ImageButton((50, 50), (0, 0), self._draw_group,
+        self._back_btn = ImageButton((50, 50), (0, 0), self._ui_group,
                                      image=pg.image.load("Assets/Images/Back.png"))
         self._back_btn.rect.topleft = 5, 5
         self._player_group = pg.sprite.Group()
@@ -29,7 +29,8 @@ class GameScene(BeautyScene):
         self._player = None
 
         if player:
-            self._player = PlayerFactory.spawn(player, (w // 2, h // 2), (100, 100), self._player_group, self._draw_group,
+            self._player = PlayerFactory.spawn(player, (w // 2, h // 2), (100, 100), self._player_group,
+                                               self._draw_group,
                                                spell_groups=(self._spell_group, self._draw_group))
 
             self._player.set_move_controller(KeyboardMoveController(self._player.rect, speed=2))

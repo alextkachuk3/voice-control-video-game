@@ -16,4 +16,4 @@ class BattleDoll(Player):
         })
         self.set_animate_controller(animate_controller)
 
-        self.set_bounding_size((size[0] / 3, size[1] / 2))
+        self.set_bounding_size((size[0] / 3, size[1] / 1.5))

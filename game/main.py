@@ -12,7 +12,7 @@ def main():
     pg.display.set_caption("Voice Control Video Game")
 
     SceneController.open_scene("Main", True, size)
-    Storage.set("debug", False)
+    Storage.set("debug", True)
 
     while SceneController.is_running:
         events = pg.event.get()

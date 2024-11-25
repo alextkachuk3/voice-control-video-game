@@ -11,5 +11,3 @@ class Magician(Player):
         self._spell_groups = spell_groups
         animate_controller = get_animate_controller(sprite_size, folder)
         self.set_animate_controller(animate_controller)
-
-        self.set_bounding_size((size[0]/3, size[1]/2))

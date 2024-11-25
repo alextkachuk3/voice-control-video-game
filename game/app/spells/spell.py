@@ -94,13 +94,21 @@ class MoveSpellSpawner(SpellSpawner):
 
 
 class TargetSpell(Spell):
-    def __init__(self, attack_type, pos, size, *groups, animator: Animator, owner: GameObject = None):
-        super().__init__(attack_type, pos, size,  *groups, animator=animator)
+    def __init__(self, attack_type, pos, size, *groups, animator: Animator, owner: GameObject = None, timeout=0):
+        super().__init__(attack_type, pos, size,  *groups, animator=animator, owner=owner)
+
+        self._timeout = timeout
+        self._time = 0
 
     def update(self, collide_group):
         self._animator.tick()
+
         if not self._animator.active(consts.IDLE):
             return
+
+        self._time += 1
+        if self._timeout != 0 and self._time >= self._timeout:
+            self._cast()
 
         for obj in collide_group:
             if obj == self._owner:
@@ -125,4 +133,4 @@ class TargetSpellSpawner(SpellSpawner):
             pos = limit_coordinates(owner.rect.center, pos, self._radius)
 
         return TargetSpell(self._attack_type, pos, self._size,   *self._groups,
-                           animator=self._get_animator(), owner=owner)
+                           animator=self._get_animator(), owner=owner, timeout=self._timeout)

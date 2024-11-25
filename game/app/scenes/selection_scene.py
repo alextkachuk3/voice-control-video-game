@@ -53,11 +53,14 @@ class SelectionPanel(pg.sprite.Sprite):
         self.statement_group = pg.sprite.Group()
         self.statements = {}
 
-        for key in keys:
+        for i, key in enumerate(keys):
             player = PlayerFactory.spawn(key, (0, 0), (w, h))
             st = PlayerStatement((x, 0), self.statement_group, player,
                             key, font)
             self.statements[key] = st
+
+            if i == 0:
+                st.is_selected = True
 
             x += w + 5
 

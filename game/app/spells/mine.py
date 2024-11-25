@@ -16,7 +16,8 @@ class MineSpellSpawner(TargetSpellSpawner):
 
     def _get_animator(self):
         animation_idle = Animation(self.__image , (0, 0), (self.__w,self.__h), max_frames=2, delay=10)
-        animation_attack = Animation(self.__image , (2*self.__w, 0), (self.__w, self.__h), delay=5, loop=False)
+        animation_attack = Animation(self.__image , (2*self.__w, 0), (self.__w, self.__h), delay=5,
+                                     loop=False, auto_row=True)
 
         animator = Animator({
             consts.IDLE: animation_idle,

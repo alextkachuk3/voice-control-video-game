@@ -27,7 +27,7 @@ class SceneController(type):
             del SceneController.__open_scenes[SceneController.__current_scene]
 
         pg.mouse.set_visible(True)
-        
+
         if title in SceneController.__open_scenes:
             SceneController.__current_scene = title
             return
@@ -51,6 +51,7 @@ class Scene(pg.surface.Surface, metaclass=SceneController):
         super().__init__(*args, **kwargs)
         self._clock = pg.time.Clock()
         self._draw_group = pg.sprite.Group()
+        self._ui_group = pg.sprite.Group()
 
     def handle_event(self, event):
         if event.type == pg.QUIT:
@@ -74,6 +75,7 @@ class Scene(pg.surface.Surface, metaclass=SceneController):
         """
         self.draw_background()
         self._draw_group.draw(self)
+        self._ui_group.draw(self)
 
     def update(self):
         """

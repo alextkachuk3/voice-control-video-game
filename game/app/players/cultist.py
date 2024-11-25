@@ -1,8 +1,8 @@
 from app import consts
 from app.players.magician import Magician
 from app.spells.blood_blast import BloodBlastSpellSpawner
-from app.spells.ice_spike import IceSpikeSpellSpawner
-from app.spells.water_blast import WaterBlastSpellSpawner
+from app.spells.earth_spike import EarthSpikeSpellSpawner
+from app.spells.toxic_blast import ToxicBlastSpellSpawner
 
 
 class Cultist(Magician):
@@ -12,10 +12,12 @@ class Cultist(Magician):
         folder = "Assets/Images/Characters/Cultist"
         super().__init__(folder, (48, 48), pos, size, *groups, spell_groups=spell_groups)
 
+        self.set_bounding_size((size[0]/3, size[1]/2))
+
     def set_attack_controller(self, controller):
         super().set_attack_controller(controller)
 
         if self._attack_controller:
             self._attack_controller.add_spell(consts.ATTACK1, BloodBlastSpellSpawner(*self._spell_groups))
-            self._attack_controller.add_spell(consts.ATTACK2, IceSpikeSpellSpawner(*self._spell_groups))
-            self._attack_controller.add_spell(consts.ATTACK3, WaterBlastSpellSpawner( *self._spell_groups))
+            self._attack_controller.add_spell(consts.ATTACK2, EarthSpikeSpellSpawner(*self._spell_groups))
+            self._attack_controller.add_spell(consts.ATTACK3, ToxicBlastSpellSpawner( *self._spell_groups))
