@@ -24,7 +24,9 @@ class SceneController(type):
     @staticmethod
     def open_scene(title, close_prev, *args, **kwargs):
         if close_prev and SceneController.__current_scene in SceneController.__open_scenes:
-            del SceneController.__open_scenes[SceneController.__current_scene]
+            scene = SceneController.__open_scenes[SceneController.__current_scene]
+            scene.close()
+            del scene
 
         pg.mouse.set_visible(True)
         pg.display.set_caption(title)
@@ -40,6 +42,12 @@ class SceneController(type):
             return
 
         raise ValueError("There no scene with given title")
+    @staticmethod
+    def close_all():
+        for scene in SceneController.__open_scenes.values():
+            scene.close()
+
+        SceneController.__open_scenes = {}
 
     @staticmethod
     def scene():
@@ -79,10 +87,7 @@ class Scene(pg.surface.Surface, metaclass=SceneController):
         self._ui_group.draw(self)
 
     def update(self):
-        """
-        Updates scene
-        """
-        pass
+        self._ui_group.update()
 
     def tick(self, framerate):
         self._clock.tick(framerate)

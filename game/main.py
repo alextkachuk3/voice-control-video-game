@@ -31,6 +31,7 @@ def main():
 
         pg.display.update()
 
+    SceneController.close_all()
     pg.quit()
 
 if __name__ == '__main__':
