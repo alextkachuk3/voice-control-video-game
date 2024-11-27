@@ -15,3 +15,6 @@ class MoveController(Controller):
     def move(self):
         pass
 
+    def set_side(self, side):
+        self._side = side
+

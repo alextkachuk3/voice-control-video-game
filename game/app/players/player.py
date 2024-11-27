@@ -1,3 +1,4 @@
+from app import consts
 from app.base.animator import AnimatedObject
 from app.players.player_factory import PlayerFactory
 
@@ -24,11 +25,8 @@ class Player(AnimatedObject, metaclass=PlayerFactory):
         if side:
             self._animate_controller.move(side)
 
-        if state is None:
-            return
-
-        self._animate_controller.replace_animation(state)
-
+        if state:
+            self._animate_controller.replace_animation(state)
 
     def _move(self):
         if self._move_controller is None:
@@ -36,6 +34,7 @@ class Player(AnimatedObject, metaclass=PlayerFactory):
 
         if self._animate_controller:
             self._move_controller.set_state(self._animate_controller.animation_name)
+            self._move_controller.set_side(self._animate_controller.side)
 
         self._move_controller.move()
 
@@ -75,3 +74,16 @@ class Player(AnimatedObject, metaclass=PlayerFactory):
 
         self._move()
         self._attack()
+
+        rect = self.bounding_rect
+        if rect.top < 0:
+            rect.top = 0
+        elif rect.bottom > consts.HEIGHT:
+            rect.bottom = consts.HEIGHT
+
+        if rect.left < 0:
+            rect.left = 0
+        elif rect.right > consts.WIDTH:
+            rect.right = consts.WIDTH
+
+        self.rect.center = rect.center

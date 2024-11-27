@@ -1,6 +1,8 @@
 WIDTH = 1000
 HEIGHT = 700
 
+DEBUG=True
+
 CAST_RADIUS = 150
 
 ATTACK = "attack"

@@ -1,7 +1,6 @@
 import pygame as pg
 
-from app.base.scene import SceneController
-from app.base.ui import ImageButton
+from app import consts
 from app.scenes.beauty_scene import BeautyScene
 from app.base.storage import Storage
 from app.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
@@ -10,7 +9,6 @@ from app.players.player_factory import PlayerFactory
 
 class GameScene(BeautyScene):
     __title__ = "Game"
-    DEBUG=True
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,7 +18,6 @@ class GameScene(BeautyScene):
         self._spell_group = pg.sprite.Group()
 
         player = Storage.get("player")
-        self.DEBUG = Storage.get("debug", True)
 
         self._player = None
 
@@ -35,7 +32,7 @@ class GameScene(BeautyScene):
 
     def draw(self):
         super().draw()
-        if self.DEBUG:
+        if consts.DEBUG:
             for obj in self._draw_group:
                 pg.draw.rect(self, "black",obj.bounding_rect, width=1)
 

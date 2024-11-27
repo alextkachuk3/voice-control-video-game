@@ -26,7 +26,7 @@ class GameObject(pg.sprite.Sprite):
         bounding_rect = self.image.get_bounding_rect() if self.__bounding_size is None \
             else pg.rect.Rect(0, 0, *self.__bounding_size)
         bounding_rect.center = self.__rect.center
-        return bounding_rect.inflate(-bounding_rect.w/10, -bounding_rect.h/10)
+        return bounding_rect
 
     def set_bounding_size(self, bounding_size = None):
         self.__bounding_size = bounding_size
@@ -50,7 +50,8 @@ class GameObject(pg.sprite.Sprite):
         self.__rect.center += direction
 
     def near_bounds(self, w, h):
-        return self.rect.top <= 0 or self.rect.bottom >= h or self.rect.left <= 0 or self.rect.right >= w
+        return self.bounding_rect.top <= 0 or self.bounding_rect.bottom >= h \
+            or self.bounding_rect.left <= 0 or self.bounding_rect.right >= w
 
     def rotate(self, angle):
         center = self.__rect.center
