@@ -6,8 +6,8 @@ from app.controllers.move import MoveController
 
 
 class NetworkMoveController(MoveController):
-    def __init__(self, rect, default_state=consts.IDLE, default_side=pg.K_a, speed=0, database_ref=None):
-        super().__init__(rect, default_state, default_side, speed)
+    def __init__(self, owner, default_state=consts.IDLE, default_side=pg.K_a, speed=0, database_ref=None):
+        super().__init__(owner, default_state, default_side, speed)
 
         self.__stream = None
         if database_ref:
@@ -31,18 +31,18 @@ class NetworkMoveController(MoveController):
             self._call_all(state=self._state, side=self._side)
 
     def move(self):
-        if self._state not in [consts.IDLE, consts.RUN]:
+        if self._state not in [consts.IDLE, consts.RUN] or not self._owner.alive():
             return
 
-        self._rect.center = (self.__x, self.__y)
+        self._owner.rect.center = (self.__x, self.__y)
 
     def close(self):
         if self.__stream:
             self.__stream.close()
 
 class NetworkMagicController(MagicController):
-    def __init__(self, rect, default_state=consts.IDLE, owner=None, database_ref=None):
-        super().__init__(rect, default_state, owner)
+    def __init__(self, owner, default_state=consts.IDLE, database_ref=None):
+        super().__init__(owner, default_state)
 
         self._mouse_pos = (0, 0)
 

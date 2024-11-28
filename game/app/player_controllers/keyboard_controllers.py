@@ -7,8 +7,8 @@ from app.utility import SIDE_DIRECTION
 
 
 class KeyboardMoveController(MoveController):
-    def __init__(self, rect, default_state=consts.IDLE, default_side=pg.K_a, speed=0):
-        super().__init__(rect, default_state, default_side, speed)
+    def __init__(self, owner, default_state=consts.IDLE, default_side=pg.K_a, speed=0):
+        super().__init__(owner, default_state, default_side, speed)
 
     def move(self):
         if self._state not in [consts.IDLE, consts.RUN]:

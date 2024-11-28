@@ -29,16 +29,16 @@ class OnlineScene(BeautyScene):
         for pid, player in players.items():
             instance = PlayerFactory.spawn(player["character"], self.get_free_space(w//2, h//2, 100, 100),
                                 (100, 100), self._player_group, self._draw_group,
-                                spell_groups=(self._spell_group, self._draw_group))
+                                spell_groups=(self._spell_group, self._draw_group), hp=100)
 
             database_getter = lambda id=pid: (database().child("rooms").child(self.code).child("players").child(id)
                                        .child("controllers"))
             if player["nickname"] == owner_nickname:
-                move = SharedMoveController(instance.rect, speed=2, database_getter=database_getter)
-                attack = SharedMagicController(instance.rect, owner=instance, database_getter=database_getter)
+                move = SharedMoveController(instance, speed=2, database_getter=database_getter)
+                attack = SharedMagicController(instance, database_getter=database_getter)
             else:
-                move = NetworkMoveController(instance.rect, speed=2, database_ref=database_getter())
-                attack = NetworkMagicController(instance.rect, owner=instance, database_ref=database_getter())
+                move = NetworkMoveController(instance, speed=2, database_ref=database_getter())
+                attack = NetworkMagicController(instance, database_ref=database_getter())
 
             instance.set_move_controller(move)
             instance.set_attack_controller(attack)
