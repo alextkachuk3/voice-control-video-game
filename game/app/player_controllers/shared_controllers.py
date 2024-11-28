@@ -7,8 +7,8 @@ from app.player_controllers.keyboard_controllers import KeyboardMoveController, 
 
 
 class SharedMoveController(KeyboardMoveController):
-    def __init__(self, rect, default_state=consts.IDLE, default_side=pg.K_a, speed=0, database_getter=None):
-        super().__init__(rect, default_state, default_side, speed)
+    def __init__(self, owner, default_state=consts.IDLE, default_side=pg.K_a, speed=0, database_getter=None):
+        super().__init__(owner, default_state, default_side, speed)
 
         self.__database_getter = database_getter
 
@@ -17,8 +17,8 @@ class SharedMoveController(KeyboardMoveController):
             return
         try:
             self.__database_getter().child("move").set({
-                "x":self._rect.centerx,
-                "y":self._rect.centery,
+                "x":self._owner.rect.centerx,
+                "y":self._owner.rect.centery,
                 "side": self._side,
                 "state": self._state
             })

@@ -4,8 +4,8 @@ from app.spells.water_blast import WaterBlastSpellSpawner
 
 
 class ToxicBlastSpellSpawner(WaterBlastSpellSpawner):
-    def __init__(self, *groups, scale=1.5):
-        super().__init__(*groups, scale=scale, timeout=60)
+    def __init__(self, *groups, scale=1.5, timeout=60, damage=10):
+        super().__init__(*groups, scale=scale, timeout=timeout, damage=damage)
 
         self._image = pg.image.load("Assets/Images/Spells/ToxicBlast.png")
         self._image_attack = pg.image.load("Assets/Images/Spells/ToxicBlastAttack.png")

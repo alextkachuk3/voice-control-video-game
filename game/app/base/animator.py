@@ -108,13 +108,14 @@ class Animator:
         callbacks.remove(callback)
         self.__end_callbacks[keys] = callbacks
 
-    def replace_animation(self, anim_name=None):
+    def replace_animation(self, anim_name=None, save_state=False):
         if anim_name is None or anim_name not in self.__animations:
             anim_name = self.__default
 
         if anim_name != self.__current_anim:
             self.__current_anim = anim_name
-            self.__animations[anim_name].reset()
+            if not save_state:
+                self.__animations[anim_name].reset()
 
     def tick(self):
         anim = self.__animations[self.__current_anim]

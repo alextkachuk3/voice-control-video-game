@@ -7,27 +7,45 @@ from app import consts
 from app.base.animator import Animator, AnimatedObject
 from app.base.game_object import GameObject
 from app.consts import WIDTH, HEIGHT
+from app.iplayer import IPlayer
 from app.utility import limit_coordinates
 
 
 class Spell(AnimatedObject):
-    def __init__(self, attack_type, pos, size, *groups, animator: Animator, owner: GameObject=None):
+    def __init__(self, attack_type, pos, size, *groups, animator: Animator,
+                 owner: GameObject=None, damage=None, pin_to_target=True):
         super().__init__("Spell", pos, size, *groups, animator=animator)
 
         self._animator = animator
         self._owner = owner
+        self._damage = damage
         self._attack_type = attack_type
+        self._damaged = False
+        self._pin_to_target = pin_to_target
 
-    def update(self, player_group):
+    def update(self, colliding_group):
         super().update()
 
-        for player in player_group:
-            if player == self._owner:
+        if self._damaged:
+            return
+
+        for obj in colliding_group:
+            if obj == self._owner:
                 continue
 
-            if player.bounding_rect.colliderect(self.bounding_rect):
-                self.rect.center = player.rect.center
-                self._cast()
+            if not obj.bounding_rect.colliderect(self.bounding_rect):
+                continue
+
+            if self._pin_to_target:
+                self.rect.center = obj.rect.center
+            self._cast()
+            self._damaged = True
+
+            if isinstance(obj, IPlayer) and self._damage:
+                obj.take_damage(self._damage)
+            elif isinstance(obj, Spell):
+                obj._cast()
+
 
     def __kill(self):
         self._animator.unsubscribe_from_end(self.__kill, (self._attack_type, ))
@@ -44,8 +62,8 @@ class Spell(AnimatedObject):
 
 class MoveSpell(Spell):
     def __init__(self, attack_type, pos, size, *groups, animator: Animator, direction: pg.math.Vector2,
-                 speed: int = 0, owner: GameObject = None):
-        super().__init__(attack_type, pos, size,  *groups, animator=animator, owner=owner)
+                 speed: int = 0, **kwargs):
+        super().__init__(attack_type, pos, size,  *groups, animator=animator, **kwargs)
 
         self._direction = direction
         self._speed = speed
@@ -57,9 +75,9 @@ class MoveSpell(Spell):
     def _move(self):
         self.rect.center += self._direction * self._speed
 
-    def update(self, player_group):
+    def update(self, colliding_group):
         self._move()
-        super().update(player_group)
+        super().update(colliding_group)
 
         if self.near_bounds(WIDTH, HEIGHT):
             self._cast()
@@ -69,15 +87,16 @@ class MoveSpell(Spell):
         self._speed = 0
 
 class SpellSpawner:
-    def __init__(self, attack_type, size, *groups):
+    def __init__(self, attack_type, size, *groups, damage=None):
         self._size = size
         self._groups = groups
         self._attack_type = attack_type
+        self._damage = damage
 
 
 class MoveSpellSpawner(SpellSpawner):
-    def __init__(self, attack_type, size, *groups, speed=0):
-        super().__init__(attack_type, size, *groups)
+    def __init__(self, attack_type, size, *groups, speed=0, **kwargs):
+        super().__init__(attack_type, size, *groups, **kwargs)
         self._speed = speed
 
     @abstractmethod
@@ -89,18 +108,20 @@ class MoveSpellSpawner(SpellSpawner):
             speed = self._speed
 
         return MoveSpell(self._attack_type, pos, self._size,  *self._groups,
-                         animator= self._get_animator(), direction=direction, speed=speed, owner=owner)
+                         animator= self._get_animator(), direction=direction, speed=speed, owner=owner,
+                         damage=self._damage)
 
 
 
 class TargetSpell(Spell):
-    def __init__(self, attack_type, pos, size, *groups, animator: Animator, owner: GameObject = None, timeout=0):
-        super().__init__(attack_type, pos, size,  *groups, animator=animator, owner=owner)
+    def __init__(self, attack_type, pos, size, *groups, animator: Animator,
+                 timeout=0, **kwargs):
+        super().__init__(attack_type, pos, size,  *groups, animator=animator, pin_to_target=False, **kwargs)
 
         self._timeout = timeout
         self._time = 0
 
-    def update(self, collide_group):
+    def update(self, colliding_group):
         self._animator.tick()
 
         if not self._animator.active(consts.IDLE):
@@ -110,17 +131,12 @@ class TargetSpell(Spell):
         if self._timeout != 0 and self._time >= self._timeout:
             self._cast()
 
-        for obj in collide_group:
-            if obj == self._owner:
-                continue
-
-            if obj.bounding_rect.colliderect(self.bounding_rect):
-                self._cast()
+        super().update(colliding_group)
 
 
 class TargetSpellSpawner(SpellSpawner):
-    def __init__(self, attack_type, size, *groups, radius=None, timeout=0):
-        super().__init__(attack_type, size, *groups)
+    def __init__(self, attack_type, size, *groups, radius=None, timeout=0, **kwargs):
+        super().__init__(attack_type, size, *groups, **kwargs)
         self._radius = radius
         self._timeout = timeout
 
@@ -133,4 +149,4 @@ class TargetSpellSpawner(SpellSpawner):
             pos = limit_coordinates(owner.rect.center, pos, self._radius)
 
         return TargetSpell(self._attack_type, pos, self._size,   *self._groups,
-                           animator=self._get_animator(), owner=owner, timeout=self._timeout)
+                           animator=self._get_animator(), owner=owner, timeout=self._timeout, damage=self._damage)
