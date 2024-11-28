@@ -7,10 +7,13 @@ class PlayerStatement(pg.sprite.Sprite):
         self.player = player
         self.player.rect.topleft = (0, 0)
 
-        self.text = font.render(title, False, "black")
+        self.font = font
+        self.title = title
+        self.color = "black"
+        self.text = font.render(title, False, self.color)
         self.text_rect = self.text.get_rect(top=self.player.rect.bottom, centerx=player.rect.w//2)
 
-        w, h, = player.rect.w, player.rect.h + self.text_rect.h
+        w, h, = max(player.rect.w, self.text_rect.w), player.rect.h + self.text_rect.h
         self.image = pg.surface.Surface((w, h))
         self.image.set_colorkey((1, 0, 0))
 
@@ -20,6 +23,8 @@ class PlayerStatement(pg.sprite.Sprite):
 
     def _draw(self):
         self.image.fill((1, 0, 0))
+        self.text = self.font.render(self.title, False, self.color)
+
         self.image.blit(self.player.image, self.player.rect)
         self.image.blit(self.text, self.text_rect)
         if self.is_selected:

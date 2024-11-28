@@ -15,15 +15,15 @@ class MainScene(Scene):
                                         (16, 16))
 
         self.online_btn = Button((100, 40), (w // 2, h // 2), self._ui_group,
-                                text="Online", bg_color="green")
+                                text="Online", bg_color="green", on_clicked=self.__on_online)
 
         self.train_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                                text="Training", bg_color="yellow")
+                                text="Training", bg_color="yellow", on_clicked=self.__on_train)
 
         self.train_btn.rect.top = self.online_btn.rect.bottom + 10
 
         self.quit_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                               text="Quit", bg_color="tomato")
+                               text="Quit", bg_color="tomato", on_clicked=self.__on_quit)
 
         self.quit_btn.rect.top = self.train_btn.rect.bottom + 10
 
@@ -32,19 +32,15 @@ class MainScene(Scene):
     def draw_background(self):
         self.blit(self.bg, (0, 0))
 
+    def __on_online(self):
+        Storage.set("prev", "Main")
+        Storage.set("nextscene", "Lobby")
+        SceneController.open_scene("Selection", False, self.get_size())
 
-    def update(self):
-        super().update()
+    def __on_train(self):
+        Storage.set("nextscene", "Training")
+        Storage.set("prev", "Main")
+        SceneController.open_scene("Selection", False, self.get_size())
 
-        if self.online_btn.is_clicked():
-            Storage.set("prev", "Main")
-            Storage.set("nextscene", "Lobby")
-            SceneController.open_scene("Selection", False, self.get_size())
-
-        if self.train_btn.is_clicked():
-            Storage.set("nextscene", "Training")
-            Storage.set("prev", "Main")
-            SceneController.open_scene("Selection", False, self.get_size())
-
-        if self.quit_btn.is_clicked():
-            SceneController.is_running = False
+    def __on_quit(self):
+        SceneController.is_running = False

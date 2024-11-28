@@ -20,10 +20,14 @@ class BeautyScene(Scene):
                                   image=pg.image.load("Assets/Images/TargetMask.png"), background="white")
 
         self._back_btn = ImageButton((50, 50), (0, 0), self._ui_group,
-                                     picture=pg.image.load("Assets/Images/Back.png"))
+                                     picture=pg.image.load("Assets/Images/Back.png"), on_clicked=self._on_back)
         self._back_btn.rect.topleft = 5, 5
 
         self._bg = get_random_background("Assets/Images/TailMaps/GrassTileset.png", (w, h), (32, 32))
+
+
+    def _on_back(self):
+        SceneController.open_scene(Storage.get("prev", "Main"), True, self.get_size())
 
 
     def draw(self):
@@ -38,5 +42,3 @@ class BeautyScene(Scene):
 
         self._cursor.rect.center = pg.mouse.get_pos()
 
-        if self._back_btn.is_clicked():
-            SceneController.open_scene(Storage.get("prev", "Main"), True, self.get_size())

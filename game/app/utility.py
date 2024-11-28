@@ -1,5 +1,12 @@
 import math
 import pygame as pg
+import random
+
+def generate_nickname():
+    adjectives = ["Cool", "Speedy", "Brave", "Sneaky", "Happy", "Funky"]
+    nouns = ["Dragon", "Ninja", "Panda", "Tiger", "Phoenix", "Wizard"]
+    number = random.randint(1, 999)
+    return f"{random.choice(adjectives)}{random.choice(nouns)}{number}"
 
 
 def limit_coordinates(obj_pos, target_pos, radius):

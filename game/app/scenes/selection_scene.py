@@ -66,13 +66,14 @@ class SelectionScene(BeautyScene):
         panel = SelectionPanel(self._draw_group, (w // 2, h // 2))
 
         self.btn = Button((100, 40), (w // 2, 0), self._draw_group,
-                          text="Play", bg_color="green")
+                          text="Play", bg_color="green", on_clicked=self.__on_play)
 
         self.btn.rect.top = panel.rect.bottom
+
+    def __on_play(self):
+        SceneController.open_scene(Storage.get("nextscene", "Main"), False, self.get_size())
 
     def update(self):
         super().update()
         self._draw_group.update()
 
-        if self.btn.is_clicked():
-            SceneController.open_scene(Storage.get("nextscene", "Main"), False, self.get_size())

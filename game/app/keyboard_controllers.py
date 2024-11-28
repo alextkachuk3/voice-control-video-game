@@ -49,4 +49,4 @@ class KeyboardMagicController(MagicController):
         elif pressed[pg.K_3]:
             self._state = consts.ATTACK3
 
-        self._attack_event(self._state)
+        self._attack_event(self._state, pg.mouse.get_pos())

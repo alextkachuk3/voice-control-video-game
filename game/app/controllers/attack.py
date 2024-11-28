@@ -8,7 +8,7 @@ from app.utility import get_nearest_side
 
 class AttackController(Controller):
 
-    def _attack_event(self, state):
+    def _attack_event(self, state, mouse_pos):
         pass
 
     def attack(self):
@@ -23,13 +23,13 @@ class MagicController(AttackController):
     def add_spell(self, key, spell_spawner):
         self._spells[key] = spell_spawner
 
-    def _attack_event(self, state):
+    def _attack_event(self, state, mouse_pos):
         if state not in self._spells:
             return
 
         spell_spawner = self._spells[state]
         if isinstance(spell_spawner, MoveSpellSpawner):
-            mouse = pg.math.Vector2(pg.mouse.get_pos())
+            mouse = pg.math.Vector2(mouse_pos)
             pos = pg.math.Vector2(self._rect.center)
             delta = mouse - pos
             if delta.length() != 0:

@@ -3,6 +3,8 @@ import pygame as pg
 from app.base.scene import SceneController
 from app.base.storage import Storage
 from app.consts import WIDTH, HEIGHT
+from app.thread_contoller import ThreadController
+
 
 def main():
     pg.init()
@@ -29,6 +31,9 @@ def main():
             scene.tick(60)
 
         pg.display.update()
+        while not ThreadController.empty():
+            func, args, kwargs = ThreadController.get()
+            func(*args, **kwargs)
 
     SceneController.close_all()
     pg.quit()
