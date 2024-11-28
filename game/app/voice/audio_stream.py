@@ -1,11 +1,13 @@
 import sounddevice as sd
 import numpy as np
 import queue
+import io
+import soundfile as sf
 
 
 class AudioStream:
-    SAMPLE_RATE = 16000
-    CHUNK_SIZE = 1024
+    SAMPLE_RATE = 12000
+    CHUNK_SIZE = 512
     CHANNELS = 1
 
     def __init__(self, buffer_duration=2, overlap_duration=0.5):
@@ -33,8 +35,20 @@ class AudioStream:
         self.stream.start()
 
     def update_audio_buffer(self):
+        """Continuously update the rolling audio buffer with new chunks."""
         while True:
             chunk = self.audio_queue.get()
             chunk_size = len(chunk)
             self.audio_buffer = np.roll(self.audio_buffer, -chunk_size)
             self.audio_buffer[-chunk_size:] = chunk.flatten()
+
+    def get_buffer_as_bytes(self):
+        """
+        Retrieve the rolling buffer as raw bytes in WAV format for Whisper API.
+        """
+        int16_buffer = (self.audio_buffer * 32767).astype("int16")
+
+        audio_bytes = io.BytesIO()
+        sf.write(audio_bytes, int16_buffer, samplerate=self.SAMPLE_RATE, format="WAV")
+        audio_bytes.seek(0)
+        return audio_bytes
