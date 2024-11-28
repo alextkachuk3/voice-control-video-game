@@ -36,7 +36,7 @@ class LobbyScene(BeautyScene):
         player = Storage.get("player")
         nickname = Storage.get("nickname", "host")
 
-        response = database.child("rooms").push(
+        response = database().child("rooms").push(
             {
                 "created":str(datetime.now()),
                 "players":{
@@ -90,7 +90,7 @@ class WaitRoomScene(BeautyScene):
         self.id = Storage.get("id")
         self.players = {}
 
-        self.connect_stream =database.child("rooms").child(self.code).stream(self._on_connected)
+        self.connect_stream =database().child("rooms").child(self.code).stream(self._on_connected)
 
         self.start_btn = None
 
@@ -191,13 +191,13 @@ class WaitRoomScene(BeautyScene):
     def __on_ready(self):
         self.ready = not self.ready
         self.ready_btn.bg_color = "green" if self.ready else "red"
-        database.child("rooms").child(self.code).child("players").child(self.id) \
+        database().child("rooms").child(self.code).child("players").child(self.id) \
             .child("ready").set(self.ready)
     def __on_go(self):
-        database.child("rooms").child(self.code).child("go").set(True)
+        database().child("rooms").child(self.code).child("go").set(True)
 
     def _on_back(self):
-        database.child("rooms").child(self.code).remove()
+        database().child("rooms").child(self.code).remove()
         super()._on_back()
 
     def update(self):
@@ -238,7 +238,7 @@ class CodeScene(BeautyScene):
         if len(text) == 0:
             return
 
-        data = database.child("rooms").child(text).get().val()
+        data = database().child("rooms").child(text).get().val()
         if data is None:
             self.code_field.color = "red"
             self.code_field.text = "Invalid"
@@ -249,7 +249,7 @@ class CodeScene(BeautyScene):
         Storage.set("code", text)
         player = Storage.get("player")
         nickname = Storage.get("nickname", "guest")
-        response = database.child("rooms").child(text).child("players").push({
+        response = database().child("rooms").child(text).child("players").push({
             "nickname": nickname,
             "character": player,
             "ready": False
