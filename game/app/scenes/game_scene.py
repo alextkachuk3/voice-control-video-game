@@ -3,7 +3,7 @@ import pygame as pg
 from app import consts
 from app.scenes.beauty_scene import BeautyScene
 from app.base.storage import Storage
-from app.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
+from app.player_controllers.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
 from app.players.player_factory import PlayerFactory
 
 

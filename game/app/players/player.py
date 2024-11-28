@@ -87,3 +87,10 @@ class Player(AnimatedObject, metaclass=PlayerFactory):
             rect.right = consts.WIDTH
 
         self.rect.center = rect.center
+
+    def close_controllers(self):
+        if self._move_controller:
+            self._move_controller.close()
+
+        if self._attack_controller:
+            self._attack_controller.close()
