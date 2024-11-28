@@ -20,17 +20,20 @@ class KeyboardMoveController(MoveController):
 
         if pressed[pg.K_a]:
             self._side = pg.K_a
+            direction += SIDE_DIRECTION[self._side]
         elif pressed[pg.K_d]:
             self._side = pg.K_d
+            direction += SIDE_DIRECTION[self._side]
 
         if pressed[pg.K_w]:
             self._side = pg.K_w
+            direction += SIDE_DIRECTION[self._side]
         elif pressed[pg.K_s]:
             self._side = pg.K_s
+            direction += SIDE_DIRECTION[self._side]
 
         if pressed[pg.K_a] or pressed[pg.K_d] or pressed[pg.K_w] or pressed[pg.K_s]:
             self._state = consts.RUN
-            direction += SIDE_DIRECTION[self._side]
 
         self._call_all(state=self._state, side=self._side)
         self._move_object(direction)
