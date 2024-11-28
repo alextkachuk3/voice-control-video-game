@@ -45,4 +45,4 @@ class AsyncDatabase:
 
 
 firebase = pyrebase.initialize_app(confs)
-database = firebase.database()
+database = lambda: firebase.database()

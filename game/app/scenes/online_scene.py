@@ -1,6 +1,9 @@
 from app.base.storage import Storage
 from app.consts import WIDTH, HEIGHT
-from app.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
+
+from app.network.db import database
+from app.player_controllers.network_controllers import NetworkMoveController, NetworkMagicController
+from app.player_controllers.shared_controllers import SharedMoveController, SharedMagicController
 from app.players.player_factory import PlayerFactory
 from app.scenes.beauty_scene import BeautyScene
 
@@ -15,6 +18,7 @@ class OnlineScene(BeautyScene):
 
         players = Storage.get("players")
         owner_nickname = Storage.get("nickname")
+        self.code = Storage.get("code")
 
         self._players = {}
         self._player_group = pg.sprite.Group()
@@ -22,13 +26,22 @@ class OnlineScene(BeautyScene):
 
         w, h = self.get_size()
         print(owner_nickname)
-        for _, player in players.items():
+        for pid, player in players.items():
             instance = PlayerFactory.spawn(player["character"], self.get_free_space(w//2, h//2, 100, 100),
                                 (100, 100), self._player_group, self._draw_group,
                                 spell_groups=(self._spell_group, self._draw_group))
+
+            database_getter = lambda id=pid: (database().child("rooms").child(self.code).child("players").child(id)
+                                       .child("controllers"))
             if player["nickname"] == owner_nickname:
-                instance.set_move_controller(KeyboardMoveController(instance.rect, speed=2))
-                instance.set_attack_controller(KeyboardMagicController(instance.rect, owner=instance))
+                move = SharedMoveController(instance.rect, speed=2, database_getter=database_getter)
+                attack = SharedMagicController(instance.rect, owner=instance, database_getter=database_getter)
+            else:
+                move = NetworkMoveController(instance.rect, speed=2, database_ref=database_getter())
+                attack = NetworkMagicController(instance.rect, owner=instance, database_ref=database_getter())
+
+            instance.set_move_controller(move)
+            instance.set_attack_controller(attack)
 
 
     def get_free_space(self, x, y, w, h):
@@ -44,3 +57,9 @@ class OnlineScene(BeautyScene):
 
         self._player_group.update()
         self._spell_group.update(self._player_group)
+
+    def close(self):
+        super().close()
+
+        for player in self._player_group:
+            player.close_controllers()

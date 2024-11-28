@@ -17,3 +17,6 @@ class Controller:
 
     def set_state(self, state):
         self._state = state
+
+    def close(self):
+        pass

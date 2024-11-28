@@ -41,5 +41,5 @@ class MagicController(AttackController):
             return
 
         if isinstance(spell_spawner, TargetSpellSpawner):
-            spell_spawner.spawn(self._owner, pg.mouse.get_pos())
+            spell_spawner.spawn(self._owner, mouse_pos)
             self._call_all(state=state)
