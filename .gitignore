@@ -1,1 +1,13 @@
 /.idea
+/game/.idea
+/game/app/__pycache__
+/game/app/base/__pycache__
+game/.env
+/game/app/network/__pycache__
+/game/app/spells/__pycache__
+/game/app/spells/__pycache__
+/game/app/spells/__pycache__
+game/app/spells/__pycache__/water_blast.cpython-312.pyc
+/game/app/scenes/__pycache__
+/game/app/controllers/__pycache__
+/game/app/players/__pycache__
