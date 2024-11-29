@@ -1,13 +1,12 @@
-
 import pygame as pg
 
 
 class GameObject(pg.sprite.Sprite):
-    def __init__(self, name: str, pos: tuple[int, int], size:tuple[int, int],
-                 *groups:pg.sprite.Group, background="black", transparent_color="black", image=None):
+    def __init__(self, name: str, pos: tuple[int, int], size: tuple[int, int],
+                 *groups: pg.sprite.Group, background="black", transparent_color="black", image=None):
         super().__init__(*groups)
         self.name = name
-        self._size= size
+        self._size = size
         self._angle = 0
         self.__transparent_color = transparent_color
 
@@ -16,7 +15,6 @@ class GameObject(pg.sprite.Sprite):
         self.__image.fill(background)
         if image:
             self.__image.blit(self._prepare_image(image, False), (0, 0))
-
 
         self.__rect = self.__image.get_rect(center=pos)
         self.__bounding_size = None
@@ -28,7 +26,7 @@ class GameObject(pg.sprite.Sprite):
         bounding_rect.center = self.__rect.center
         return bounding_rect
 
-    def set_bounding_size(self, bounding_size = None):
+    def set_bounding_size(self, bounding_size=None):
         self.__bounding_size = bounding_size
 
     def _prepare_image(self, image, transparent=True):
@@ -55,7 +53,7 @@ class GameObject(pg.sprite.Sprite):
 
     def rotate(self, angle):
         center = self.__rect.center
-        self._angle=angle
+        self._angle = angle
 
         self.__image = pg.transform.rotate(self.__image, angle)
         self.__rect = self.__image.get_rect(center=center)

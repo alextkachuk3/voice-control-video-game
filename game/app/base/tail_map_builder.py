@@ -3,15 +3,17 @@ from random import randint
 
 import pygame as pg
 
+
 def grid_count(grid_size, cell_size):
     rows = int(ceil(grid_size[1] / cell_size[1]))
     cols = int(ceil(grid_size[0] / cell_size[0]))
 
     return rows, cols
 
+
 class TailMapBuilder:
-    def __init__(self, image:pg.surface.Surface,
-                 surface_size:tuple[int, int], tail_size:tuple[int, int], transparent="black"):
+    def __init__(self, image: pg.surface.Surface,
+                 surface_size: tuple[int, int], tail_size: tuple[int, int], transparent="black"):
 
         self.__image = image
         self.__tail_rows, self.__tail_cols = grid_count(self.__image.get_size(), tail_size)
@@ -48,7 +50,7 @@ class TailMapBuilder:
         place_y = row * h
         tail_row, tail_col = tail_place
 
-        tail = self.__image.subsurface((self.__x + tail_col*w, self.__y + tail_row*h, w, h))
+        tail = self.__image.subsurface((self.__x + tail_col * w, self.__y + tail_row * h, w, h))
         self.__map.blit(tail, (place_x, place_y, w, h))
 
         return self
@@ -59,7 +61,7 @@ class TailMapBuilder:
 
         w, h = self.__tail_size
         tail_row, tail_col = tail_place
-        tail = self.__image.subsurface((tail_col*w, tail_row*h, w, h))
+        tail = self.__image.subsurface((tail_col * w, tail_row * h, w, h))
 
         for i in range(self.__rows):
             for j in range(self.__cols):
@@ -75,7 +77,7 @@ class TailMapBuilder:
                 row = randint(0, self.__tail_rows - 1)
                 col = randint(0, self.__tail_cols - 1)
 
-                tail = self.__image.subsurface((col*w, row*h, w, h))
+                tail = self.__image.subsurface((col * w, row * h, w, h))
                 self.__map.blit(tail, (i * w, j * h, w, h))
 
         return self

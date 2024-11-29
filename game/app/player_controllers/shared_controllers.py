@@ -6,6 +6,7 @@ from app import consts
 from app.controllers.attack import MagicController
 from app.controllers.move import MoveController
 
+
 class DelegatingMeta(type):
     def __new__(cls, name, bases, attrs):
         for base_class in bases:
@@ -31,7 +32,7 @@ class DelegatingMeta(type):
 
 
 class SharedMoveController(MoveController, metaclass=DelegatingMeta):
-    def __init__(self, controller:MoveController, database_getter=None):
+    def __init__(self, controller: MoveController, database_getter=None):
         super().__init__(controller.owner, controller.state, controller.side, controller.speed)
 
         self._controller = controller
@@ -42,8 +43,8 @@ class SharedMoveController(MoveController, metaclass=DelegatingMeta):
             return
         try:
             self.__database_getter().child("move").set({
-                "x":self._controller.owner.rect.centerx,
-                "y":self._controller.owner.rect.centery,
+                "x": self._controller.owner.rect.centerx,
+                "y": self._controller.owner.rect.centery,
                 "side": self._controller.side,
                 "state": self._controller.state
             })
@@ -61,7 +62,7 @@ class SharedMoveController(MoveController, metaclass=DelegatingMeta):
 
 
 class SharedMagicController(MagicController, metaclass=DelegatingMeta):
-    def __init__(self, controller:MagicController, database_getter=None):
+    def __init__(self, controller: MagicController, database_getter=None):
         super().__init__(controller.owner, controller.state)
 
         self._controller = controller

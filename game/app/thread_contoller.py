@@ -1,5 +1,6 @@
 import multiprocessing as mp
 
+
 class ThreadController:
     __queue = mp.Queue()
 
@@ -14,5 +15,3 @@ class ThreadController:
     @staticmethod
     def empty():
         return ThreadController.__queue.empty()
-
-

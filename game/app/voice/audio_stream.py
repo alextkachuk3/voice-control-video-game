@@ -1,7 +1,8 @@
-import sounddevice as sd
-import numpy as np
-import queue
 import io
+import queue
+
+import numpy as np
+import sounddevice as sd
 import soundfile as sf
 
 

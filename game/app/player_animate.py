@@ -8,9 +8,9 @@ from app.base.animator import Animation, AnimationMapBuilder
 from app.controllers.animate import AnimateController
 
 
-def get_player_animations(size, delay, textures_folder:str,
-                          animation_map:dict[Any, tuple[str, bool]],
-                          delay_overload: dict[str, int]=None):
+def get_player_animations(size, delay, textures_folder: str,
+                          animation_map: dict[Any, tuple[str, bool]],
+                          delay_overload: dict[str, int] = None):
     animations = {}
 
     for name in consts.ALL:
@@ -30,6 +30,7 @@ def get_player_animations(size, delay, textures_folder:str,
 
     return animations
 
+
 DEFAULT_SIDE_MAPPER = {
     pg.K_s: 0,
     pg.K_a: 1,
@@ -37,9 +38,9 @@ DEFAULT_SIDE_MAPPER = {
     pg.K_w: 3,
 }
 
-def get_animate_controller(size, folder, delay=8, side_mapper: dict[int, int] = None,
-                           delay_overload: dict[str, int]=None):
 
+def get_animate_controller(size, folder, delay=8, side_mapper: dict[int, int] = None,
+                           delay_overload: dict[str, int] = None):
     builder = AnimationMapBuilder(animation_names=consts.ALL)
     anim_map = builder.build_from_files(folder, not_looped=(consts.ATTACK1, consts.ATTACK2, consts.ATTACK3, consts.HURT,
                                                             consts.DEATH))

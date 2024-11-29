@@ -1,5 +1,6 @@
 import pygame as pg
 
+
 class PlayerStatement(pg.sprite.Sprite):
     def __init__(self, topleft, group, player, title, font):
         super().__init__(group)
@@ -11,7 +12,7 @@ class PlayerStatement(pg.sprite.Sprite):
         self.title = title
         self.color = "black"
         self.text = font.render(title, False, self.color)
-        self.text_rect = self.text.get_rect(top=self.player.rect.bottom, centerx=player.rect.w//2)
+        self.text_rect = self.text.get_rect(top=self.player.rect.bottom, centerx=player.rect.w // 2)
 
         w, h, = max(player.rect.w, self.text_rect.w), player.rect.h + self.text_rect.h
         self.image = pg.surface.Surface((w, h))

@@ -1,7 +1,6 @@
 import pygame as pg
 
 from app.base.scene import SceneController
-from app.base.storage import Storage
 from app.consts import WIDTH, HEIGHT
 from app.thread_contoller import ThreadController
 

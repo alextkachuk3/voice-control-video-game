@@ -14,7 +14,7 @@ class BattleDoll(Player):
             pg.K_a: 0,
             pg.K_d: 0,
             pg.K_w: 0,
-        },delay_overload={consts.HURT: 3})
+        }, delay_overload={consts.HURT: 3})
         self.set_animate_controller(animate_controller)
 
         self.set_bounding_size((size[0] / 3, size[1] / 1.5))
@@ -31,4 +31,4 @@ class BattleDoll(Player):
             self._hp = 0
 
         self._animate_controller.replace_animation(consts.HURT)
-        #TODO: write damage text near doll
+        # TODO: write damage text near doll

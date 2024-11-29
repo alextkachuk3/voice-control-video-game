@@ -1,7 +1,7 @@
 WIDTH = 1000
 HEIGHT = 700
 
-DEBUG=False
+DEBUG = False
 
 CAST_RADIUS = 150
 

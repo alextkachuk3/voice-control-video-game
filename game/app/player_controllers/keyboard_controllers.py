@@ -38,6 +38,7 @@ class KeyboardMoveController(MoveController):
         self._call_all(state=self._state, side=self._side)
         self._move_object(direction)
 
+
 class KeyboardMagicController(MagicController):
     def attack(self):
         if self._state not in [consts.IDLE, consts.RUN]:

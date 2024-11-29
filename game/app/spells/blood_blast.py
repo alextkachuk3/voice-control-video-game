@@ -13,5 +13,5 @@ class BloodBlastSpellSpawner(WaterBlastSpellSpawner):
     def spawn(self, owner, pos):
         item = super().spawn(owner, pos)
 
-        item.set_bounding_size((self._size[0]/3, self._size[1]/1.5))
+        item.set_bounding_size((self._size[0] / 3, self._size[1] / 1.5))
         return item

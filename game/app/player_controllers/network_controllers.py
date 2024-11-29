@@ -40,6 +40,7 @@ class NetworkMoveController(MoveController):
         if self.__stream:
             self.__stream.close()
 
+
 class NetworkMagicController(MagicController):
     def __init__(self, owner, default_state=consts.IDLE, database_ref=None):
         super().__init__(owner, default_state)

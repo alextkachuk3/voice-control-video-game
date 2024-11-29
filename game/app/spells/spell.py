@@ -13,7 +13,7 @@ from app.utility import limit_coordinates
 
 class Spell(AnimatedObject):
     def __init__(self, attack_type, pos, size, *groups, animator: Animator,
-                 owner: GameObject=None, damage=None, pin_to_target=True):
+                 owner: GameObject = None, damage=None, pin_to_target=True):
         super().__init__("Spell", pos, size, *groups, animator=animator)
 
         self._animator = animator
@@ -46,9 +46,8 @@ class Spell(AnimatedObject):
             elif isinstance(obj, Spell):
                 obj._cast()
 
-
     def __kill(self):
-        self._animator.unsubscribe_from_end(self.__kill, (self._attack_type, ))
+        self._animator.unsubscribe_from_end(self.__kill, (self._attack_type,))
         self.kill()
 
     def _cast(self):
@@ -63,7 +62,7 @@ class Spell(AnimatedObject):
 class MoveSpell(Spell):
     def __init__(self, attack_type, pos, size, *groups, animator: Animator, direction: pg.math.Vector2,
                  speed: int = 0, **kwargs):
-        super().__init__(attack_type, pos, size,  *groups, animator=animator, **kwargs)
+        super().__init__(attack_type, pos, size, *groups, animator=animator, **kwargs)
 
         self._direction = direction
         self._speed = speed
@@ -85,6 +84,7 @@ class MoveSpell(Spell):
     def _cast(self):
         super()._cast()
         self._speed = 0
+
 
 class SpellSpawner:
     def __init__(self, attack_type, size, *groups, damage=None, cooldown=0):
@@ -122,16 +122,15 @@ class MoveSpellSpawner(SpellSpawner):
 
         self._time = self._cooldown
 
-        return MoveSpell(self._attack_type, pos, self._size,  *self._groups,
-                         animator= self._get_animator(), direction=direction, speed=speed, owner=owner,
+        return MoveSpell(self._attack_type, pos, self._size, *self._groups,
+                         animator=self._get_animator(), direction=direction, speed=speed, owner=owner,
                          damage=self._damage)
-
 
 
 class TargetSpell(Spell):
     def __init__(self, attack_type, pos, size, *groups, animator: Animator,
                  timeout=0, **kwargs):
-        super().__init__(attack_type, pos, size,  *groups, animator=animator, pin_to_target=False, **kwargs)
+        super().__init__(attack_type, pos, size, *groups, animator=animator, pin_to_target=False, **kwargs)
 
         self._timeout = timeout
         self._time = 0
@@ -168,5 +167,5 @@ class TargetSpellSpawner(SpellSpawner):
 
         self._time = self._cooldown
 
-        return TargetSpell(self._attack_type, pos, self._size,   *self._groups,
+        return TargetSpell(self._attack_type, pos, self._size, *self._groups,
                            animator=self._get_animator(), owner=owner, timeout=self._timeout, damage=self._damage)

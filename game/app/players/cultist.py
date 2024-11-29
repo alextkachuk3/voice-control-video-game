@@ -12,7 +12,7 @@ class Cultist(Magician):
         folder = "Assets/Images/Characters/Cultist"
         super().__init__(folder, (48, 48), pos, size, *groups, spell_groups=spell_groups, **kwargs)
 
-        self.set_bounding_size((size[0]/3, size[1]/2))
+        self.set_bounding_size((size[0] / 3, size[1] / 2))
 
     def set_attack_controller(self, controller):
         super().set_attack_controller(controller)
@@ -20,4 +20,4 @@ class Cultist(Magician):
         if self._attack_controller:
             self._attack_controller.add_spell(consts.ATTACK1, BloodBlastSpellSpawner(*self._spell_groups))
             self._attack_controller.add_spell(consts.ATTACK2, EarthSpikeSpellSpawner(*self._spell_groups))
-            self._attack_controller.add_spell(consts.ATTACK3, ToxicBlastSpellSpawner( *self._spell_groups))
+            self._attack_controller.add_spell(consts.ATTACK3, ToxicBlastSpellSpawner(*self._spell_groups))
