@@ -12,8 +12,7 @@ class VoiceMagicController(MagicController):
         super().__init__(*args, **kwargs)
 
         self.__recognizer = RealTimeCommandRecognizer(
-            ["вогняна куля", "морозна піка", "тайфун", "відкладений вибух", "покласти міну",
-             "кровава баня", "земляний спис", "токсична хмара"],
+            list(consts.SPELLS),
             on_detected=self.__on_detected)
 
         self.__thread = Thread(target=self.__recognizer.run)
@@ -22,12 +21,9 @@ class VoiceMagicController(MagicController):
         self.__voice_state = self._state
 
     def __on_detected(self, word):
-        if word in ["вогняна куля", "кровава баня"]:
-            self.__voice_state = consts.ATTACK1
-        elif word in ["морозна піка", "відкладений вибух", "земляний спис"]:
-            self.__voice_state = consts.ATTACK2
-        elif word in ["тайфун", "покласти міну", "токсична хмара"]:
-            self.__voice_state = consts.ATTACK3
+        for key, spell in self._spells.items():
+            if word in spell.activate_words:
+                self.__voice_state = key
 
     def attack(self):
         self._state = self.__voice_state

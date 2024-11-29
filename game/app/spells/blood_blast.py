@@ -1,11 +1,13 @@
 import pygame as pg
 
+from app import consts
 from app.spells.water_blast import WaterBlastSpellSpawner
 
 
 class BloodBlastSpellSpawner(WaterBlastSpellSpawner):
-    def __init__(self, *groups, scale=0.8, timeout=100, damage=12, cooldown=200):
-        super().__init__(*groups, scale=scale, timeout=timeout, damage=damage, cooldown=cooldown)
+    def __init__(self, *groups, scale=0.8, timeout=100, damage=12, cooldown=200, activate_words=consts.BLOOD_BLAST):
+        super().__init__(*groups, scale=scale, timeout=timeout, damage=damage, cooldown=cooldown,
+                         activate_words=activate_words)
 
         self._image = pg.image.load("Assets/Images/Spells/BloodBlast.png")
         self._image_attack = pg.image.load("Assets/Images/Spells/BloodBlastAttack.png")

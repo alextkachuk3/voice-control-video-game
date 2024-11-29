@@ -20,3 +20,16 @@ RUN = "run"
 WALK = "walk"
 
 ALL = (ATTACK1, ATTACK2, ATTACK3, CLIMB, DEATH, HURT, IDLE, JUMP, LAND, RUN, WALK)
+
+# Spells words
+
+FIREBOLT = ("стріла полум'я", )
+ICE_SPIKE = ("морозна піка",)
+WATER_BLAST = ("тайфун",)
+EXPLOSION = ("відкладений вибух",)
+MINE = ("контактна міна",)
+BLOOD_BLAST = ("кровава баня",)
+EARTH_SPIKE = ("земляний спис",)
+TOXIC_BLAST = ("токсична хмара",)
+
+SPELLS = FIREBOLT+ICE_SPIKE+WATER_BLAST+EXPLOSION+MINE+BLOOD_BLAST+EARTH_SPIKE+TOXIC_BLAST
