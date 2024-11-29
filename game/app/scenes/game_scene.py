@@ -8,7 +8,7 @@ from app.players.player_factory import PlayerFactory
 
 
 class GameScene(BeautyScene):
-    __title__ = "Game"
+    __key__ = "Game"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

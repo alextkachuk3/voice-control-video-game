@@ -12,6 +12,7 @@ def main():
     size = (WIDTH, HEIGHT)
     window = pg.display.set_mode(size)
     pg.display.set_caption("Voice Control Video Game")
+    pg.display.set_icon(pg.image.load("Assets/Images/Icon.png"))
 
     SceneController.open_scene("Main", True, size)
 

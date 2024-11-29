@@ -1,8 +1,10 @@
 import pygame as pg
+import pygame.locals
+
 
 class Widget(pg.sprite.Sprite):
     def __init__(self, size:tuple[int, int], pos:tuple[int, int], *groups:list[pg.sprite.Group],
-                 text="", color="black", bg_color="white", outline="black", alignment="center",
+                 text="", color="black", bg_color="white", outline:str|None="black", alignment="center",
                  transparent=False, font_size=20):
         super().__init__(*groups)
 
@@ -56,7 +58,8 @@ class Widget(pg.sprite.Sprite):
             rect.midleft = 5, self.rect.h // 2
 
         self.image.blit(text, rect)
-        pg.draw.rect(self.image, self.outline, (0, 0, self.rect.w, self.rect.h), width=2)
+        if self.outline:
+            pg.draw.rect(self.image, self.outline, (0, 0, self.rect.w, self.rect.h), width=2)
 
 class Button(Widget):
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], *groups: list[pg.sprite.Group], single_click=False,
@@ -113,17 +116,25 @@ class ImageButton(Button):
 
 class Label(Widget):
     def __init__(self, size: tuple[int, int], pos, *groups: list[pg.sprite.Group],
-                  alignment="left", **kwargs):
-        super().__init__(size, pos,*groups, alignment=alignment, **kwargs)
+                  alignment="center", **kwargs):
+        super().__init__(size, pos,*groups, alignment=alignment, outline=None, **kwargs)
 
 class TextField(Widget):
-    def __init__(self, size: tuple[int, int], pos, *groups: list[pg.sprite.Group], alignment="left", **kwargs):
+    def __init__(self, size: tuple[int, int], pos, *groups: list[pg.sprite.Group], alignment="left", max_length=255, **kwargs):
         super().__init__(size, pos, *groups, alignment=alignment, **kwargs)
+
+        self._max_length = max_length
 
     def type(self, event):
         if event.type != pg.KEYDOWN:
             return
-        if pg.K_a <= event.key <= pg.K_z or pg.K_0 <= event.key <= pg.K_9:
-            self.text += chr(event.key)
+
         if event.key == pg.K_BACKSPACE:
             self.text = self.text[:-1]
+        elif event.key == pg.K_DELETE:
+            self.text = ""
+        elif event.unicode.isprintable():
+            self.text += event.unicode
+
+        self.text = self.text[:self._max_length]
+
