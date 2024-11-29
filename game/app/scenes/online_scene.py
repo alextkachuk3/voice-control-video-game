@@ -2,6 +2,7 @@ from app.base.storage import Storage
 from app.consts import WIDTH, HEIGHT
 
 from app.network.db import database
+from app.player_controllers.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
 from app.player_controllers.network_controllers import NetworkMoveController, NetworkMagicController
 from app.player_controllers.shared_controllers import SharedMoveController, SharedMagicController
 from app.players.player_factory import PlayerFactory
@@ -34,8 +35,8 @@ class OnlineScene(BeautyScene):
             database_getter = lambda id=pid: (database().child("rooms").child(self.code).child("players").child(id)
                                        .child("controllers"))
             if player["nickname"] == owner_nickname:
-                move = SharedMoveController(instance, speed=2, database_getter=database_getter)
-                attack = SharedMagicController(instance, database_getter=database_getter)
+                move = SharedMoveController(KeyboardMoveController(instance, speed=2), database_getter=database_getter)
+                attack = SharedMagicController(KeyboardMagicController(instance), database_getter=database_getter)
             else:
                 move = NetworkMoveController(instance, speed=2, database_ref=database_getter())
                 attack = NetworkMagicController(instance, database_ref=database_getter())
