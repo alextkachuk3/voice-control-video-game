@@ -1,6 +1,7 @@
 import pygame as pg
 
 from app import consts
+from app.player_controllers.voice_controllers import VoiceMagicController
 from app.scenes.beauty_scene import BeautyScene
 from app.base.storage import Storage
 from app.player_controllers.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
@@ -27,7 +28,7 @@ class GameScene(BeautyScene):
                                                spell_groups=(self._spell_group, self._draw_group), hp=100)
 
             self._player.set_move_controller(KeyboardMoveController(self._player, speed=2))
-            self._player.set_attack_controller(KeyboardMagicController(self._player))
+            self._player.set_attack_controller(VoiceMagicController(self._player))
 
 
     def draw(self):
@@ -45,3 +46,7 @@ class GameScene(BeautyScene):
 
         self._player_group.update()
         self._spell_group.update(self._player_group)
+
+    def close(self):
+        super().close()
+        self._player.close_controllers()
