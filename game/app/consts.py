@@ -1,7 +1,7 @@
 WIDTH = 1000
 HEIGHT = 700
 
-DEBUG=True
+DEBUG=False
 
 CAST_RADIUS = 150
 
@@ -12,7 +12,7 @@ ATTACK2 = "attack02"
 ATTACK3 = "attack03"
 CLIMB = "climb"
 DEATH = "death"
-HURT = "hit"
+HURT = "hurt"
 IDLE = "idle"
 JUMP = "jump"
 LAND = "land"

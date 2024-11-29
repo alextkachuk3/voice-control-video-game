@@ -8,7 +8,7 @@ from app.players.player_factory import PlayerFactory
 
 
 class GameScene(BeautyScene):
-    __title__ = "Game"
+    __key__ = "Game"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -24,10 +24,10 @@ class GameScene(BeautyScene):
         if player:
             self._player = PlayerFactory.spawn(player, (w // 2, h // 2), (100, 100), self._player_group,
                                                self._draw_group,
-                                               spell_groups=(self._spell_group, self._draw_group))
+                                               spell_groups=(self._spell_group, self._draw_group), hp=100)
 
-            self._player.set_move_controller(KeyboardMoveController(self._player.rect, speed=2))
-            self._player.set_attack_controller(KeyboardMagicController(self._player.rect, owner=self._player))
+            self._player.set_move_controller(KeyboardMoveController(self._player, speed=2))
+            self._player.set_attack_controller(KeyboardMagicController(self._player))
 
 
     def draw(self):

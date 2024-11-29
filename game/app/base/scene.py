@@ -12,33 +12,37 @@ class SceneController(type):
         if "__abstract__" in attrs and attrs["__abstract__"]:
             return constructor
 
-        if "__title__" not in attrs:
+        if "__key__" not in attrs:
             raise TypeError("__title__ must be defined")
 
 
-        title = attrs["__title__"]
-        SceneController.__scenes[title] = constructor
+        key = attrs["__key__"]
+        SceneController.__scenes[key] = constructor
 
         return constructor
 
     @staticmethod
-    def open_scene(title, close_prev, *args, **kwargs):
+    def open_scene(key, close_prev, *args, **kwargs):
         if close_prev and SceneController.__current_scene in SceneController.__open_scenes:
             scene = SceneController.__open_scenes[SceneController.__current_scene]
             scene.close()
             del SceneController.__open_scenes[SceneController.__current_scene]
 
         pg.mouse.set_visible(True)
-        pg.display.set_caption(title)
+        caption = key
+        if key in SceneController.__scenes and hasattr(SceneController.__scenes[key], "__caption__"):
+            caption = SceneController.__scenes[key].__caption__
 
-        if title in SceneController.__open_scenes:
-            SceneController.__current_scene = title
+        pg.display.set_caption(caption)
+
+        if key in SceneController.__open_scenes:
+            SceneController.__current_scene = key
             return
 
-        if title in SceneController.__scenes:
-            scene = SceneController.__scenes[title](*args, **kwargs)
-            SceneController.__open_scenes[title] = scene
-            SceneController.__current_scene = title
+        if key in SceneController.__scenes:
+            scene = SceneController.__scenes[key](*args, **kwargs)
+            SceneController.__open_scenes[key] = scene
+            SceneController.__current_scene = key
             return
 
         raise ValueError("There no scene with given title")

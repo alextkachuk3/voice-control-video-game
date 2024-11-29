@@ -3,7 +3,7 @@ from app.scenes import GameScene
 
 
 class TrainingScene(GameScene):
-    __title__ = "Training"
+    __key__ = "Training"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

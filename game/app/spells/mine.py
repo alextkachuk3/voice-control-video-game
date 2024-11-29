@@ -8,9 +8,10 @@ from app.spells.spell import TargetSpellSpawner
 
 
 class MineSpellSpawner(TargetSpellSpawner):
-    def __init__(self, *groups, scale=1):
+    def __init__(self, *groups, scale=1, damage=15):
         self.__w, self.__h = 64, 64
-        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups, radius=CAST_RADIUS)
+        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups,
+                         radius=CAST_RADIUS, damage=damage)
 
         self.__image = pg.image.load("Assets/Images/Spells/Mine.png")
 

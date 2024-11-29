@@ -8,9 +8,9 @@ from app.spells.mine import MineSpellSpawner
 class Sorceress(Magician):
     __title__ = "Sorceress"
 
-    def __init__(self, pos: tuple[int, int], size: tuple[int, int], *groups, spell_groups=()):
+    def __init__(self, pos: tuple[int, int], size: tuple[int, int], *groups, spell_groups=(), **kwargs):
         folder = "Assets/Images/Characters/Sorceress"
-        super().__init__(folder, (48, 48), pos, size, *groups, spell_groups=spell_groups)
+        super().__init__(folder, (48, 48), pos, size, *groups, spell_groups=spell_groups, **kwargs)
 
         self.set_bounding_size((size[0]/3, size[1]/1.5))
 
