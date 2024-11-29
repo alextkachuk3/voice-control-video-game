@@ -25,10 +25,8 @@ class BeautyScene(Scene):
 
         self._bg = get_random_background("Assets/Images/TailMaps/GrassTileset.png", (w, h), (32, 32))
 
-
     def _on_back(self):
         SceneController.open_scene(Storage.get("prev", "Main"), True, self.get_size())
-
 
     def draw(self):
         super().draw()
@@ -41,4 +39,3 @@ class BeautyScene(Scene):
         super().update()
 
         self._cursor.rect.center = pg.mouse.get_pos()
-

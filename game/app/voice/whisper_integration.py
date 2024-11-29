@@ -1,7 +1,8 @@
+import io
+import os
+
 import openai
 from dotenv import load_dotenv
-import os
-import io
 
 
 class WhisperIntegration:

@@ -1,5 +1,6 @@
 import pygame as pg
 
+
 class SceneController(type):
     __scenes = {}
     __open_scenes = {}
@@ -14,7 +15,6 @@ class SceneController(type):
 
         if "__key__" not in attrs:
             raise TypeError("__title__ must be defined")
-
 
         key = attrs["__key__"]
         SceneController.__scenes[key] = constructor
@@ -46,6 +46,7 @@ class SceneController(type):
             return
 
         raise ValueError("There no scene with given title")
+
     @staticmethod
     def close_all():
         for scene in SceneController.__open_scenes.values():
@@ -56,6 +57,7 @@ class SceneController(type):
     @staticmethod
     def scene():
         return SceneController.__open_scenes[SceneController.__current_scene]
+
 
 class Scene(pg.surface.Surface, metaclass=SceneController):
     __abstract__ = True
@@ -95,4 +97,3 @@ class Scene(pg.surface.Surface, metaclass=SceneController):
 
     def tick(self, framerate):
         self._clock.tick(framerate)
-

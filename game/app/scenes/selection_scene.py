@@ -76,4 +76,3 @@ class SelectionScene(BeautyScene):
     def update(self):
         super().update()
         self._draw_group.update()
-

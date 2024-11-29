@@ -9,7 +9,7 @@ from app.players.player_factory import PlayerFactory
 class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
     __abstract__ = True
 
-    def __init__(self, pos: tuple[int, int], size:tuple[int, int], *groups, hp=None):
+    def __init__(self, pos: tuple[int, int], size: tuple[int, int], *groups, hp=None):
         super().__init__("Player", pos, size, *groups, transparent_color=(1, 0, 0))
 
         self._animate_controller = None
@@ -24,8 +24,8 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
         img = self._prepare_image(super().image)
         if self._max_hp is not None and self._hp > 0:
             h = 10
-            pg.draw.rect(img, "gray", (h, 0, self.rect.w-2*h, h))
-            pg.draw.rect(img, "tomato", (h, 0, int((self.rect.w-2*h) * self._hp / self._max_hp), h))
+            pg.draw.rect(img, "gray", (h, 0, self.rect.w - 2 * h, h))
+            pg.draw.rect(img, "tomato", (h, 0, int((self.rect.w - 2 * h) * self._hp / self._max_hp), h))
         return img
 
     def take_damage(self, damage):
@@ -91,7 +91,7 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
         self._animate_controller = controller
         self.set_animator(controller)
         if self._animate_controller:
-            self._animate_controller.subscribe_to_end(self.kill, keys=(consts.DEATH, ))
+            self._animate_controller.subscribe_to_end(self.kill, keys=(consts.DEATH,))
 
     def alive(self):
         return not self._died

@@ -4,7 +4,7 @@ from app.controllers.controller import Controller
 
 
 class MoveController(Controller):
-    def __init__(self, owner, default_state:str, default_side:int, speed:int):
+    def __init__(self, owner, default_state: str, default_side: int, speed: int):
         super().__init__(owner, default_state)
         self._side = default_side
         self._speed = speed
@@ -26,5 +26,3 @@ class MoveController(Controller):
     @property
     def speed(self):
         return self._speed
-
-

@@ -1,6 +1,8 @@
 import math
-import pygame as pg
 import random
+
+import pygame as pg
+
 
 def generate_nickname():
     adjectives = ["Cool", "Speedy", "Brave", "Sneaky", "Happy", "Funky"]
@@ -22,12 +24,14 @@ def limit_coordinates(obj_pos, target_pos, radius):
     new_y = obj_y + (target_y - obj_y) * scale
     return new_x, new_y
 
+
 SIDE_DIRECTION = {
     pg.K_a: pg.math.Vector2(-1, 0),
     pg.K_w: pg.math.Vector2(0, -1),
     pg.K_s: pg.math.Vector2(0, 1),
     pg.K_d: pg.math.Vector2(1, 0),
 }
+
 
 def get_nearest_side(vector):
     if vector.length() != 0:

@@ -1,10 +1,9 @@
 import pygame as pg
-import pygame.locals
 
 
 class Widget(pg.sprite.Sprite):
-    def __init__(self, size:tuple[int, int], pos:tuple[int, int], *groups:list[pg.sprite.Group],
-                 text="", color="black", bg_color="white", outline:str|None="black", alignment="center",
+    def __init__(self, size: tuple[int, int], pos: tuple[int, int], *groups: list[pg.sprite.Group],
+                 text="", color="black", bg_color="white", outline: str | None = "black", alignment="center",
                  transparent=False, font_size=20):
         super().__init__(*groups)
 
@@ -51,7 +50,7 @@ class Widget(pg.sprite.Sprite):
         text = self.__font.render(self.text, True, self.color)
         rect = text.get_rect()
         if self.alignment == "center":
-            rect.center = self.rect.w//2, self.rect.h // 2
+            rect.center = self.rect.w // 2, self.rect.h // 2
         elif self.alignment == "right":
             rect.midright = self.rect.w - 5, self.rect.h // 2
         elif self.alignment == "left":
@@ -61,9 +60,10 @@ class Widget(pg.sprite.Sprite):
         if self.outline:
             pg.draw.rect(self.image, self.outline, (0, 0, self.rect.w, self.rect.h), width=2)
 
+
 class Button(Widget):
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], *groups: list[pg.sprite.Group], single_click=False,
-                 on_clicked=lambda:None,
+                 on_clicked=lambda: None,
                  **kwargs):
         super().__init__(size, pos, *groups, **kwargs)
 
@@ -99,8 +99,8 @@ class Button(Widget):
 
 
 class ImageButton(Button):
-    def __init__(self, size:tuple[int, int], pos:tuple[int, int], *groups:list[pg.sprite.Group],
-                 picture:pg.surface.Surface = None, on_clicked=lambda:None):
+    def __init__(self, size: tuple[int, int], pos: tuple[int, int], *groups: list[pg.sprite.Group],
+                 picture: pg.surface.Surface = None, on_clicked=lambda: None):
         super().__init__(size, pos, *groups, transparent=True, outline="white", bg_color="white",
                          on_clicked=on_clicked)
 
@@ -114,13 +114,16 @@ class ImageButton(Button):
 
         self._click()
 
+
 class Label(Widget):
     def __init__(self, size: tuple[int, int], pos, *groups: list[pg.sprite.Group],
-                  alignment="center", **kwargs):
-        super().__init__(size, pos,*groups, alignment=alignment, outline=None, **kwargs)
+                 alignment="center", **kwargs):
+        super().__init__(size, pos, *groups, alignment=alignment, outline=None, **kwargs)
+
 
 class TextField(Widget):
-    def __init__(self, size: tuple[int, int], pos, *groups: list[pg.sprite.Group], alignment="left", max_length=255, **kwargs):
+    def __init__(self, size: tuple[int, int], pos, *groups: list[pg.sprite.Group], alignment="left", max_length=255,
+                 **kwargs):
         super().__init__(size, pos, *groups, alignment=alignment, **kwargs)
 
         self._max_length = max_length
@@ -137,4 +140,3 @@ class TextField(Widget):
             self.text += event.unicode
 
         self.text = self.text[:self._max_length]
-

@@ -1,5 +1,6 @@
-import pygame as pg
 from typing import Any
+
+import pygame as pg
 
 from app.base.animator import Animator, Animation
 

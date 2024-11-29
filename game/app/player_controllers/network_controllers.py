@@ -40,6 +40,7 @@ class NetworkMoveController(MoveController):
         if self.__stream:
             self.__stream.close()
 
+
 class NetworkMagicController(MagicController):
     def __init__(self, owner, default_state=consts.IDLE, database_ref=None):
         super().__init__(owner, default_state)
@@ -51,7 +52,6 @@ class NetworkMagicController(MagicController):
             self.__stream = database_ref.stream(self.__update)
 
     def __update(self, message):
-        print(message)
         if self._state not in [consts.IDLE, consts.RUN]:
             return
         if message["path"].endswith("attack"):

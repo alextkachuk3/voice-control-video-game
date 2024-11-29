@@ -1,11 +1,11 @@
 import pygame as pg
 
 from app import consts
-from app.player_controllers.voice_controllers import VoiceMagicController
-from app.scenes.beauty_scene import BeautyScene
 from app.base.storage import Storage
-from app.player_controllers.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
+from app.player_controllers.keyboard_controllers import KeyboardMoveController
+from app.player_controllers.voice_controllers import VoiceMagicController
 from app.players.player_factory import PlayerFactory
+from app.scenes.beauty_scene import BeautyScene
 
 
 class GameScene(BeautyScene):
@@ -30,16 +30,14 @@ class GameScene(BeautyScene):
             self._player.set_move_controller(KeyboardMoveController(self._player, speed=2))
             self._player.set_attack_controller(VoiceMagicController(self._player))
 
-
     def draw(self):
         super().draw()
         if consts.DEBUG:
             for obj in self._draw_group:
-                pg.draw.rect(self, "black",obj.bounding_rect, width=1)
+                pg.draw.rect(self, "black", obj.bounding_rect, width=1)
 
             for player in self._player_group:
                 pg.draw.circle(self, "black", player.rect.center, radius=150, width=1)
-
 
     def update(self):
         super().update()

@@ -1,8 +1,8 @@
-from datetime import datetime
 import random as rd
+from datetime import datetime
 
-import pyperclip
 import pygame as pg
+import pyperclip
 
 from app.base.scene import SceneController
 from app.base.storage import Storage
@@ -24,10 +24,10 @@ class LobbyScene(BeautyScene):
 
         w, h = self.get_size()
 
-        self.create_btn = Button((100, 40), (w//2, h//2-45), self._ui_group,
+        self.create_btn = Button((100, 40), (w // 2, h // 2 - 45), self._ui_group,
                                  text="Create room", bg_color="green", on_clicked=self.__on_create)
 
-        self.join_btn = Button((100, 40), (w // 2, h//2+45), self._ui_group,
+        self.join_btn = Button((100, 40), (w // 2, h // 2 + 45), self._ui_group,
                                text="Join room", bg_color="yellow", on_clicked=self.__on_join)
 
         Storage.set("nickname", generate_nickname())
@@ -38,10 +38,10 @@ class LobbyScene(BeautyScene):
 
         response = database().child("rooms").push(
             {
-                "created":str(datetime.now()),
-                "players":{
-                    "host":{
-                        "nickname":nickname,
+                "created": str(datetime.now()),
+                "players": {
+                    "host": {
+                        "nickname": nickname,
                         "ready": False,
                         "character": player
                     }
@@ -80,8 +80,8 @@ class WaitRoomScene(BeautyScene):
                       text="Code copied! Send it to friend" if role == "host" else "You joined!")
         label = Label((300, 30), (w // 2, h // 2 - 45), self._ui_group, text=self.code)
         copy_btn = ImageButton((25, 25), (0, h // 2 - 45), self._ui_group,
-                                picture=pg.image.load("Assets/Images/Paste.png"),
-                                on_clicked=self.__on_copy)
+                               picture=pg.image.load("Assets/Images/Paste.png"),
+                               on_clicked=self.__on_copy)
 
         copy_btn.rect.left = label.rect.right + 5
 
@@ -96,7 +96,7 @@ class WaitRoomScene(BeautyScene):
         self.id = Storage.get("id")
         self.players = {}
 
-        self.connect_stream =database().child("rooms").child(self.code).stream(self.__on_connected)
+        self.connect_stream = database().child("rooms").child(self.code).stream(self.__on_connected)
 
         self.start_btn = None
 
@@ -122,10 +122,11 @@ class WaitRoomScene(BeautyScene):
     def __get_free_space(self, x, y, w, h):
         for item in self._ui_group:
             if item.rect.colliderect(pg.rect.Rect(x, y, w, h)):
-                x = rd.randint(2*w, WIDTH-2*w)
-                y = rd.randint(2*h, HEIGHT-2*h)
+                x = rd.randint(w, WIDTH - w)
+                y = rd.randint(h, HEIGHT - h)
 
         return x, y
+
     def __update_player(self, name, value_map):
         if name not in self.players:
             return
@@ -138,7 +139,7 @@ class WaitRoomScene(BeautyScene):
 
     def __add_player(self, key, value):
         if key in self.players:
-            instance =  self.players[key]
+            instance = self.players[key]
             instance["value"] = value
             self.__update_player(key, {})
             return
@@ -147,7 +148,7 @@ class WaitRoomScene(BeautyScene):
 
         x, y = self.__get_free_space(50, 50, 100, 100)
         statement = PlayerStatement((x, y), self._ui_group, player, value["nickname"], self.font)
-        self.players[key] = {"value":value, "statement":statement}
+        self.players[key] = {"value": value, "statement": statement}
         self.__update_player(key, {})
 
     def __on_connected(self, message):
@@ -167,7 +168,7 @@ class WaitRoomScene(BeautyScene):
             players = message["data"]
         elif path.startswith("/players/") and path.endswith("/ready"):
             key = path[len("/players/"):-len("/ready")]
-            self.__update_player(key, {"ready":message["data"]})
+            self.__update_player(key, {"ready": message["data"]})
         elif path.startswith("/players/"):
             self.__add_player(path[len("/players/"):], message["data"])
 
@@ -202,6 +203,7 @@ class WaitRoomScene(BeautyScene):
         self.ready_btn.bg_color = "green" if self.ready else "red"
         database().child("rooms").child(self.code).child("players").child(self.id) \
             .child("ready").set(self.ready)
+
     def __on_go(self):
         database().child("rooms").child(self.code).child("go").set(True)
 
@@ -212,13 +214,13 @@ class WaitRoomScene(BeautyScene):
     def update(self):
         super().update()
 
-
     def close(self):
         super().close()
         try:
             self.connect_stream.close()
         except:
             pass
+
 
 class CodeScene(BeautyScene):
     __key__ = "Code"
@@ -230,14 +232,15 @@ class CodeScene(BeautyScene):
         w, h = self.get_size()
 
         self.__code_field = TextField((w // 2, 60), (w // 2, h // 2), self._ui_group)
-        paste_btn = ImageButton((50, 50), (0, h//2), self._ui_group,
-                                       picture=pg.image.load("Assets/Images/Paste.png"),
+        paste_btn = ImageButton((50, 50), (0, h // 2), self._ui_group,
+                                picture=pg.image.load("Assets/Images/Paste.png"),
                                 on_clicked=self.__on_paste)
 
         paste_btn.rect.left = self.__code_field.rect.right + 5
 
-        ok_btn = Button((80, 40), (w//2, h//2+100), self._ui_group, text="Ok", bg_color="green",
-                             on_clicked=self.__on_ok)
+        ok_btn = Button((80, 40), (w // 2, h // 2 + 100), self._ui_group, text="Ok", bg_color="green",
+                        on_clicked=self.__on_ok)
+
     def __on_paste(self):
         self.__code_field.text = pyperclip.paste()
 
@@ -277,5 +280,3 @@ class CodeScene(BeautyScene):
     def update(self):
         super().update()
         self._ui_group.update()
-
-

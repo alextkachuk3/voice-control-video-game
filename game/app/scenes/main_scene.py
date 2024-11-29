@@ -16,7 +16,7 @@ class MainScene(Scene):
                                         (16, 16))
 
         self.online_btn = Button((100, 40), (w // 2, h // 2), self._ui_group,
-                                text="Online", bg_color="green", on_clicked=self.__on_online)
+                                 text="Online", bg_color="green", on_clicked=self.__on_online)
 
         self.train_btn = Button((100, 40), (w // 2, 0), self._ui_group,
                                 text="Training", bg_color="yellow", on_clicked=self.__on_train)
@@ -27,8 +27,6 @@ class MainScene(Scene):
                                text="Quit", bg_color="tomato", on_clicked=self.__on_quit)
 
         self.quit_btn.rect.top = self.train_btn.rect.bottom + 10
-
-
 
     def draw_background(self):
         self.blit(self.bg, (0, 0))

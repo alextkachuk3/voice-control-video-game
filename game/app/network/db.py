@@ -1,14 +1,15 @@
 from threading import Thread
+
 import pyrebase
 
 from app.network.configs import confs
+
 
 class AsyncDatabase:
     def __init__(self, database):
         self.__database = database
 
-
-    def child(self, path:str | list[str]):
+    def child(self, path: str | list[str]):
         if isinstance(path, str):
             path = path.split("/")
         node = self.__database
@@ -16,6 +17,7 @@ class AsyncDatabase:
             node = node.child(key)
 
         return AsyncDatabase(node)
+
     def __async_push(self, data, callback):
         res = self.__database.push(data)
         callback(res)
@@ -37,7 +39,7 @@ class AsyncDatabase:
         callback(res)
 
     def get(self, callback=lambda res: res):
-        thread = Thread(target=self.__async_get, args=(callback, ))
+        thread = Thread(target=self.__async_get, args=(callback,))
         thread.start()
 
     def stream(self, callback):

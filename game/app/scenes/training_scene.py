@@ -9,5 +9,4 @@ class TrainingScene(GameScene):
         super().__init__(*args, **kwargs)
 
         w, h = self.get_size()
-        doll = BattleDoll((w//2, h//2), (80, 80), self._player_group, self._draw_group)
-
+        doll = BattleDoll((w // 2, h // 2), (80, 80), self._player_group, self._draw_group)

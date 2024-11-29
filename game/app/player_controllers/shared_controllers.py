@@ -7,11 +7,35 @@ from app.controllers.attack import MagicController
 from app.controllers.move import MoveController
 
 
-class SharedMoveController(MoveController):
-    def __init__(self, controller:MoveController, database_getter=None):
+class DelegatingMeta(type):
+    def __new__(cls, name, bases, attrs):
+        for base_class in bases:
+            if base_class is object:
+                continue
+
+            for attr_name in dir(base_class):
+                if (not attr_name.startswith("_") and callable(getattr(base_class, attr_name))
+                        and attr_name not in attrs):
+                    attrs[attr_name] = cls.create_delegate(attr_name)
+
+        return super().__new__(cls, name, bases, attrs)
+
+    @staticmethod
+    def create_delegate(attr_name):
+        def method(self, *args, **kwargs):
+            if self._controller and hasattr(self._controller, attr_name):
+                return getattr(self._controller, attr_name)(*args, **kwargs)
+
+            raise AttributeError(f"'{type(self).__name__}' object has no attribute '{attr_name}'")
+
+        return method
+
+
+class SharedMoveController(MoveController, metaclass=DelegatingMeta):
+    def __init__(self, controller: MoveController, database_getter=None):
         super().__init__(controller.owner, controller.state, controller.side, controller.speed)
 
-        self.__controller = controller
+        self._controller = controller
         self.__database_getter = database_getter
 
     def __update(self):
@@ -19,41 +43,29 @@ class SharedMoveController(MoveController):
             return
         try:
             self.__database_getter().child("move").set({
-                "x":self.__controller.owner.rect.centerx,
-                "y":self.__controller.owner.rect.centery,
-                "side": self.__controller.side,
-                "state": self.__controller.state
+                "x": self._controller.owner.rect.centerx,
+                "y": self._controller.owner.rect.centery,
+                "side": self._controller.side,
+                "state": self._controller.state
             })
         except:
             pass
 
     def move(self):
-        if self.__controller.state not in [consts.IDLE, consts.RUN]:
+        if self._controller.state not in [consts.IDLE, consts.RUN]:
             return
 
-        self.__controller.move()
+        self._controller.move()
 
         thread = Thread(target=self.__update)
         thread.start()
 
-    def set_state(self, state):
-        self.__controller.set_state(state)
 
-    def set_side(self, side):
-        self.__controller.set_side(side)
-
-    def subscribe_on_success(self, callback):
-        self.__controller.subscribe_on_success(callback)
-
-    def unsubscribe_on_success(self, callback):
-        self.__controller.unsubscribe_on_success(callback)
-
-
-class SharedMagicController(MagicController):
-    def __init__(self, controller:MagicController, database_getter=None):
+class SharedMagicController(MagicController, metaclass=DelegatingMeta):
+    def __init__(self, controller: MagicController, database_getter=None):
         super().__init__(controller.owner, controller.state)
 
-        self.__controller = controller
+        self._controller = controller
         self.__database_getter = database_getter
 
     def __update(self):
@@ -61,29 +73,17 @@ class SharedMagicController(MagicController):
             return
         try:
             self.__database_getter().child("attack").set({
-                "state": self.__controller.state,
+                "state": self._controller.state,
                 "mousex": pg.mouse.get_pos()[0],
                 "mousey": pg.mouse.get_pos()[1],
             })
         except:
             pass
 
-    def add_spell(self, key, spell_spawner):
-        self.__controller.add_spell(key, spell_spawner)
-
     def attack(self):
-        if self.__controller.state not in [consts.IDLE, consts.RUN]:
+        if self._controller.state not in [consts.IDLE, consts.RUN]:
             return
-        self.__controller.attack()
+        self._controller.attack()
 
         thread = Thread(target=self.__update)
         thread.start()
-
-    def set_state(self, state):
-        self.__controller.set_state(state)
-
-    def subscribe_on_success(self, callback):
-        self.__controller.subscribe_on_success(callback)
-
-    def unsubscribe_on_success(self, callback):
-        self.__controller.unsubscribe_on_success(callback)

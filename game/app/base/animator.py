@@ -7,7 +7,7 @@ from app.base.game_object import GameObject
 
 
 class Animation:
-    def __init__(self, image:pg.surface.Surface, start_pos:tuple[int, int], rect_size:tuple[int, int],
+    def __init__(self, image: pg.surface.Surface, start_pos: tuple[int, int], rect_size: tuple[int, int],
                  transparent_color="black", max_frames=0, delay=0, loop=True, auto_row=False, max_rows=0):
         self.__full_image = image.convert_alpha()
         self.__full_image.set_colorkey(transparent_color)
@@ -18,7 +18,7 @@ class Animation:
 
         self.__x, self.__y = start_pos
         self.__w, self.__h = rect_size
-        self.__frames = (self.__full_image.get_width() - self.__x)//self.__w
+        self.__frames = (self.__full_image.get_width() - self.__x) // self.__w
         if max_frames != 0:
             self.__frames = min(max_frames, self.__frames)
 
@@ -67,7 +67,6 @@ class Animation:
             self.__index = 0 if self.__loop else (self.__frames - 1)
             self.__ended = not self.__loop
 
-
     def reset(self):
         self.__index = 0
         self.__ended = False
@@ -76,8 +75,8 @@ class Animation:
         if self.__auto_row:
             row = self.__row
 
-        image = self.__full_image.subsurface((self.__x + self.__index*self.__w,
-                                             self.__y + row*self.__h, self.__w, self.__h))
+        image = self.__full_image.subsurface((self.__x + self.__index * self.__w,
+                                              self.__y + row * self.__h, self.__w, self.__h))
         image.set_colorkey(self.__transparent_color)
 
         return image
@@ -143,8 +142,9 @@ class Animator:
     def active(self, animation_name):
         return self.__current_anim == animation_name
 
+
 class AnimationMapBuilder:
-    def __init__(self, animation_names:list[str]):
+    def __init__(self, animation_names: list[str]):
         self.__animation_map = {}
         self.__animation_names = animation_names
 

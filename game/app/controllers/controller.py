@@ -33,5 +33,3 @@ class Controller:
     @property
     def owner(self):
         return self._owner
-
-

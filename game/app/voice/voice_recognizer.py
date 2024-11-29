@@ -1,7 +1,8 @@
 import threading
+
 from app.voice.audio_stream import AudioStream
-from app.voice.whisper_integration import WhisperIntegration
 from app.voice.command_processor import CommandProcessor
+from app.voice.whisper_integration import WhisperIntegration
 
 
 class RealTimeCommandRecognizer:
