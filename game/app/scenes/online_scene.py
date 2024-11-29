@@ -11,7 +11,7 @@ import pygame as pg
 import random as rd
 
 class OnlineScene(BeautyScene):
-    __title__ = "Online"
+    __key__ = "Online"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

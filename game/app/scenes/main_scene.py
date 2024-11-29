@@ -5,7 +5,8 @@ from app.base.ui import Button
 
 
 class MainScene(Scene):
-    __title__ = "Main"
+    __key__ = "Main"
+    __caption__ = "Voice control video game"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

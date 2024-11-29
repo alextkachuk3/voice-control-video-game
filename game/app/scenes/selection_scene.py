@@ -57,7 +57,7 @@ class SelectionPanel(pg.sprite.Sprite):
 
 
 class SelectionScene(BeautyScene):
-    __title__ = "Selection"
+    __key__ = "Selection"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
