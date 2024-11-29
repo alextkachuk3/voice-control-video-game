@@ -19,3 +19,12 @@ class MoveController(Controller):
     def set_side(self, side):
         self._side = side
 
+    @property
+    def side(self):
+        return self._side
+
+    @property
+    def speed(self):
+        return self._speed
+
+

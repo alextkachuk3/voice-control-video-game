@@ -25,3 +25,13 @@ class Controller:
 
     def close(self):
         pass
+
+    @property
+    def state(self):
+        return self._state
+
+    @property
+    def owner(self):
+        return self._owner
+
+
