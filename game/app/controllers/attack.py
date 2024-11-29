@@ -14,6 +14,9 @@ class AttackController(Controller):
     def attack(self):
         pass
 
+    def update(self):
+        pass
+
 
 class MagicController(AttackController):
     def __init__(self, owner, default_state=consts.IDLE):
@@ -28,6 +31,10 @@ class MagicController(AttackController):
             return
 
         spell_spawner = self._spells[state]
+
+        if not spell_spawner.ready():
+            return
+
         if isinstance(spell_spawner, MoveSpellSpawner):
             mouse = pg.math.Vector2(mouse_pos)
             pos = pg.math.Vector2(self._owner.rect.center)
@@ -43,3 +50,7 @@ class MagicController(AttackController):
         if isinstance(spell_spawner, TargetSpellSpawner):
             spell_spawner.spawn(self._owner, mouse_pos)
             self._call_all(state=state)
+
+    def update(self):
+        for spell in self._spells.values():
+            spell.update()

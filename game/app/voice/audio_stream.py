@@ -19,6 +19,11 @@ class AudioStream:
         self.audio_buffer = np.zeros(self.buffer_size, dtype="float32")
         self.audio_queue = queue.Queue()
 
+        self.__is_running = True
+
+    def close(self):
+        self.__is_running = False
+
     def _audio_callback(self, indata, frames, time, status):
         if status:
             print(f"Audio error: {status}")
@@ -36,7 +41,7 @@ class AudioStream:
 
     def update_audio_buffer(self):
         """Continuously update the rolling audio buffer with new chunks."""
-        while True:
+        while self.__is_running:
             chunk = self.audio_queue.get()
             chunk_size = len(chunk)
             self.audio_buffer = np.roll(self.audio_buffer, -chunk_size)
