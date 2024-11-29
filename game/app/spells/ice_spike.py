@@ -6,10 +6,10 @@ from app.spells.spell import MoveSpellSpawner
 
 
 class IceSpikeSpellSpawner(MoveSpellSpawner):
-    def __init__(self, *groups, scale=1, speed=5, damage=8, cooldown=60):
+    def __init__(self, *groups, scale=1, speed=5, damage=8, cooldown=60, activate_words=consts.ICE_SPIKE):
         self.__w, self.__h = 48, 32
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups,
-                         speed=speed, damage=damage, cooldown=cooldown)
+                         speed=speed, damage=damage, cooldown=cooldown, activate_words=activate_words)
 
         self._image = pg.image.load("Assets/Images/Spells/IceSpike.png")
 

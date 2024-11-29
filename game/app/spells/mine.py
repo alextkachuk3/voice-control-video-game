@@ -7,10 +7,10 @@ from app.spells.spell import TargetSpellSpawner
 
 
 class MineSpellSpawner(TargetSpellSpawner):
-    def __init__(self, *groups, scale=1, damage=15, cooldown=50):
+    def __init__(self, *groups, scale=1, damage=15, cooldown=200, activate_words=consts.MINE):
         self.__w, self.__h = 64, 64
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups,
-                         radius=CAST_RADIUS, damage=damage, cooldown=200)
+                         radius=CAST_RADIUS, damage=damage, cooldown=cooldown, activate_words=activate_words)
 
         self.__image = pg.image.load("Assets/Images/Spells/Mine.png")
 
