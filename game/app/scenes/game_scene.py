@@ -1,6 +1,7 @@
 import pygame as pg
 
 from app import consts
+from app.player_controllers.shared_controllers import SharedMoveController, SharedMagicController
 from app.player_controllers.voice_controllers import VoiceMagicController
 from app.scenes.beauty_scene import BeautyScene
 from app.base.storage import Storage

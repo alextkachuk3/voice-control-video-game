@@ -5,6 +5,7 @@ from app.network.db import database
 from app.player_controllers.keyboard_controllers import KeyboardMoveController, KeyboardMagicController
 from app.player_controllers.network_controllers import NetworkMoveController, NetworkMagicController
 from app.player_controllers.shared_controllers import SharedMoveController, SharedMagicController
+from app.player_controllers.voice_controllers import VoiceMagicController
 from app.players.player_factory import PlayerFactory
 from app.scenes.beauty_scene import BeautyScene
 
@@ -36,7 +37,7 @@ class OnlineScene(BeautyScene):
                                        .child("controllers"))
             if player["nickname"] == owner_nickname:
                 move = SharedMoveController(KeyboardMoveController(instance, speed=2), database_getter=database_getter)
-                attack = SharedMagicController(KeyboardMagicController(instance), database_getter=database_getter)
+                attack = SharedMagicController(VoiceMagicController(instance), database_getter=database_getter)
             else:
                 move = NetworkMoveController(instance, speed=2, database_ref=database_getter())
                 attack = NetworkMagicController(instance, database_ref=database_getter())
@@ -46,7 +47,10 @@ class OnlineScene(BeautyScene):
 
 
     def get_free_space(self, x, y, w, h):
-        for item in self._ui_group:
+        all_group = pg.sprite.Group(self._ui_group.sprites())
+        all_group.add(self._player_group.sprites())
+
+        for item in all_group:
             if item.rect.colliderect(pg.rect.Rect(x, y, w, h)):
                 x = rd.randint(w, WIDTH-w)
                 y = rd.randint(h, HEIGHT-h)

@@ -19,7 +19,6 @@ class VoiceMagicController(MagicController):
         self.__thread = Thread(target=self.__recognizer.run)
         self.__thread.start()
         self.__closed = False
-
         self.__voice_state = self._state
 
     def __on_detected(self, word):
@@ -30,9 +29,12 @@ class VoiceMagicController(MagicController):
         elif word in ["тайфун", "покласти міну", "токсична хмара"]:
             self.__voice_state = consts.ATTACK3
 
+
     def attack(self):
-        self._attack_event(self.__voice_state, pg.mouse.get_pos())
+        self._state = self.__voice_state
         self.__voice_state = consts.IDLE
+
+        self._attack_event(self._state, pg.mouse.get_pos())
 
     def close(self):
         self.__closed = True

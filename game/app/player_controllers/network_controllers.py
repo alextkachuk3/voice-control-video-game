@@ -51,7 +51,6 @@ class NetworkMagicController(MagicController):
             self.__stream = database_ref.stream(self.__update)
 
     def __update(self, message):
-        print(message)
         if self._state not in [consts.IDLE, consts.RUN]:
             return
         if message["path"].endswith("attack"):
