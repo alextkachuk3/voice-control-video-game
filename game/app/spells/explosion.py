@@ -8,10 +8,10 @@ from app.spells.spell import TargetSpellSpawner
 
 
 class ExplosionSpellSpawner(TargetSpellSpawner):
-    def __init__(self, *groups, scale=2, timeout=60, damage=14):
+    def __init__(self, *groups, scale=2, timeout=60, damage=14, cooldown=120):
         self.__w, self.__h = 48, 48
         super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups,
-                         radius=CAST_RADIUS, timeout=timeout, damage=damage)
+                         radius=CAST_RADIUS, timeout=timeout, damage=damage, cooldown=cooldown)
 
         self.__image = pg.image.load("Assets/Images/Spells/Explosion.png")
 

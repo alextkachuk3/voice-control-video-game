@@ -105,6 +105,9 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
         self._move()
         self._attack()
 
+        if self._attack_controller:
+            self._attack_controller.update()
+
         rect = self.bounding_rect
         if rect.top < 0:
             rect.top = 0

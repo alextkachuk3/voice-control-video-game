@@ -87,11 +87,21 @@ class MoveSpell(Spell):
         self._speed = 0
 
 class SpellSpawner:
-    def __init__(self, attack_type, size, *groups, damage=None):
+    def __init__(self, attack_type, size, *groups, damage=None, cooldown=0):
         self._size = size
         self._groups = groups
         self._attack_type = attack_type
         self._damage = damage
+
+        self._cooldown = cooldown
+        self._time = 0
+
+    def ready(self):
+        return self._time == 0
+
+    def update(self):
+        if self._time > 0:
+            self._time -= 1
 
 
 class MoveSpellSpawner(SpellSpawner):
@@ -104,8 +114,13 @@ class MoveSpellSpawner(SpellSpawner):
         pass
 
     def spawn(self, owner, pos, direction, speed=None):
+        if not self.ready():
+            return
+
         if speed is None:
             speed = self._speed
+
+        self._time = self._cooldown
 
         return MoveSpell(self._attack_type, pos, self._size,  *self._groups,
                          animator= self._get_animator(), direction=direction, speed=speed, owner=owner,
@@ -145,8 +160,13 @@ class TargetSpellSpawner(SpellSpawner):
         pass
 
     def spawn(self, owner, pos):
+        if not self.ready():
+            return
+
         if self._radius is not None:
             pos = limit_coordinates(owner.rect.center, pos, self._radius)
+
+        self._time = self._cooldown
 
         return TargetSpell(self._attack_type, pos, self._size,   *self._groups,
                            animator=self._get_animator(), owner=owner, timeout=self._timeout, damage=self._damage)

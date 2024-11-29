@@ -6,9 +6,10 @@ from app.spells.spell import MoveSpellSpawner
 
 
 class FireboltSpellSpawner(MoveSpellSpawner):
-    def __init__(self, *groups, scale=1, damage=7):
+    def __init__(self, *groups, scale=1, damage=7, cooldown=40):
         self.__w, self.__h = 48, 48
-        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups, speed=3, damage=damage)
+        super().__init__(consts.ATTACK, (self.__w*scale, self.__h*scale), *groups, speed=3,
+                         damage=damage, cooldown=cooldown)
 
         self.__image = pg.image.load("Assets/Images/Spells/Firebolt.png")
 

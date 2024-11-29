@@ -30,8 +30,6 @@ class VoiceMagicController(MagicController):
         elif word in ["тайфун", "покласти міну", "токсична хмара"]:
             self.__voice_state = consts.ATTACK3
 
-        #self._attack_event(self._state, pg.mouse.get_pos())
-
     def attack(self):
         self._attack_event(self.__voice_state, pg.mouse.get_pos())
         self.__voice_state = consts.IDLE
