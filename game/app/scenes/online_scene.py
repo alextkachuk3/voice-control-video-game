@@ -28,10 +28,14 @@ class OnlineScene(BeautyScene):
 
         w, h = self.get_size()
         print(owner_nickname)
+        self.__instances = {}
+
         for pid, player in players.items():
             instance = PlayerFactory.spawn(player["character"], (w // 2, h // 2),
                                            (100, 100), self._player_group, self._draw_group,
                                            spell_groups=(self._spell_group, self._draw_group), hp=100)
+
+            self.__instances[pid] = instance
 
             database_getter = lambda id=pid: (database().child("rooms").child(self.code).child("players").child(id)
                                               .child("controllers"))
@@ -50,7 +54,11 @@ class OnlineScene(BeautyScene):
         database().child("rooms").child(self.code).child("players").stream(self.__on_leave)
 
     def __on_leave(self, message):
-        print(message)
+        if message["data"] is None:
+            for pid in list(self.__instances.keys()):
+                if pid in message["path"]:
+                    self.__instances[pid].instant_kill()
+                    del self.__instances[pid]
 
     def update(self):
         super().update()

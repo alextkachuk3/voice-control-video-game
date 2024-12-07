@@ -16,11 +16,14 @@ class NetworkMoveController(MoveController):
         self.__x, self.__y = pos
 
     def __update(self, message):
-        print(message)
         if self._state not in [consts.IDLE, consts.RUN]:
             return
 
         data = message["data"]
+
+        if data is None:
+            return
+
         self.__x = data["x"]
         self.__y = data["y"]
         self._state = data["state"]
@@ -54,6 +57,9 @@ class NetworkMagicController(MagicController):
         if self._state not in [consts.IDLE, consts.RUN]:
             return
         data = message["data"]
+        if data is None:
+            return
+
         self._state = data["state"]
         self._mouse_pos = data["mousex"], data["mousey"]
         self._attack_event(self._state, self._mouse_pos)

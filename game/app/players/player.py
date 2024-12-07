@@ -18,6 +18,16 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
         self._max_hp = hp
         self._hp = hp
         self._died = False
+        self.__instant_killed = False
+
+    def instant_kill(self):
+        self._animate_controller.subscribe_to_end(self.__delayed_death, keys=(consts.DEATH, ))
+        self._animate_controller.replace_animation(consts.DEATH)
+
+    def __delayed_death(self):
+        self._animate_controller.unsubscribe_from_end(self.__delayed_death, keys=(consts.DEATH, ))
+        self.close_controllers()
+        self.kill()
 
     @property
     def image(self):
@@ -104,6 +114,9 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
 
         self._move()
         self._attack()
+
+        if self.__instant_killed:
+            self._hp-=10
 
         if self._attack_controller:
             self._attack_controller.update()
