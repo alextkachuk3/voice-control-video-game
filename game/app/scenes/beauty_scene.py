@@ -1,5 +1,6 @@
 import pygame as pg
 
+from app import consts
 from app.background import get_random_background
 from app.base.game_object import GameObject
 from app.base.scene import Scene, SceneController
@@ -30,6 +31,14 @@ class BeautyScene(Scene):
 
     def draw(self):
         super().draw()
+
+        w, _ = self.get_size()
+        panel = pg.surface.Surface((w, consts.PANEL_HEIGHT), pg.SRCALPHA, 32).convert_alpha()
+        panel.fill((0, 0, 0, 100))
+
+        self.blit(panel, (0, 0))
+        self._ui_group.draw(self)
+        self._draw_group.draw(self)
         self._cursor_group.draw(self)
 
     def draw_background(self):

@@ -26,6 +26,9 @@ class MagicController(AttackController):
     def add_spell(self, key, spell_spawner):
         self._spells[key] = spell_spawner
 
+    def spells(self):
+        return self._spells
+
     def _attack_event(self, state, mouse_pos):
         if state not in self._spells or not self._owner.alive():
             return

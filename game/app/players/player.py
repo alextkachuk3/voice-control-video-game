@@ -18,6 +18,22 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
         self._max_hp = hp
         self._hp = hp
         self._died = False
+        self.__instant_killed = False
+
+    def spells(self):
+        if self._attack_controller:
+            return self._attack_controller.spells()
+
+        return {}
+
+    def instant_kill(self):
+        self._animate_controller.subscribe_to_end(self.__delayed_death, keys=(consts.DEATH, ))
+        self._animate_controller.replace_animation(consts.DEATH)
+
+    def __delayed_death(self):
+        self._animate_controller.unsubscribe_from_end(self.__delayed_death, keys=(consts.DEATH, ))
+        self.close_controllers()
+        self.kill()
 
     @property
     def image(self):
@@ -59,6 +75,21 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
             self._move_controller.set_side(self._animate_controller.side)
 
         self._move_controller.move()
+        self._check_bounds()
+
+    def _check_bounds(self):
+        rect = self.bounding_rect
+        if rect.top < consts.PANEL_HEIGHT:
+            rect.top = consts.PANEL_HEIGHT
+        elif rect.bottom > consts.HEIGHT:
+            rect.bottom = consts.HEIGHT
+
+        if rect.left < 0:
+            rect.left = 0
+        elif rect.right > consts.WIDTH:
+            rect.right = consts.WIDTH
+
+        self.rect.center = rect.center
 
     def _attack(self):
         if self._attack_controller is None:
@@ -105,21 +136,11 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
         self._move()
         self._attack()
 
+        if self.__instant_killed:
+            self._hp-=10
+
         if self._attack_controller:
             self._attack_controller.update()
-
-        rect = self.bounding_rect
-        if rect.top < 0:
-            rect.top = 0
-        elif rect.bottom > consts.HEIGHT:
-            rect.bottom = consts.HEIGHT
-
-        if rect.left < 0:
-            rect.left = 0
-        elif rect.right > consts.WIDTH:
-            rect.right = consts.WIDTH
-
-        self.rect.center = rect.center
 
     def close_controllers(self):
         if self._move_controller:

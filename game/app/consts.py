@@ -1,5 +1,6 @@
 WIDTH = 1000
 HEIGHT = 700
+PANEL_HEIGHT = 70
 
 DEBUG = False
 

@@ -154,9 +154,14 @@ class WaitRoomScene(BeautyScene):
     def __on_connected(self, message):
         if message["event"] not in ["put", "patch"]:
             return
+
         print(message)
         players = None
         path = message["path"]
+
+        if path == "/" and message["data"] is None:
+            ThreadController.run_on_main(SceneController.open_scene, "Main", True, self.get_size())
+            return
 
         if path == "/go" and message["data"]:
             self.__start_game()
@@ -169,7 +174,7 @@ class WaitRoomScene(BeautyScene):
         elif path.startswith("/players/") and path.endswith("/ready"):
             key = path[len("/players/"):-len("/ready")]
             self.__update_player(key, {"ready": message["data"]})
-        elif path.startswith("/players/"):
+        elif path.startswith("/players/") and message["data"] is not None:
             self.__add_player(path[len("/players/"):], message["data"])
 
         elif message["data"] is None:
@@ -208,7 +213,6 @@ class WaitRoomScene(BeautyScene):
         database().child("rooms").child(self.code).child("go").set(True)
 
     def _on_back(self):
-        database().child("rooms").child(self.code).remove()
         super()._on_back()
 
     def update(self):
@@ -220,6 +224,10 @@ class WaitRoomScene(BeautyScene):
             self.connect_stream.close()
         except:
             pass
+
+        database().child("rooms").child(self.code).child("players").child(self.id).remove()
+        if self.id == "host":
+            database().child("rooms").child(self.code).remove()
 
 
 class CodeScene(BeautyScene):
