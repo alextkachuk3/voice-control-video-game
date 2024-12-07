@@ -15,7 +15,7 @@ class MainScene(Scene):
         self.bg = get_random_background("Assets/Images/TailMaps/DungeonTileset.png", (w, h),
                                         (16, 16))
 
-        self.online_btn = Button((100, 40), (w // 2, h // 2.2), self._ui_group,
+        self.online_btn = Button((100, 40), (w // 2, h // 2.6), self._ui_group,
                                  text="Online", bg_color="green", on_clicked=self.__on_online)
 
         self.bot_btn = Button((100, 40), (w // 2, 0), self._ui_group,
