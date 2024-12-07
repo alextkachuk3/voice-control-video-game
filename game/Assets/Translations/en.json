@@ -1,0 +1,11 @@
+{
+  "game_title": "Voice Control Video Game",
+  "water_blast": "typhoon",
+  "blood_blast": "bloodbath",
+  "ice_spike": "frost spike",
+  "earth_spike": "earth spear",
+  "toxic_blast": "toxic cloud",
+  "firebolt": "flame arrow",
+  "explosion": "delayed explosion",
+  "mine": "contact mine"
+}

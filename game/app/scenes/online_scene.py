@@ -27,7 +27,7 @@ class OnlineScene(BeautyScene):
         w, h = self.get_size()
         print(owner_nickname)
         for pid, player in players.items():
-            instance = PlayerFactory.spawn(player["character"], w // 2, h // 2,
+            instance = PlayerFactory.spawn(player["character"], (w // 2, h // 2),
                                            (100, 100), self._player_group, self._draw_group,
                                            spell_groups=(self._spell_group, self._draw_group), hp=100)
 

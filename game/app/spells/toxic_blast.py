@@ -1,13 +1,14 @@
 import pygame as pg
 
 from app import consts
-from app.spells.water_blast import WaterBlastSpellSpawner
+from app.base.translator import tr
+from app.spells.blast import BlastSpellSpawner
 
 
-class ToxicBlastSpellSpawner(WaterBlastSpellSpawner):
-    def __init__(self, *groups, scale=1.5, timeout=60, damage=10, cooldown=120, activate_words=consts.TOXIC_BLAST):
-        super().__init__(*groups, scale=scale, timeout=timeout, damage=damage, cooldown=cooldown,
-                         activate_words=activate_words)
+class ToxicBlastSpellSpawner(BlastSpellSpawner):
+    def __init__(self, *groups):
+        super().__init__(*groups, scale=1.5, timeout=60, damage=10, cooldown=120,
+                         activate_words=tr(consts.TOXIC_BLAST))
 
         self._image = pg.image.load("Assets/Images/Spells/ToxicBlast.png")
         self._image_attack = pg.image.load("Assets/Images/Spells/ToxicBlastAttack.png")

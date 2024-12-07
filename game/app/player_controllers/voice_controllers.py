@@ -3,6 +3,7 @@ from threading import Thread
 import pygame as pg
 
 from app import consts
+from app.base.translator import tr
 from app.controllers.attack import MagicController
 from app.voice.voice_recognizer import RealTimeCommandRecognizer
 
@@ -12,7 +13,7 @@ class VoiceMagicController(MagicController):
         super().__init__(*args, **kwargs)
 
         self.__recognizer = RealTimeCommandRecognizer(
-            list(consts.SPELLS),
+            tr(list(consts.SPELLS)),
             on_detected=self.__on_detected)
 
         self.__thread = Thread(target=self.__recognizer.run)
