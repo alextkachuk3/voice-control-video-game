@@ -47,7 +47,9 @@ class MainScene(Scene):
         SceneController.open_scene("Selection", False, self.get_size())
 
     def __on_help(self):
-        pass
+        Storage.set("nextscene", "Help")
+        Storage.set("prev", "Main")
+        SceneController.open_scene("Help", False, self.get_size())
 
     def __on_quit(self):
         SceneController.is_running = False
