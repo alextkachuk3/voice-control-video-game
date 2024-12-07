@@ -18,13 +18,13 @@ class VoiceMagicController(MagicController):
 
         self.__thread = Thread(target=self.__recognizer.run)
         self.__thread.start()
-        self.__closed = False
         self.__voice_state = self._state
 
     def __on_detected(self, word):
         for key, spell in self._spells.items():
             if word in spell.activate_words:
                 self.__voice_state = key
+                break
 
     def attack(self):
         self._state = self.__voice_state
@@ -33,6 +33,5 @@ class VoiceMagicController(MagicController):
         self._attack_event(self._state, pg.mouse.get_pos())
 
     def close(self):
-        self.__closed = True
         self.__recognizer.close()
         self.__thread.join()

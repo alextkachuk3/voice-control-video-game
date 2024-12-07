@@ -20,6 +20,8 @@ class OnlineScene(BeautyScene):
         owner_nickname = Storage.get("nickname")
         self.code = Storage.get("code")
 
+        self.owner_id = ""
+
         self._players = {}
         self._player_group = pg.sprite.Group()
         self._spell_group = pg.sprite.Group()
@@ -36,12 +38,19 @@ class OnlineScene(BeautyScene):
             if player["nickname"] == owner_nickname:
                 move = SharedMoveController(KeyboardMoveController(instance, speed=2), database_getter=database_getter)
                 attack = SharedMagicController(VoiceMagicController(instance), database_getter=database_getter)
+
+                self.owner_id = pid
             else:
-                move = NetworkMoveController(instance, speed=2, database_ref=database_getter())
-                attack = NetworkMagicController(instance, database_ref=database_getter())
+                move = NetworkMoveController(instance, speed=2, database_ref=database_getter().child("move"))
+                attack = NetworkMagicController(instance, database_ref=database_getter().child("attack"))
 
             instance.set_move_controller(move)
             instance.set_attack_controller(attack)
+
+        database().child("rooms").child(self.code).child("players").stream(self.__on_leave)
+
+    def __on_leave(self, message):
+        print(message)
 
     def update(self):
         super().update()
@@ -54,3 +63,5 @@ class OnlineScene(BeautyScene):
 
         for player in self._player_group:
             player.close_controllers()
+
+        database().child("rooms").child(self.code).child("players").child(self.owner_id).remove()
