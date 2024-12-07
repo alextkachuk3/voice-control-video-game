@@ -8,6 +8,7 @@ from app.player_controllers.shared_controllers import SharedMoveController, Shar
 from app.player_controllers.voice_controllers import VoiceMagicController
 from app.players.player_factory import PlayerFactory
 from app.scenes.beauty_scene import BeautyScene
+from app.scenes.spell_panel import create_panel
 
 
 class OnlineScene(BeautyScene):
@@ -17,17 +18,14 @@ class OnlineScene(BeautyScene):
         super().__init__(*args, **kwargs)
 
         players = Storage.get("players")
-        owner_nickname = Storage.get("nickname")
         self.code = Storage.get("code")
-
-        self.owner_id = ""
+        self.owner_id = Storage.get("id")
 
         self._players = {}
         self._player_group = pg.sprite.Group()
         self._spell_group = pg.sprite.Group()
 
         w, h = self.get_size()
-        print(owner_nickname)
         self.__instances = {}
 
         for pid, player in players.items():
@@ -39,11 +37,10 @@ class OnlineScene(BeautyScene):
 
             database_getter = lambda id=pid: (database().child("rooms").child(self.code).child("players").child(id)
                                               .child("controllers"))
-            if player["nickname"] == owner_nickname:
+            if pid == self.owner_id:
                 move = SharedMoveController(KeyboardMoveController(instance, speed=2), database_getter=database_getter)
                 attack = SharedMagicController(VoiceMagicController(instance), database_getter=database_getter)
 
-                self.owner_id = pid
             else:
                 move = NetworkMoveController(instance, speed=2, database_ref=database_getter().child("move"))
                 attack = NetworkMagicController(instance, database_ref=database_getter().child("attack"))
@@ -52,6 +49,9 @@ class OnlineScene(BeautyScene):
             instance.set_attack_controller(attack)
 
         database().child("rooms").child(self.code).child("players").stream(self.__on_leave)
+
+        spells = self.__instances[self.owner_id].spells()
+        create_panel(spells, w, self._ui_group)
 
     def __on_leave(self, message):
         if message["data"] is None:

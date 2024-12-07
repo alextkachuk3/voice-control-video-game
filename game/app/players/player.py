@@ -75,6 +75,21 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
             self._move_controller.set_side(self._animate_controller.side)
 
         self._move_controller.move()
+        self._check_bounds()
+
+    def _check_bounds(self):
+        rect = self.bounding_rect
+        if rect.top < consts.PANEL_HEIGHT:
+            rect.top = consts.PANEL_HEIGHT
+        elif rect.bottom > consts.HEIGHT:
+            rect.bottom = consts.HEIGHT
+
+        if rect.left < 0:
+            rect.left = 0
+        elif rect.right > consts.WIDTH:
+            rect.right = consts.WIDTH
+
+        self.rect.center = rect.center
 
     def _attack(self):
         if self._attack_controller is None:
@@ -126,19 +141,6 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
 
         if self._attack_controller:
             self._attack_controller.update()
-
-        rect = self.bounding_rect
-        if rect.top < 0:
-            rect.top = 0
-        elif rect.bottom > consts.HEIGHT:
-            rect.bottom = consts.HEIGHT
-
-        if rect.left < 0:
-            rect.left = 0
-        elif rect.right > consts.WIDTH:
-            rect.right = consts.WIDTH
-
-        self.rect.center = rect.center
 
     def close_controllers(self):
         if self._move_controller:

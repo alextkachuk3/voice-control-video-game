@@ -8,7 +8,7 @@ class SpellIcon(pg.sprite.Sprite):
         super().__init__(*groups)
 
         if spell_spawner.icon:
-            self.image = pg.transform.scale(spell_spawner.icon, size)
+            self.image = pg.transform.scale(spell_spawner.icon.convert_alpha(), size)
         else:
             self.image = pg.surface.Surface(size)
             self.image.fill("white")
@@ -29,12 +29,12 @@ class SpellIcon(pg.sprite.Sprite):
 
 
 class SpellPanel(pg.sprite.Sprite):
-    def __init__(self, size, midtop, background, *groups):
+    def __init__(self, size, midtop, *groups):
         super().__init__(*groups)
 
         self.image = pg.Surface(size)
-        self.image.fill(background)
-        self.__background = background
+        self.image.set_colorkey((0, 0, 1))
+        self.image.fill((0, 0, 1))
 
         self.rect = self.image.get_rect(midtop=midtop)
         self.__spells = []
@@ -43,10 +43,23 @@ class SpellPanel(pg.sprite.Sprite):
         self.__spells.append(spell_icon)
 
     def update(self):
-        self.image.fill(self.__background)
+        self.image.fill((0, 0, 1))
 
         for spell in self.__spells:
             spell.update()
             self.image.blit(spell.image, spell.rect)
             self.image.blit(spell.shade, spell.rect)
 
+
+def create_panel(spells, w, group):
+    space = 10
+    icon_size = 50
+
+    x, y = space, space
+
+    panel = SpellPanel(((icon_size + space) * len(spells) + space, icon_size + 2 * space),
+                       (w // 2, 0), group)
+    for spell in spells.values():
+        icon = SpellIcon((icon_size, icon_size), (x, y), spell)
+        x += icon_size + space
+        panel.add_spell(icon)
