@@ -2,14 +2,17 @@ import pygame as pg
 
 from app import consts
 from app.base.animator import Animation, Animator
+from app.base.translator import tr
 from app.spells.spell import MoveSpellSpawner
 
 
 class FireboltSpellSpawner(MoveSpellSpawner):
-    def __init__(self, *groups, scale=1, damage=7, cooldown=40, activate_words=consts.FIREBOLT):
+    def __init__(self, *groups):
         self.__w, self.__h = 48, 48
+        scale = 1
+
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups, speed=3,
-                         damage=damage, cooldown=cooldown, activate_words=activate_words)
+                         damage=7, cooldown=40, activate_words=tr(consts.FIREBOLT))
 
         self.__image = pg.image.load("Assets/Images/Spells/Firebolt.png")
 

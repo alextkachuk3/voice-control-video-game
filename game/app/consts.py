@@ -23,13 +23,13 @@ ALL = (ATTACK1, ATTACK2, ATTACK3, CLIMB, DEATH, HURT, IDLE, JUMP, LAND, RUN, WAL
 
 # Spells words
 
-FIREBOLT = ("стріла полум'я",)
-ICE_SPIKE = ("морозна піка",)
-WATER_BLAST = ("тайфун",)
-EXPLOSION = ("відкладений вибух",)
-MINE = ("контактна міна",)
-BLOOD_BLAST = ("кровава баня",)
-EARTH_SPIKE = ("земляний спис",)
-TOXIC_BLAST = ("токсична хмара",)
+FIREBOLT = ("firebolt",)
+ICE_SPIKE = ("ice_spike",)
+WATER_BLAST = ("water_blast",)
+EXPLOSION = ("explosion",)
+MINE = ("mine",)
+BLOOD_BLAST = ("blood_blast",)
+EARTH_SPIKE = ("earth_spike",)
+TOXIC_BLAST = ("toxic_blast",)
 
 SPELLS = FIREBOLT + ICE_SPIKE + WATER_BLAST + EXPLOSION + MINE + BLOOD_BLAST + EARTH_SPIKE + TOXIC_BLAST

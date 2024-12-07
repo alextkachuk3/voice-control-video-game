@@ -2,15 +2,18 @@ import pygame as pg
 
 from app import consts
 from app.base.animator import Animation, Animator
+from app.base.translator import tr
 from app.consts import CAST_RADIUS
 from app.spells.spell import TargetSpellSpawner
 
 
 class MineSpellSpawner(TargetSpellSpawner):
-    def __init__(self, *groups, scale=1, damage=15, cooldown=200, activate_words=consts.MINE):
+    def __init__(self, *groups):
         self.__w, self.__h = 64, 64
+        scale = 1
+
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups,
-                         radius=CAST_RADIUS, damage=damage, cooldown=cooldown, activate_words=activate_words)
+                         radius=CAST_RADIUS, damage=15, cooldown=200, activate_words=tr(consts.MINE))
 
         self.__image = pg.image.load("Assets/Images/Spells/Mine.png")
 

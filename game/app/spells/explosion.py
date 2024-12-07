@@ -2,16 +2,19 @@ import pygame as pg
 
 from app import consts
 from app.base.animator import Animation, Animator
+from app.base.translator import tr
 from app.consts import CAST_RADIUS
 from app.spells.spell import TargetSpellSpawner
 
 
 class ExplosionSpellSpawner(TargetSpellSpawner):
-    def __init__(self, *groups, scale=2, timeout=60, damage=14, cooldown=120, activate_words=consts.EXPLOSION):
+    def __init__(self, *groups):
         self.__w, self.__h = 48, 48
+        scale = 2
+
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups,
-                         radius=CAST_RADIUS, timeout=timeout, damage=damage, cooldown=cooldown,
-                         activate_words=activate_words)
+                         radius=CAST_RADIUS, timeout=60, damage=14, cooldown=120,
+                         activate_words=tr(consts.EXPLOSION))
 
         self.__image = pg.image.load("Assets/Images/Spells/Explosion.png")
 

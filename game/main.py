@@ -1,16 +1,18 @@
 import pygame as pg
 
 from app.base.scene import SceneController
+from app.base.translator import Translator, tr
 from app.consts import WIDTH, HEIGHT
 from app.thread_contoller import ThreadController
 
-
 def main():
-    pg.init()
+    Translator.register_language("Українська", "Assets/Translations/uk.json", encoding="utf-8")
+    Translator.register_language("English", "Assets/Translations/en.json")
 
+    pg.init()
     size = (WIDTH, HEIGHT)
     window = pg.display.set_mode(size)
-    pg.display.set_caption("Voice Control Video Game")
+    pg.display.set_caption(tr("Voice Control Video Game"))
     pg.display.set_icon(pg.image.load("Assets/Images/Icon.png"))
 
     SceneController.open_scene("Main", True, size)
