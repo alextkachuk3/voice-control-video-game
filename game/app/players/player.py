@@ -20,6 +20,12 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
         self._died = False
         self.__instant_killed = False
 
+    def spells(self):
+        if self._attack_controller:
+            return self._attack_controller.spells()
+
+        return {}
+
     def instant_kill(self):
         self._animate_controller.subscribe_to_end(self.__delayed_death, keys=(consts.DEATH, ))
         self._animate_controller.replace_animation(consts.DEATH)

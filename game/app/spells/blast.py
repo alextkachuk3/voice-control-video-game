@@ -7,11 +7,10 @@ from app.spells.spell import TargetSpellSpawner
 
 
 class BlastSpellSpawner(TargetSpellSpawner):
-    def __init__(self, *groups, scale=1, timeout=1, damage=1, cooldown=1, activate_words=()):
+    def __init__(self, *groups, scale=1, timeout=1, damage=1, cooldown=1, **kwargs):
         self.__w, self.__h = 128, 128
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups,
-                         radius=CAST_RADIUS, timeout=timeout, damage=damage, cooldown=cooldown,
-                         activate_words=activate_words)
+                         radius=CAST_RADIUS, timeout=timeout, damage=damage, cooldown=cooldown, **kwargs)
 
         self._image = pg.surface.Surface((self.__w, self.__h))
         self._image_attack = pg.surface.Surface((self.__w, self.__h))

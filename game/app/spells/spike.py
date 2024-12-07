@@ -6,10 +6,10 @@ from app.spells.spell import MoveSpellSpawner
 
 
 class SpikeSpellSpawner(MoveSpellSpawner):
-    def __init__(self, *groups, scale=1, speed=1, damage=1, cooldown=1, activate_words=()):
+    def __init__(self, *groups, scale=1, speed=1, damage=1, cooldown=1, **kwargs):
         self.__w, self.__h = 48, 32
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups,
-                         speed=speed, damage=damage, cooldown=cooldown, activate_words=activate_words)
+                         speed=speed, damage=damage, cooldown=cooldown, **kwargs)
 
         self._image = pg.surface.Surface((self.__w, self.__h))
 

@@ -12,7 +12,8 @@ class FireboltSpellSpawner(MoveSpellSpawner):
         scale = 1
 
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups, speed=3,
-                         damage=7, cooldown=40, activate_words=tr(consts.FIREBOLT))
+                         damage=7, cooldown=40, activate_words=tr(consts.FIREBOLT),
+                         icon=pg.image.load("Assets/Images/Icons/Firebolt.png"))
 
         self.__image = pg.image.load("Assets/Images/Spells/Firebolt.png")
 

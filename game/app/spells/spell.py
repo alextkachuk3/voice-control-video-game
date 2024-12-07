@@ -87,7 +87,7 @@ class MoveSpell(Spell):
 
 
 class SpellSpawner:
-    def __init__(self, attack_type, size, *groups, damage=None, cooldown=0, activate_words=()):
+    def __init__(self, attack_type, size, *groups, damage=None, cooldown=0, activate_words=(), icon=None):
         self._size = size
         self._groups = groups
         self._attack_type = attack_type
@@ -96,6 +96,14 @@ class SpellSpawner:
         self._cooldown = cooldown
         self._time = 0
         self.__activate_words = activate_words
+        self.__icon = icon
+
+    @property
+    def icon(self):
+        return self.__icon
+
+    def ready_by(self) -> float:
+        return (self._cooldown-self._time) / self._cooldown
 
     @property
     def activate_words(self):

@@ -8,7 +8,7 @@ from app.spells.blast import BlastSpellSpawner
 class ToxicBlastSpellSpawner(BlastSpellSpawner):
     def __init__(self, *groups):
         super().__init__(*groups, scale=1.5, timeout=60, damage=10, cooldown=120,
-                         activate_words=tr(consts.TOXIC_BLAST))
+                         activate_words=tr(consts.TOXIC_BLAST), icon=pg.image.load("Assets/Images/Icons/ToxicBlast.png"))
 
         self._image = pg.image.load("Assets/Images/Spells/ToxicBlast.png")
         self._image_attack = pg.image.load("Assets/Images/Spells/ToxicBlastAttack.png")

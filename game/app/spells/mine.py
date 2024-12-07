@@ -13,7 +13,8 @@ class MineSpellSpawner(TargetSpellSpawner):
         scale = 1
 
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups,
-                         radius=CAST_RADIUS, damage=15, cooldown=200, activate_words=tr(consts.MINE))
+                         radius=CAST_RADIUS, damage=15, cooldown=200, activate_words=tr(consts.MINE),
+                         icon=pg.image.load("Assets/Images/Icons/Mine.png"))
 
         self.__image = pg.image.load("Assets/Images/Spells/Mine.png")
 

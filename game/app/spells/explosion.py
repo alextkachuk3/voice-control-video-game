@@ -14,7 +14,7 @@ class ExplosionSpellSpawner(TargetSpellSpawner):
 
         super().__init__(consts.ATTACK, (self.__w * scale, self.__h * scale), *groups,
                          radius=CAST_RADIUS, timeout=60, damage=14, cooldown=120,
-                         activate_words=tr(consts.EXPLOSION))
+                         activate_words=tr(consts.EXPLOSION), icon=pg.image.load("Assets/Images/Icons/Explosion.png"))
 
         self.__image = pg.image.load("Assets/Images/Spells/Explosion.png")
 
