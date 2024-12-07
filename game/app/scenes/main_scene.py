@@ -15,7 +15,7 @@ class MainScene(Scene):
         self.bg = get_random_background("Assets/Images/TailMaps/DungeonTileset.png", (w, h),
                                         (16, 16))
 
-        self.online_btn = Button((100, 40), (w // 2, h // 2), self._ui_group,
+        self.online_btn = Button((100, 40), (w // 2, h // 2.2), self._ui_group,
                                  text="Online", bg_color="green", on_clicked=self.__on_online)
 
         self.train_btn = Button((100, 40), (w // 2, 0), self._ui_group,
@@ -23,10 +23,15 @@ class MainScene(Scene):
 
         self.train_btn.rect.top = self.online_btn.rect.bottom + 10
 
+        self.help_btn = Button((100, 40), (w // 2, 0), self._ui_group,
+                                text="Help", bg_color="purple", on_clicked=self.__on_help)
+
+        self.help_btn.rect.top = self.train_btn.rect.bottom + 10
+
         self.quit_btn = Button((100, 40), (w // 2, 0), self._ui_group,
                                text="Quit", bg_color="tomato", on_clicked=self.__on_quit)
 
-        self.quit_btn.rect.top = self.train_btn.rect.bottom + 10
+        self.quit_btn.rect.top = self.help_btn.rect.bottom + 10
 
     def draw_background(self):
         self.blit(self.bg, (0, 0))
@@ -40,6 +45,9 @@ class MainScene(Scene):
         Storage.set("nextscene", "Training")
         Storage.set("prev", "Main")
         SceneController.open_scene("Selection", False, self.get_size())
+
+    def __on_help(self):
+        pass
 
     def __on_quit(self):
         SceneController.is_running = False
