@@ -34,7 +34,7 @@ class BotMoveController(MoveController):
 
 
 class BotMagicController(MagicController):
-    def __init__(self, owner, player, cooldown=300):
+    def __init__(self, owner, player, cooldown=600):
         super().__init__(owner)
         self._player = player
         self._cooldown = cooldown
@@ -44,15 +44,15 @@ class BotMagicController(MagicController):
         if not self._player.alive():
             return
 
+        current_time = pg.time.get_ticks()
+        if current_time - self._last_attack < self._cooldown:
+            return
+
         bot_pos = pg.math.Vector2(self._owner.rect.center)
         player_pos = pg.math.Vector2(self._player.rect.center)
         distance = bot_pos.distance_to(player_pos)
 
-        self._last_attack = pg.time.get_ticks()
-
-        if pg.time.get_ticks() - self._last_attack > self._cooldown:
-            self._state = consts.RUN
-            return
+        self._last_attack = current_time
 
         if distance < 150:
             self._state = random.choice([consts.ATTACK2, consts.ATTACK3])
@@ -60,3 +60,4 @@ class BotMagicController(MagicController):
             self._state = consts.ATTACK1
 
         self._attack_event(self._state, player_pos)
+
