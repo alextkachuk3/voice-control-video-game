@@ -6,6 +6,7 @@ from app.player_controllers.keyboard_controllers import KeyboardMoveController
 from app.player_controllers.voice_controllers import VoiceMagicController
 from app.players.player_factory import PlayerFactory
 from app.scenes.beauty_scene import BeautyScene
+from app.scenes.spell_panel import create_panel
 
 
 class GameScene(BeautyScene):
@@ -29,6 +30,10 @@ class GameScene(BeautyScene):
 
             self._player.set_move_controller(KeyboardMoveController(self._player, speed=2))
             self._player.set_attack_controller(VoiceMagicController(self._player))
+
+            spells = self._player.spells()
+
+            create_panel(spells, w, self._ui_group)
 
     def draw(self):
         super().draw()

@@ -6,6 +6,7 @@ class Translator:
     __registered_languages = {}
     __language = {}
     __title = None
+    __callbacks = []
 
     @staticmethod
     def change_language(title:str):
@@ -14,6 +15,9 @@ class Translator:
 
         Translator.__title = title
         Translator.__language = Translator.__registered_languages[title]
+
+        for callback in Translator.__callbacks:
+            callback(title)
 
     @staticmethod
     def register_language(title:str, filename:str, encoding=None):
@@ -40,6 +44,14 @@ class Translator:
             return Translator.__language[key]
 
         return key
+
+    @staticmethod
+    def subscribe_on_language_changed(callback):
+        Translator.__callbacks.append(callback)
+
+    @staticmethod
+    def unsubscribe_on_language_changed(callback):
+        Translator.__callbacks.remove(callback)
 
     @staticmethod
     def tr(key:str):

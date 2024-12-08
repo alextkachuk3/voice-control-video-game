@@ -1,3 +1,4 @@
+from app import consts
 from app.player_animate import get_animate_controller
 from app.players.player import Player
 
@@ -10,7 +11,7 @@ class Magician(Player):
         super().__init__(pos, size, *groups, **kwargs)
 
         self._spell_groups = spell_groups
-        animate_controller = get_animate_controller(sprite_size, folder)
+        animate_controller = get_animate_controller(sprite_size, folder, delay_overload={consts.HURT:4})
         self.set_animate_controller(animate_controller)
 
     def get_spell_dict(self):

@@ -11,6 +11,10 @@ class BotMoveController(MoveController):
         self._player = player
 
     def move(self):
+        if self._state not in [consts.IDLE, consts.RUN]:
+            self._call_all(state=self._state, side=pg.K_s)
+            return
+
         if not self._player.alive():
             self._state = consts.IDLE
             return
@@ -34,14 +38,14 @@ class BotMoveController(MoveController):
 
 
 class BotMagicController(MagicController):
-    def __init__(self, owner, player, cooldown=600):
+    def __init__(self, owner, player, cooldown=2000):
         super().__init__(owner)
         self._player = player
         self._cooldown = cooldown
         self._last_attack = 0
 
     def attack(self):
-        if not self._player.alive():
+        if not self._player.alive() or self._state not in [consts.IDLE, consts.RUN]:
             return
 
         current_time = pg.time.get_ticks()

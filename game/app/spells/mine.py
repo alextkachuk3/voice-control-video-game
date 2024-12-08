@@ -19,14 +19,20 @@ class MineSpellSpawner(TargetSpellSpawner):
         self.__image = pg.image.load("Assets/Images/Spells/Mine.png")
 
     def _get_animator(self):
+        animation_spawn = Animation(self.__image, (0, 0), (self.__w, self.__h), max_frames=2,
+                                    delay=50, loop=False)
+
         animation_idle = Animation(self.__image, (0, 0), (self.__w, self.__h), max_frames=2, delay=10)
         animation_attack = Animation(self.__image, (2 * self.__w, 0), (self.__w, self.__h), delay=5,
                                      loop=False, auto_row=True)
 
         animator = Animator({
+            consts.SPAWN: animation_spawn,
             consts.IDLE: animation_idle,
             self._attack_type: animation_attack
         }, default=consts.IDLE)
+
+        animator.replace_animation(consts.SPAWN)
 
         return animator
 

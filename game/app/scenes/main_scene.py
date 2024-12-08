@@ -1,8 +1,12 @@
 from app.background import get_random_background
 from app.base.scene import Scene, SceneController
 from app.base.storage import Storage
-from app.base.translator import tr
-from app.base.ui import Button
+from app.base.translator import tr, Translator
+from app.base.ui import Button, ImageButton
+
+import pygame as pg
+
+from app.consts import WIDTH
 
 
 class MainScene(Scene):
@@ -16,7 +20,7 @@ class MainScene(Scene):
         self.bg = get_random_background("Assets/Images/TailMaps/DungeonTileset.png", (w, h),
                                         (16, 16))
 
-        self.online_btn = Button((120, 40), (w // 2, h // 2.6), self._ui_group,
+        self.online_btn = Button((120, 40), (w // 2, int(h / 2.6)), self._ui_group,
                                  text=tr("online"), bg_color="green", on_clicked=self.__on_online)
 
         self.bot_btn = Button((120, 40), (w // 2, 0), self._ui_group,
@@ -38,6 +42,21 @@ class MainScene(Scene):
                                text=tr("quit"), bg_color="tomato", on_clicked=self.__on_quit)
 
         self.quit_btn.rect.top = self.help_btn.rect.bottom + 10
+
+        self.uk_btn = ImageButton((50, 50), (0, 0), self._ui_group,
+                                  picture=pg.image.load("Assets/Images/UK.png"),
+                                  on_clicked=lambda: self.__on_language("Українська"))
+
+        self.en_btn = ImageButton((50, 50), (0, 0), self._ui_group,
+                                  picture=pg.image.load("Assets/Images/EN.png"),
+                                  on_clicked=lambda: self.__on_language("English"))
+
+        self.uk_btn.rect.topright = (WIDTH-10, 10)
+        self.en_btn.rect.topright = self.uk_btn.rect.left - 10, 10
+
+    def __on_language(self, title):
+        Translator.change_language(title)
+        SceneController.open_scene("Main", True, self.get_size())
 
     def draw_background(self):
         self.blit(self.bg, (0, 0))

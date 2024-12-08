@@ -16,7 +16,7 @@ class Cultist(Magician):
 
     def get_spell_dict(self):
         return {
-            consts.ATTACK1: BloodBlastSpellSpawner(*self._spell_groups),
-            consts.ATTACK2: EarthSpikeSpellSpawner(*self._spell_groups),
+            consts.ATTACK1: EarthSpikeSpellSpawner(*self._spell_groups),
+            consts.ATTACK2: BloodBlastSpellSpawner(*self._spell_groups),
             consts.ATTACK3: ToxicBlastSpellSpawner(*self._spell_groups)
         }
