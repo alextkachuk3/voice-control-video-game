@@ -60,6 +60,14 @@ class Widget(pg.sprite.Sprite):
         if self.outline:
             pg.draw.rect(self.image, self.outline, (0, 0, self.rect.w, self.rect.h), width=2)
 
+class Image(Widget):
+    def __init__(self, *args, image=None):
+        super().__init__(*args)
+
+        self.image = pg.transform.scale(image.convert_alpha(), self.image.get_size())
+
+    def update(self):
+        pass
 
 class Button(Widget):
     def __init__(self, size: tuple[int, int], pos: tuple[int, int], *groups: list[pg.sprite.Group], single_click=False,

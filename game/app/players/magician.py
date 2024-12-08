@@ -12,3 +12,18 @@ class Magician(Player):
         self._spell_groups = spell_groups
         animate_controller = get_animate_controller(sprite_size, folder)
         self.set_animate_controller(animate_controller)
+
+    def get_spell_dict(self):
+        return {}
+
+    def set_attack_controller(self, controller):
+        super().set_attack_controller(controller)
+
+        if self._attack_controller is None:
+            return
+
+        spells = self.get_spell_dict()
+        for command, spell in spells.items():
+            self._attack_controller.add_spell(command, spell)
+            self._attack_controller.add_spell(command, spell)
+            self._attack_controller.add_spell(command, spell)

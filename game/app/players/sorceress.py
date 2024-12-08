@@ -14,10 +14,9 @@ class Sorceress(Magician):
 
         self.set_bounding_size((size[0] / 3, size[1] / 1.5))
 
-    def set_attack_controller(self, controller):
-        super().set_attack_controller(controller)
-
-        if self._attack_controller:
-            self._attack_controller.add_spell(consts.ATTACK1, FireboltSpellSpawner(*self._spell_groups))
-            self._attack_controller.add_spell(consts.ATTACK2, ExplosionSpellSpawner(*self._spell_groups))
-            self._attack_controller.add_spell(consts.ATTACK3, MineSpellSpawner(*self._spell_groups))
+    def get_spell_dict(self):
+        return {
+            consts.ATTACK1: FireboltSpellSpawner(*self._spell_groups),
+            consts.ATTACK2: ExplosionSpellSpawner(*self._spell_groups),
+            consts.ATTACK3: MineSpellSpawner(*self._spell_groups)
+        }
