@@ -14,3 +14,4 @@ game/app/spells/__pycache__/water_blast.cpython-312.pyc
 /game/app/player_controllers/__pycache__
 /game/app/voice/__pycache__
 .env
+/game/app/bot_controllers/__pycache__
