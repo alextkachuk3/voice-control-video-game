@@ -6,6 +6,7 @@ import pyperclip
 
 from app.base.scene import SceneController
 from app.base.storage import Storage
+from app.base.translator import tr
 from app.base.ui import TextField, Button, Label, ImageButton
 from app.consts import WIDTH, HEIGHT
 from app.network.db import database
@@ -24,11 +25,11 @@ class LobbyScene(BeautyScene):
 
         w, h = self.get_size()
 
-        self.create_btn = Button((100, 40), (w // 2, h // 2 - 45), self._ui_group,
-                                 text="Create room", bg_color="green", on_clicked=self.__on_create)
+        self.create_btn = Button((150, 40), (w // 2, h // 2 - 45), self._ui_group,
+                                 text=tr("create_room"), bg_color="green", on_clicked=self.__on_create)
 
-        self.join_btn = Button((100, 40), (w // 2, h // 2 + 45), self._ui_group,
-                               text="Join room", bg_color="yellow", on_clicked=self.__on_join)
+        self.join_btn = Button((150, 40), (w // 2, h // 2 + 45), self._ui_group,
+                               text=tr("join_room"), bg_color="yellow", on_clicked=self.__on_join)
 
         Storage.set("nickname", generate_nickname())
 
@@ -76,8 +77,8 @@ class WaitRoomScene(BeautyScene):
 
         role = Storage.get("role")
 
-        label = Label((300, 30), (w // 2, h // 2 - 90), self._ui_group,
-                      text="Code copied! Send it to friend" if role == "host" else "You joined!")
+        label = Label((400, 30), (w // 2, h // 2 - 90), self._ui_group,
+                      text=tr("code_copied") if role == "host" else tr("joined"))
         label = Label((300, 30), (w // 2, h // 2 - 45), self._ui_group, text=self.code)
         copy_btn = ImageButton((25, 25), (0, h // 2 - 45), self._ui_group,
                                picture=pg.image.load("Assets/Images/Paste.png"),
@@ -86,7 +87,7 @@ class WaitRoomScene(BeautyScene):
         copy_btn.rect.left = label.rect.right + 5
 
         self.ready_btn = Button((100, 40), (w // 2, h // 2 + 45), self._ui_group,
-                                text="Ready", bg_color="red", on_clicked=self.__on_ready)
+                                text=tr("ready"), bg_color="red", on_clicked=self.__on_ready)
 
         self.ready = False
 
@@ -102,7 +103,7 @@ class WaitRoomScene(BeautyScene):
 
         if role == "host":
             self.start_btn = Button((100, 40), (w // 2, h // 2 + 95), self._ui_group,
-                                    text="Start", bg_color="yellow", on_clicked=self.__on_go)
+                                    text=tr("start"), bg_color="yellow", on_clicked=self.__on_go)
 
     def __on_copy(self):
         pyperclip.copy(self.code)
@@ -239,14 +240,15 @@ class CodeScene(BeautyScene):
 
         w, h = self.get_size()
 
-        self.__code_field = TextField((w // 2, 60), (w // 2, h // 2), self._ui_group)
+        self.__code_field = TextField((w // 3, 40), (w // 2, h // 2), self._ui_group)
         paste_btn = ImageButton((50, 50), (0, h // 2), self._ui_group,
                                 picture=pg.image.load("Assets/Images/Paste.png"),
                                 on_clicked=self.__on_paste)
 
         paste_btn.rect.left = self.__code_field.rect.right + 5
 
-        ok_btn = Button((80, 40), (w // 2, h // 2 + 100), self._ui_group, text="Ok", bg_color="green",
+        ok_btn = Button((80, 40), (w // 2, h // 2 + 100), self._ui_group, text=tr("ok"),
+                        bg_color="green",
                         on_clicked=self.__on_ok)
 
     def __on_paste(self):
@@ -268,7 +270,7 @@ class CodeScene(BeautyScene):
         data = database().child("rooms").child(text).get().val()
         if data is None:
             self.__code_field.color = "red"
-            self.__code_field.text = "Invalid"
+            self.__code_field.text = tr("invalid")
             return
         self.__code_field.text = ""
         self.__code_field.color = "black"

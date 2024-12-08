@@ -6,7 +6,7 @@ from app.spells.water_blast import WaterBlastSpellSpawner
 
 
 class Necromancer(Magician):
-    __title__ = "Necromancer"
+    __title__ = "necromancer"
 
     def __init__(self, pos: tuple[int, int], size: tuple[int, int], *groups, spell_groups=(), **kwargs):
         folder = "Assets/Images/Characters/Necromancer"

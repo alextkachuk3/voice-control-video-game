@@ -6,7 +6,7 @@ from app.spells.mine import MineSpellSpawner
 
 
 class Sorceress(Magician):
-    __title__ = "Sorceress"
+    __title__ = "sorceress"
 
     def __init__(self, pos: tuple[int, int], size: tuple[int, int], *groups, spell_groups=(), **kwargs):
         folder = "Assets/Images/Characters/Sorceress"

@@ -1,6 +1,7 @@
 from app.background import get_random_background
 from app.base.scene import Scene, SceneController
 from app.base.storage import Storage
+from app.base.translator import tr
 from app.base.ui import Button
 
 
@@ -15,26 +16,26 @@ class MainScene(Scene):
         self.bg = get_random_background("Assets/Images/TailMaps/DungeonTileset.png", (w, h),
                                         (16, 16))
 
-        self.online_btn = Button((100, 40), (w // 2, h // 2.6), self._ui_group,
-                                 text="Online", bg_color="green", on_clicked=self.__on_online)
+        self.online_btn = Button((120, 40), (w // 2, h // 2.6), self._ui_group,
+                                 text=tr("online"), bg_color="green", on_clicked=self.__on_online)
 
-        self.bot_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                                text="Bot", bg_color="palegreen2", on_clicked=self.__on_bot)
+        self.bot_btn = Button((120, 40), (w // 2, 0), self._ui_group,
+                                text=tr("bot"), bg_color="palegreen2", on_clicked=self.__on_bot)
 
         self.bot_btn.rect.top = self.online_btn.rect.bottom + 10
 
-        self.train_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                                text="Training", bg_color="yellow", on_clicked=self.__on_train)
+        self.train_btn = Button((120, 40), (w // 2, 0), self._ui_group,
+                                text=tr("training"), bg_color="yellow", on_clicked=self.__on_train)
 
         self.train_btn.rect.top = self.bot_btn.rect.bottom + 10
 
-        self.help_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                                text="Help", bg_color="purple", on_clicked=self.__on_help)
+        self.help_btn = Button((120, 40), (w // 2, 0), self._ui_group,
+                                text=tr("help"), bg_color="purple", on_clicked=self.__on_help)
 
         self.help_btn.rect.top = self.train_btn.rect.bottom + 10
 
-        self.quit_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                               text="Quit", bg_color="tomato", on_clicked=self.__on_quit)
+        self.quit_btn = Button((120, 40), (w // 2, 0), self._ui_group,
+                               text=tr("quit"), bg_color="tomato", on_clicked=self.__on_quit)
 
         self.quit_btn.rect.top = self.help_btn.rect.bottom + 10
 

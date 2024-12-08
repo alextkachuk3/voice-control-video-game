@@ -6,7 +6,7 @@ from app.spells.toxic_blast import ToxicBlastSpellSpawner
 
 
 class Cultist(Magician):
-    __title__ = "Cultist"
+    __title__ = "cultist"
 
     def __init__(self, pos: tuple[int, int], size: tuple[int, int], *groups, spell_groups=(), **kwargs):
         folder = "Assets/Images/Characters/Cultist"
