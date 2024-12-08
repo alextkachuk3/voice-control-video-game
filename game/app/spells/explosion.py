@@ -19,7 +19,7 @@ class ExplosionSpellSpawner(TargetSpellSpawner):
         self.__image = pg.image.load("Assets/Images/Spells/Explosion.png")
 
     def _get_animator(self):
-        animation_spawn = Animation(self.__image, (0, 0), (self.__w, self.__h), delay=10, max_frames=3, loop=False)
+        animation_spawn = Animation(self.__image, (0, 0), (self.__w, self.__h), delay=15, max_frames=3, loop=False)
         animation_idle = Animation(self.__image, (0, 0), (self.__w, self.__h), delay=4, max_frames=3)
         animation_attack = Animation(self.__image, (3 * self.__w, 0), (self.__w, self.__h), delay=5, loop=False)
 

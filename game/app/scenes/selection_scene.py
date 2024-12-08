@@ -2,6 +2,7 @@ import pygame as pg
 
 from app.base.scene import SceneController
 from app.base.storage import Storage
+from app.base.translator import tr
 from app.base.ui import Button
 from app.players.player_factory import PlayerFactory
 from app.scenes.beauty_scene import BeautyScene
@@ -27,7 +28,7 @@ class SelectionPanel(pg.sprite.Sprite):
         for i, key in enumerate(keys):
             player = PlayerFactory.spawn(key, (0, 0), (w, h))
             st = PlayerStatement((x, 0), self.statement_group, player,
-                                 key, font)
+                                 tr(key), font)
             self.statements[key] = st
 
             if i == 0:
@@ -66,7 +67,7 @@ class SelectionScene(BeautyScene):
         panel = SelectionPanel(self._draw_group, (w // 2, h // 2))
 
         self.btn = Button((100, 40), (w // 2, 0), self._draw_group,
-                          text="Play", bg_color="green", on_clicked=self.__on_play)
+                          text=tr("play"), bg_color="green", on_clicked=self.__on_play)
 
         self.btn.rect.top = panel.rect.bottom
 

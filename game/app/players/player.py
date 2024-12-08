@@ -44,6 +44,14 @@ class Player(AnimatedObject, IPlayer, metaclass=PlayerFactory):
             pg.draw.rect(img, "tomato", (h, 0, int((self.rect.w - 2 * h) * self._hp / self._max_hp), h))
         return img
 
+    def heal(self, amount):
+        if self._hp is None or amount is None:
+            return
+
+        self._hp += amount
+        if self._hp > self._max_hp:
+            self._hp = self._max_hp
+
     def take_damage(self, damage):
         if self._hp is None or damage is None:
             return

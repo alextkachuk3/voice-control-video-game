@@ -7,5 +7,25 @@
   "toxic_blast": "toxic cloud",
   "firebolt": "flame arrow",
   "explosion": "delayed explosion",
-  "mine": "contact mine"
+  "mine": "contact mine",
+
+  "cultist": "Cultist",
+  "necromancer": "Necromancer",
+  "sorceress": "Pyromancer",
+
+  "commands": "Command list",
+  "online": "Online battle",
+  "bot": "Bot battle",
+  "training": "Training",
+  "help": "Help",
+  "quit": "Quit",
+  "create_room": "Create room",
+  "join_room": "Join",
+  "code_copied": "Code copied! Send it to your friends!",
+  "joined": "You have joined!",
+  "ready": "Ready",
+  "start": "Start",
+  "invalid": "Invalid code",
+  "ok": "Ok",
+  "play": "Play"
 }

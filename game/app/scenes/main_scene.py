@@ -1,7 +1,12 @@
 from app.background import get_random_background
 from app.base.scene import Scene, SceneController
 from app.base.storage import Storage
-from app.base.ui import Button
+from app.base.translator import tr, Translator
+from app.base.ui import Button, ImageButton
+
+import pygame as pg
+
+from app.consts import WIDTH
 
 
 class MainScene(Scene):
@@ -15,28 +20,43 @@ class MainScene(Scene):
         self.bg = get_random_background("Assets/Images/TailMaps/DungeonTileset.png", (w, h),
                                         (16, 16))
 
-        self.online_btn = Button((100, 40), (w // 2, h // 2.6), self._ui_group,
-                                 text="Online", bg_color="green", on_clicked=self.__on_online)
+        self.online_btn = Button((120, 40), (w // 2, int(h / 2.6)), self._ui_group,
+                                 text=tr("online"), bg_color="green", on_clicked=self.__on_online)
 
-        self.bot_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                                text="Bot", bg_color="palegreen2", on_clicked=self.__on_bot)
+        self.bot_btn = Button((120, 40), (w // 2, 0), self._ui_group,
+                                text=tr("bot"), bg_color="palegreen2", on_clicked=self.__on_bot)
 
         self.bot_btn.rect.top = self.online_btn.rect.bottom + 10
 
-        self.train_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                                text="Training", bg_color="yellow", on_clicked=self.__on_train)
+        self.train_btn = Button((120, 40), (w // 2, 0), self._ui_group,
+                                text=tr("training"), bg_color="yellow", on_clicked=self.__on_train)
 
         self.train_btn.rect.top = self.bot_btn.rect.bottom + 10
 
-        self.help_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                                text="Help", bg_color="purple", on_clicked=self.__on_help)
+        self.help_btn = Button((120, 40), (w // 2, 0), self._ui_group,
+                                text=tr("help"), bg_color="purple", on_clicked=self.__on_help)
 
         self.help_btn.rect.top = self.train_btn.rect.bottom + 10
 
-        self.quit_btn = Button((100, 40), (w // 2, 0), self._ui_group,
-                               text="Quit", bg_color="tomato", on_clicked=self.__on_quit)
+        self.quit_btn = Button((120, 40), (w // 2, 0), self._ui_group,
+                               text=tr("quit"), bg_color="tomato", on_clicked=self.__on_quit)
 
         self.quit_btn.rect.top = self.help_btn.rect.bottom + 10
+
+        self.uk_btn = ImageButton((50, 50), (0, 0), self._ui_group,
+                                  picture=pg.image.load("Assets/Images/UK.png"),
+                                  on_clicked=lambda: self.__on_language("Українська"))
+
+        self.en_btn = ImageButton((50, 50), (0, 0), self._ui_group,
+                                  picture=pg.image.load("Assets/Images/EN.png"),
+                                  on_clicked=lambda: self.__on_language("English"))
+
+        self.uk_btn.rect.topright = (WIDTH-10, 10)
+        self.en_btn.rect.topright = self.uk_btn.rect.left - 10, 10
+
+    def __on_language(self, title):
+        Translator.change_language(title)
+        SceneController.open_scene("Main", True, self.get_size())
 
     def draw_background(self):
         self.blit(self.bg, (0, 0))

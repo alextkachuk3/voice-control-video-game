@@ -43,7 +43,7 @@ def get_animate_controller(size, folder, delay=8, side_mapper: dict[int, int] = 
                            delay_overload: dict[str, int] = None):
     builder = AnimationMapBuilder(animation_names=consts.ALL)
     anim_map = builder.build_from_files(folder, not_looped=(consts.ATTACK1, consts.ATTACK2, consts.ATTACK3, consts.HURT,
-                                                            consts.DEATH))
+                                                            consts.DEATH, consts.JUMP))
     animations = get_player_animations(size, delay, folder, anim_map, delay_overload)
     anim_controller = AnimateController(DEFAULT_SIDE_MAPPER if side_mapper is None else side_mapper,
                                         animations, default=consts.IDLE)
